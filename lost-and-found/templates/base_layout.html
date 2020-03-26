@@ -4,10 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lost and Found</title>
+    <title>Lost & Found</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <a class="navbar-brand" href="{% url 'index' %}">
+              <!-- <img src="{% static 'images/vote.png' %}" width="30" height="30" class="d-inline-block align-top" alt=""> -->
+              Lost & Found
+          </a>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'chat_index' %}">
+                        <p class='btn m-0 index'>
+                            ห้องสนทนา
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <button class='btn btn-outline-danger m-0'>ออกจากระบบ</button>
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <button class='btn'>สมัครสมาชิก</button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <button class='btn btn-outline-primary'>เข้าสู่ระบบ</button>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <ul class="navbar-nav navbar-center">
+            <li class="nav-item">
+                {% if user.is_authenticated %}
+                    ยินดีต้อนรับ {{ user }}
+                {% endif %}
+            </li>
+        </ul>
+        </div>
+    </nav>
+
     {% block content %}
+
     {% endblock %}
 </body>
 </html>
