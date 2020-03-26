@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+import uuid
 # posts app
 
 # Create your models here.
@@ -26,4 +27,8 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class PostPicture(models.Model):
-    pass
+    id = models.ForeignKey(Post, on_delete=models.CASCADE, primary_key=True, default=uuid.uuid4, editable=False)
+    picture = models.ImageField(default='')
+
+    class Meta:
+        unique_together = ('id', 'picture')
