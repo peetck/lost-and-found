@@ -7,11 +7,7 @@ from django.contrib.auth.models import User
 class Faculty(models.Model):
     faculty_name = models.CharField(max_length=255)
 
-class CustomUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)# reference to User Table
-
-    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
-
-class UserProfilePicture(models.Model):
+class UserProfile(models.Model):
+    avatar = models.ImageField(default='') # Picture of user
     user = models.OneToOneField(User, on_delete=models.CASCADE) # reference to User Table
-    avatar = models.ImageField(default='')
+    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE) # reference to Faculty Table
