@@ -9,7 +9,7 @@ class AssetType(models.Model):
     name = models.CharField(max_length=255)
 
 class Post(models.Model):
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     TYPE = (
         ('lost', 'Lost'),
         ('found', 'Found')
