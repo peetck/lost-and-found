@@ -1,5 +1,20 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1> Login Page </h1>
+    <h1 class='my-5'> เข้าสู่ระบบ </h1>
+    {% if error %}
+        <p class='text-danger mt-0'> {{ error }} </p>
+    {% endif %}
+    <form method="POST" action="{% url 'login' %}" class='mt-5'>
+        {% csrf_token %}
+        <div class="form-group">
+            <label> ชื่อผู้ใช้งาน </label>
+            <input type="text" name="username" class='form-control' required>
+        </div>
+        <div class="form-group">
+            <label> รหัสผ่าน </label>
+            <input type="password" name="password" class='form-control' required>
+        </div>
+        <button type="submit" class='btn btn-primary mt-3'>ยืนยัน</button>
+    </form>
 {% endblock %}

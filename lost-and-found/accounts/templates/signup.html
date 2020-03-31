@@ -1,5 +1,18 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1> Signup Page </h1>
+    <h1 class='my-5'> สมัครสมาชิก </h1>
+
+    <form method="POST" action="{% url 'signup' %}" class='needs-validation' novalidate>
+        {% csrf_token %}
+        {% for each_form in form %}
+            <div class="form-group">
+                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                {{ each_form }}
+                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                {{ each_form.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
+    </form>
 {% endblock %}
