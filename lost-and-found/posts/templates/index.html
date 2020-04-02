@@ -5,20 +5,33 @@
         <div class="row">
             <div class="col card p-3 mr-4">
                 ของที่มีคนเจอทั้งหมด (ประกาศตามหาเจ้าของ)
+                <h1>{{ founds|length }}</h1>
             </div>
             <div class="col card p-3 mr-4">
                 อยู่ระหว่างการดําเนินการ (ยังไม่มีคนมารับของ)
+                <h1>{{ active }}</h1>
             </div>
             <div class="col card p-3 mr-4">
                 ส่งคืนเจ้าของเรียบร้อยแล้ว (มีคนมารับของแล้ว)
+                <h1> {{ closed }}</h1>
             </div>
             <div class="col card p-3">
                 ประกาศตามหาของที่ตัวเองทําหาย
+                <h1>{{ losts|length }}</h1>
             </div>
         </div>
     </div>
 
-    <div class="container mt-5 text-center">
+    <div class="container mt-5">
+        <h1>Found</h1>
+        {% for found in founds %}
+            <h5>เจอของ : {{ found.title }}</h5>
+        {% endfor %}
+
+        <h1>Lost</h1>
+        {% for lost in losts %}
+            <h5>ทําหาย : {{ lost.title }}</h5>
+        {% endfor %}
         <h1>
             <a class='btn btn-warning' href="{% url 'create' %}">สร้าง Post</a>
         </h1>

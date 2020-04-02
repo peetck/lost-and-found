@@ -1,0 +1,14 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <h1 class='my-5'> โพสต์ของฉัน </h1>
+
+    {% if posts == 'key' %}
+        <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
+    {% else %}
+        {% for post in posts %}
+            <h3> Post : {{ post.title }} </h3>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

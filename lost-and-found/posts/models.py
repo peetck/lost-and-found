@@ -22,13 +22,11 @@ class Post(models.Model):
     location = models.CharField(max_length=255)
     contact1 = models.CharField(max_length=255)
     contact2 = models.CharField(max_length=255)
-    key = models.CharField(max_length=255)
-    asset_type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    key = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    assetType = models.ForeignKey(AssetType, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 class PostPicture(models.Model):
-    class Meta:
-        unique_together = ('id', 'picture')
-    id = models.IntegerField(primary_key=True)
     picture = models.ImageField(default='')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 

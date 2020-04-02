@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm
+from posts.models import Post
 
 # Create your views here.
 def signup_view(request):
@@ -42,3 +43,13 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+def my_posts_view(request):
+    if request.user.is_authenticated:
+        posts = Post.objects.filter(user=request.user)
+    else:
+        posts = "key"
+    context = {
+        'posts' : posts
+    }
+    return render(request, 'my_posts.html', context)

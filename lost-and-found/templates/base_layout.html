@@ -19,6 +19,13 @@
               Lost & Found
           </a>
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'my_posts' %}">
+                    <p class='btn m-0 index'>
+                        โพสต์ของฉัน
+                    </p>
+                </a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'chat_index' %}">
