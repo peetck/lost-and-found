@@ -8,11 +8,14 @@ from django.contrib.auth.models import User
 class AssetType(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     is_active = models.BooleanField(default=True)
     TYPE = (
-        ('lost', 'Lost'),
-        ('found', 'Found')
+        ('lost', 'ตามหาของ'),
+        ('found', 'เจอของหาย')
     )
     type = models.CharField(choices=TYPE, max_length=255)
     date_time = models.DateTimeField()

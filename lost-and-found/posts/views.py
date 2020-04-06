@@ -28,8 +28,15 @@ class IndexView(View):
         return render(request, self.template_name, self.context)
 
 
-def create_view(request):
-    if request.method == 'POST':
+class CreateView(View):
+    template_name = 'create.html'
+    context = {}
+    def get(self, request):
+        form = PostForm()
+        self.context['form'] = form
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
@@ -38,8 +45,18 @@ def create_view(request):
             else:
                 post.key = request.POST.get('key')
             post.save()
-    else:
-        form = PostForm()
-    return render(request, 'create.html', {
-        'form' : form
-    })
+
+        self.context['form'] = form
+        return render(request, self.template_name, self.context)
+
+class DetailView(View):
+    template_name = 'detail.html'
+    context = {}
+    def get(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+
+        self.context['post'] = post
+
+        return render(request, self.template_name, self.context)
+
+    #def post(self, request, post_id):

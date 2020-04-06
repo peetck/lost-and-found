@@ -22,18 +22,75 @@
         </div>
     </div>
 
-    <div class="container mt-5">
-        <h1>Found</h1>
-        {% for found in founds %}
-            <h5>เจอของ : {{ found.title }}</h5>
-        {% endfor %}
 
+    <h1 class='mt-4'>
+        <a class='btn btn-warning' href="{% url 'create' %}">สร้าง Post</a>
+    </h1>
+
+    <div class="container mt-5">
+        <h1>Found!</h1>
+        <div class="row">
+            {% for post in founds %}
+                <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
+                    <div class="card h-100 w-100 text-dark mycard">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b>{{ post.title|truncatechars:25 }}</b>
+                            </h5>
+                            <p class="card-text">
+                                {{ post.desc|truncatechars:20 }}
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                <!-- <span class="badge badge-pill badge-success text-light">เปิด</span> -->
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
+                                <b>โดย</b> : {{ post.user }}
+                            </small>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
         <h1>Lost</h1>
-        {% for lost in losts %}
-            <h5>ทําหาย : {{ lost.title }}</h5>
-        {% endfor %}
-        <h1>
-            <a class='btn btn-warning' href="{% url 'create' %}">สร้าง Post</a>
-        </h1>
+        <div class="row">
+            {% for post in losts %}
+                <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
+                    <div class="card h-100 w-100 text-dark mycard">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b>{{ post.title|truncatechars:25 }}</b>
+                            </h5>
+                            <p class="card-text">
+                                {{ post.desc|truncatechars:20 }}
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                <!-- <span class="badge badge-pill badge-success text-light">เปิด</span> -->
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
+                                <b>โดย</b> : {{ post.user }}
+                            </small>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

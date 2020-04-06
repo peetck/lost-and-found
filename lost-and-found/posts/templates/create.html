@@ -2,25 +2,29 @@
 
 {% block content %}
     <div class="container mt-4">
-        <h1>สร้าง Post</h1>
-        <form action="{% url 'create' %}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <div class="row">
+            <div class="col-6">
+                <h1>สร้าง Post</h1>
+                <form action="{% url 'create' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
 
-            {% if not user.is_authenticated %}
-                <div class="form-group">
-                    <label>Key </label>
-                    <input type="text" name='key' class='form-control' required>
-                </div>
-            {% endif %}
-            <!-- <div class="form-group">
-                <label>รูปภาพ</label>
-                <div class="custom-file">
-                    <input type="file" class='custom-file-input' name='picture' id="input-file">
-                    <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
-                </div>
-            </div> -->
-            <input type="submit" value="Create">
-        </form>
+                    {% if not user.is_authenticated %}
+                        <div class="form-group">
+                            <label>Key </label>
+                            <input type="text" name='key' class='form-control' required>
+                        </div>
+                    {% endif %}
+                    <!-- <div class="form-group">
+                        <label>รูปภาพ</label>
+                        <div class="custom-file">
+                            <input type="file" class='custom-file-input' name='picture' id="input-file">
+                            <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                        </div>
+                    </div> -->
+                    <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}

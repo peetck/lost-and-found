@@ -3,12 +3,42 @@
 {% block content %}
     <h1 class='my-5'> โพสต์ของฉัน </h1>
 
-    {% if posts == 'key' %}
-        <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
-    {% else %}
-        {% for post in posts %}
-            <h3> Post : {{ post.title }} </h3>
-        {% endfor %}
-    {% endif %}
+    <div class="container">
+        {% if posts == 'key' %}
+            <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
+        {% else %}
+            <div class="row">
+                {% for post in posts %}
+                    <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
+                        <div class="card h-100 w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b>{{ post.title|truncatechars:25 }}</b>
+                                </h5>
+                                <p class="card-text">
+                                    {{ post.desc|truncatechars:20 }}
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    <!-- <span class="badge badge-pill badge-success text-light">เปิด</span> -->
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                    <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
+                                    <b>โดย</b> : {{ post.user }}
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 
 {% endblock %}
