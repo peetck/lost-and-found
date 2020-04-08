@@ -4,14 +4,24 @@ from .forms import SignupForm
 from .models import Faculty, UserProfile
 from posts.models import Post
 from django.contrib.auth.models import User
+from django.views import View
 
 # Create your views here.
-def signup_view(request):
-    if request.method == 'POST':
+class SignupView(View):
+    context = {}
+    template_name = 'signup.html'
+    def get(self, request):
+        form = SignupForm()
+
+        self.context['form'] = form
+        self.context['facultys'] = Faculty.objects.all()
+
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-
             faculty = Faculty.objects.get(
                 id=request.POST.get('faculty')
             )
@@ -20,17 +30,13 @@ def signup_view(request):
                 user=user,
                 faculty=faculty
             )
-
             # login
             login(request, user)
             return redirect('index')
-    else:
-        form = SignupForm()
-    context = {
-        'form' : form,
-        'facultys' : Faculty.objects.all()
-    }
-    return render(request, 'signup.html', context)
+        else:
+            self.context['form'] = form
+            self.context['facultys'] = Faculty.objects.all()
+            return render(request, self.template_name, self.context)
 
 def login_view(request):
     if request.user.is_authenticated:
