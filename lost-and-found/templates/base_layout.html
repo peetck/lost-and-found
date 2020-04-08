@@ -34,10 +34,14 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">
-                        <button class='btn btn-outline-danger m-0'>ออกจากระบบ</button>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class='' src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'profile' user.id %}">โปรไฟล์ของฉัน</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a>
+                    </div>
                 </li>
             {% else %}
                 <li class="nav-item">
@@ -67,5 +71,8 @@
 
         {% endblock %}
     </div>
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

@@ -13,6 +13,14 @@
                 {{ each_form.errors }}
             </div>
         {% endfor %}
+        <div class="form-group">
+            <label> คณะ </label>
+            <select name="faculty" class='form-control'>
+                {% for faculty in facultys %}
+                    <option value="{{ faculty.id }}">{{ faculty }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
     </form>
 {% endblock %}

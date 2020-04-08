@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 class Faculty(models.Model):
     faculty_name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.faculty_name
+
 class UserProfile(models.Model):
     avatar = models.ImageField(default='') # Picture of user
     user = models.OneToOneField(User, on_delete=models.CASCADE) # reference to User Table

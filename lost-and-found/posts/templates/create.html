@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container mt-4">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-8">
                 <h1>สร้าง Post</h1>
                 <form action="{% url 'create' %}" method="POST">
                     {% csrf_token %}
@@ -24,6 +24,35 @@
                     </div> -->
                     <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
                 </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100 w-100 text-dark mycard">
+                    <div class="wrapper">
+                        <img class="card-img-top" src="https://scontent.fbkk9-2.fna.fbcdn.net/v/t1.0-9/86429655_2856531234390227_5550681713190895616_o.jpg?_nc_cat=109&_nc_sid=09cbfe&_nc_eui2=AeEjZlOz6X2tPaNSlbcwTzIQSoimIUXHYRVKiKYhRcdhFelXNxq0zgg3CEax8m0YZNJGrPdSgauo__awE8vIzHB0&_nc_ohc=V9tHLF1rSAwAX_2IFVJ&_nc_ht=scontent.fbkk9-2.fna&oh=95d5b6efe9409842e16177c2522f90bb&oe=5EB168AE" id='preview'>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <b id='card-title'>ชื่อกระทู้</b>
+                        </h5>
+                        <p class="card-text" id='card-detail'>
+                            รายละเอียดต่างๆเกี่ยวกับกระทู้
+                        </p>
+                    </div>
+                    <div class="container mb-3 ml-1">
+                        <p class="card-text">
+                            <span id='status' class="badge badge-pill badge-warning text-light">สถานะ</span>
+
+                            <span id='password-status' class="badge badge-pill badge-secondary text-light"></span>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <b>เริ่ม</b> : <span id='poll-start-date'>{% now "d/m/Y H:i" %} </span> <br>
+                            <b>สิ้นสุด</b> : <span id='poll-end-date'> เวลาที่สิ้นสุดการโหวต </span> <br>
+                            <b>โดย</b> : {{ request.user }}
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

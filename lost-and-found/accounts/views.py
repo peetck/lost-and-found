@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm
+from .models import Faculty, UserProfile
 from posts.models import Post
+from django.contrib.auth.models import User
 
 # Create your views here.
 def signup_view(request):
@@ -9,13 +11,24 @@ def signup_view(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
+
+            faculty = Faculty.objects.get(
+                id=request.POST.get('faculty')
+            )
+
+            userprofile = UserProfile.objects.create(
+                user=user,
+                faculty=faculty
+            )
+
             # login
             login(request, user)
             return redirect('index')
     else:
         form = SignupForm()
     context = {
-        'form' : form
+        'form' : form,
+        'facultys' : Faculty.objects.all()
     }
     return render(request, 'signup.html', context)
 
@@ -53,3 +66,11 @@ def my_posts_view(request):
         'posts' : posts
     }
     return render(request, 'my_posts.html', context)
+
+
+def profile_view(request, user_id):
+    user = User.objects.get(id=user_id)
+    context = {
+        'user' : user
+    }
+    return render(request, 'profile.html', context)
