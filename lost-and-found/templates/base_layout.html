@@ -40,6 +40,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'profile' user.id %}">โปรไฟล์ของฉัน</a>
+                        {% if user.is_superuser %}
+                            <a class="dropdown-item" href="/admin">จัดการโพสต์</a>
+                        {% endif %}
                         <a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a>
                     </div>
                 </li>

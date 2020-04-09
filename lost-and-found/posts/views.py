@@ -60,3 +60,13 @@ class DetailView(View):
         return render(request, self.template_name, self.context)
 
     #def post(self, request, post_id):
+
+class EditPostView(View):
+    template_name = 'edit_post.html'
+
+    def get(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+
+        return render(request, self.template_name, {
+            'post' : post
+        })
