@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm
 from .models import Faculty, UserProfile
 from posts.models import Post
+from chats.models import Chat
 from django.contrib.auth.models import User
 from django.views import View
 
@@ -27,6 +28,10 @@ class SignupView(View):
             userprofile = UserProfile.objects.create(
                 user=user,
                 faculty=faculty
+            )
+
+            Chat.objects.create(
+                user=user
             )
             # login
             login(request, user)

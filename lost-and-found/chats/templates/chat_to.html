@@ -2,6 +2,16 @@
 
 {% block content %}
     <div class="container mt-4">
-        <h1>Chat To {{ user_id }}</h1>
+        <h1>Chat To {{ user }} </h1>
+        <h2> ที่ส่งไป : {{ send_messages }} </h2>
+        <h2> ได้รับ : {{ get_messages }} </h2>
     </div>
+
+    <form action="{% url 'chat_to' user.id %}" method="POST">
+        {% csrf_token %}
+        ข้อความ :
+        <input type="text" name='msg' class='form-control'>
+
+        <button type="submit" class='btn btn-primary'>ส่งข้อความ</button>
+    </form>
 {% endblock %}
