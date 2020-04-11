@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .forms import PostForm
 from .models import Post
 from django.views import View
@@ -70,3 +70,8 @@ class EditPostView(View):
         return render(request, self.template_name, {
             'post' : post
         })
+
+def delete_view(request, post_id):
+    post = Post.objects.get(id=post_id)
+    post.delete()
+    return redirect('my_posts')
