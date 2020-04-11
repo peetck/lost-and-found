@@ -11,6 +11,6 @@ class Faculty(models.Model):
         return self.faculty_name
 
 class UserProfile(models.Model):
-    avatar = models.ImageField(default='') # Picture of user
+    avatar = models.ImageField(default='accounts/default.png') # Picture of user
     user = models.OneToOneField(User, on_delete=models.CASCADE) # reference to User Table
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE) # reference to Faculty Table

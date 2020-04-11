@@ -1,26 +1,69 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block content %}
     <h1 class='my-5'> สมัครสมาชิก </h1>
-
-    <form method="POST" action="{% url 'signup' %}" class='needs-validation' novalidate>
+    <form method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for each_form in form %}
-            <div class="form-group">
-                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                {{ each_form }}
-                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                {{ each_form.errors }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% for each_form in form %}
+                        <div class="form-group">
+                            <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                            {{ each_form }}
+                            <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                            {{ each_form.errors }}
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label> คณะ </label>
+                        <select name="faculty" class='form-control'>
+                            {% for faculty in facultys %}
+                                <option value="{{ faculty.id }}">{{ faculty }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>รูปภาพ</label>
+                        <div class="custom-file">
+                            <input type="file" class='custom-file-input' name='picture' id="input-file">
+                            <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 w-100 text-dark mycard"> <!-- h-100 -->
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{% static 'images/default.png' %}" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b>ชื่อผู้ใช้งาน</b>
+                            </h5>
+                            <p class="card-text">
+                                <p>ชื่อจริง นามสกุล</p>
+                                <p>อีเมล์</p>
+                                <p>คณะ</p>
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                <span class="badge badge-pill badge-success text-light">---</span>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
+                                <b>โดย</b> : {{ post.user }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-        <div class="form-group">
-            <label> คณะ </label>
-            <select name="faculty" class='form-control'>
-                {% for faculty in facultys %}
-                    <option value="{{ faculty.id }}">{{ faculty }}</option>
-                {% endfor %}
-            </select>
         </div>
-        <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
     </form>
 {% endblock %}

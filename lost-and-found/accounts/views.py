@@ -25,10 +25,19 @@ class SignupView(View):
                 id=request.POST.get('faculty')
             )
 
+            try:
+                picture = request.FILES['picture']
+            except:
+                picture = None
+
             userprofile = UserProfile.objects.create(
                 user=user,
                 faculty=faculty
             )
+
+            if picture != None:
+                userprofile.avatar = picture
+                userprofile.save()
 
             Chat.objects.create(
                 user=user
