@@ -5,6 +5,9 @@
         <div class="row">
             <div class="col-lg-8">
                 <h1>สร้าง Post</h1>
+                {% if key_error %}
+                    {{ key_error }}
+                {% endif %}
                 <form action="{% url 'create' %}" method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}

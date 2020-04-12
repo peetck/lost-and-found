@@ -16,7 +16,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
           <a class="navbar-brand" href="{% url 'index' %}">
-              <!-- <img src="{% static 'images/vote.png' %}" width="30" height="30" class="d-inline-block align-top" alt=""> -->
+              <img src="{% static 'images/lost&found.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
               Lost & Found
           </a>
         <ul class="navbar-nav ml-auto">
@@ -37,7 +37,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class='' src="{{ request.user.userprofile.avatar.url }}" width="40" height="40" class="rounded-circle">
+                        <img class='rounded-circle' src="{{ request.user.userprofile.avatar.url }}" width="40" height="40" class="rounded-circle">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'profile' user.id %}">โปรไฟล์ของฉัน</a>

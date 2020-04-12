@@ -24,7 +24,7 @@ class IndexView(View):
         self.context['founds'] = founds
         self.context['active'] = active
         self.context['closed'] = len(founds) - active
-
+        self.context['all'] = len(founds) + len(losts)
         return render(request, self.template_name, self.context)
 
 
@@ -44,7 +44,13 @@ class CreateView(View):
                 post.user = request.user
             else:
                 post.key = request.POST.get('key')
+                for i in Post.objects.all():
+                    if i.key == post.key:
+                        self.context['form'] = form
+                        self.context['key_error'] = 'มี key นี้อยู่ในระบบแล้ว'
+                        return render(request, self.template_name, self.context)
             post.save()
+            return redirect('detail', post_id=post.id)
 
         self.context['form'] = form
         return render(request, self.template_name, self.context)

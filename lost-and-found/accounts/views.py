@@ -56,7 +56,7 @@ class LoginView(View):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('index')
-        next_url = request.GET.get('next') # if have next_url send it to save in input:hidden
+        next_url = request.GET.get('next') # if have next send it to save in input:hidden
         return render(request, 'login.html', {
             'next_url' : next_url
         })
@@ -65,15 +65,14 @@ class LoginView(View):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        next_url = request.POST.get('next_url')
         if user:
             login(request, user)
-            """ next_url = request.POST.get('next_url')
             if next_url != 'None':
                 return redirect(next_url)
-            else: """
-            return redirect('index')
+            else:
+                return redirect('index')
 
-        next_url = request.GET.get('next') # if have next_url send it to save in input:hidden
         return render(request, 'login.html', {
             'next_url' : next_url,
             'error' : 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
@@ -88,10 +87,20 @@ class MyPostView(View):
             posts = Post.objects.filter(user=request.user)
         else:
             posts = "key"
-        context = {
+        return render(request, self.template_name, {
             'posts' : posts
-        }
-        return render(request, self.template_name, context)
+        })
+
+    def post(self, request):
+        key = request.POST.get('key')
+        try:
+            posts = Post.objects.get(key=key)
+        except:
+            posts = []
+
+        return render(request, self.template_name, {
+            'posts' : posts
+        })
 
 class ProfileView(View):
     template_name = 'profile.html'

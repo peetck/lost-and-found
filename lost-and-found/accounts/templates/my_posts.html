@@ -6,6 +6,11 @@
     <div class="container">
         {% if posts == 'key' %}
             <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
+            <form action="{% url 'my_posts' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="key">
+                <input type="submit" value="ยืนยัน">
+            </form>
         {% else %}
             <div class="row">
                 {% for post in posts %}

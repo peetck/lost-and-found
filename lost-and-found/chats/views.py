@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.contrib.auth.models import User
 from django.views import View
 from .models import Message
+
 # Create your views here.
 
 class ChatIndexView(View):

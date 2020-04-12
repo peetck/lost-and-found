@@ -7,31 +7,34 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    {% for each_form in form %}
+                    <div class="form-row">
+                        {% for each_form in form %}
+                            <div class="form-group col-md-6">
+                                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                {{ each_form }}
+                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                {{ each_form.errors }}
+                            </div>
+                            {% if forloop.counter0 == 0 %}
+                                <div class="form-group col-md-6"></div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="form-group col-md-6">
+                            <label> คณะ </label>
+                            <select name="faculty" class='form-control'>
+                                {% for faculty in facultys %}
+                                    <option value="{{ faculty.id }}">{{ faculty }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div class="form-group">
-                            <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                            {{ each_form }}
-                            <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                            {{ each_form.errors }}
-                        </div>
-                    {% endfor %}
-                    <div class="form-group">
-                        <label> คณะ </label>
-                        <select name="faculty" class='form-control'>
-                            {% for faculty in facultys %}
-                                <option value="{{ faculty.id }}">{{ faculty }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>รูปภาพ</label>
-                        <div class="custom-file">
-                            <input type="file" class='custom-file-input' name='picture' id="input-file">
-                            <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                            <label>รูปภาพ</label>
+                            <div class="custom-file">
+                                <input type="file" class='custom-file-input' name='picture' id="input-file">
+                                <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                            </div>
                         </div>
                     </div>
-
                     <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
                 </div>
                 <div class="col-md-4">
