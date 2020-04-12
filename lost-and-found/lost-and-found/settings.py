@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     # my own apps
     'accounts',
     'chats',
-    'posts'
+    'posts',
+    # django-cleanup
+    'django_cleanup'
 ]
 
 MIDDLEWARE = [
