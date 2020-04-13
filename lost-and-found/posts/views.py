@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .forms import PostForm
-from .models import Post
+from .models import Post, PostPicture
 from django.views import View
 # Create your views here.
 

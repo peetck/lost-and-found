@@ -8,10 +8,9 @@
                 {% if key_error %}
                     {{ key_error }}
                 {% endif %}
-                <form action="{% url 'create' %}" method="POST">
+                <form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}
-
                     {% if not user.is_authenticated %}
                         <div class="form-group">
                             <label>Key </label>
@@ -59,4 +58,12 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <!-- <script>
+        $(document).ready(function(){
+            $('#input-file').attr("multiple","true");
+        });
+    </script> -->
 {% endblock %}

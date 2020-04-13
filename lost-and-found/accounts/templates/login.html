@@ -1,22 +1,39 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block content %}
-    <h1 class='my-5'> เข้าสู่ระบบ </h1>
-    {% if error %}
-        <p class='text-danger mt-0'> {{ error }} </p>
-    {% endif %}
-    <form method="POST" action="{% url 'login' %}" class='mt-5'>
-        {% csrf_token %}
-        <div class="form-group">
-            <label> ชื่อผู้ใช้งาน </label>
-            <input type="text" name="username" class='form-control' required>
-        </div>
-        <div class="form-group">
-            <label> รหัสผ่าน </label>
-            <input type="password" name="password" class='form-control' required>
-        </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 text-center border-right p-5">
+                <img src="{% static 'images/lost&found.png'%}" alt="" width='100%' class='rotate-img'>
+            </div>
+            <div class="col-md ml-5">
+                <h1 class='mb-5'>เข้าสู่ระบบ <!-- <img width='45' src="{% static 'images/key.png' %}" alt=""> --> </h1>
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fa fa-exclamation-circle"></i> {{ error }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <form method="POST" action="{% url 'login' %}" class='mt-3'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label> ชื่อผู้ใช้งาน </label>
+                        <input type="text" name="username" class='form-control' required>
+                    </div>
+                    <div class="form-group">
+                        <label> รหัสผ่าน </label>
+                        <input type="password" name="password" class='form-control' required>
+                    </div>
 
-        <input type="hidden" name="next_url" value='{{ next_url }}'>
-        <button type="submit" class='btn btn-primary mt-3'>ยืนยัน</button>
-    </form>
+                    <input type="hidden" name="next_url" value='{{ next_url }}'>
+                    <button type="submit" class='btn btn-primary mt-3'>ยืนยัน</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
+
+

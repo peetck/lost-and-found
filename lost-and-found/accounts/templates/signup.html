@@ -9,7 +9,7 @@
                 <div class="col-md-8">
                     <div class="form-row">
                         {% for each_form in form %}
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 mb-4">
                                 <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
                                 {{ each_form }}
                                 <small class="form-text text-muted"> {{ each_form.help_text }} </small>
@@ -27,7 +27,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-6 mb-5">
                             <label>รูปภาพ</label>
                             <div class="custom-file">
                                 <input type="file" class='custom-file-input' name='picture' id="input-file">
@@ -38,9 +38,9 @@
                     <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 w-100 text-dark mycard"> <!-- h-100 -->
+                    <div class="card h-100 w-100 text-dark mycard">
                         <div class="wrapper">
-                            <img class="card-img-top" src="{% static 'images/default.png' %}" alt="Card image cap">
+                            <img class="card-img-top" src="{% static 'images/user_default.gif' %}" alt="Card image cap">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">
@@ -49,19 +49,18 @@
                             <p class="card-text">
                                 <p>ชื่อจริง นามสกุล</p>
                                 <p>อีเมล์</p>
-                                <p>คณะ</p>
                             </p>
                         </div>
                         <div class="container mb-3 ml-1">
                             <p class="card-text">
-                                <span class="badge badge-pill badge-success text-light">---</span>
+                                <span class="badge badge-pill badge-success text-light">วิศวรกรรมศาสตร์</span>
                             </p>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">
-                                <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
-                                <b>โดย</b> : {{ post.user }}
+                                <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
+                                <br>
+                                <b>เวลา : </b> {% now "h:i a" %}
                             </small>
                         </div>
                     </div>
