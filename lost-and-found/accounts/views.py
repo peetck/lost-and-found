@@ -94,12 +94,12 @@ class MyPostView(View):
     def post(self, request):
         key = request.POST.get('key')
         try:
-            posts = Post.objects.get(key=key)
+            post = Post.objects.get(key=key)
         except:
-            posts = []
+            post = []
 
         return render(request, self.template_name, {
-            'posts' : posts
+            'posts' : [post]
         })
 
 class ProfileView(View):

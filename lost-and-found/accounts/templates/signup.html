@@ -9,12 +9,26 @@
                 <div class="col-md-8">
                     <div class="form-row">
                         {% for each_form in form %}
-                            <div class="form-group col-md-6 mb-4">
-                                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                {{ each_form }}
-                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                                {{ each_form.errors }}
-                            </div>
+                            {% if forloop.counter0 == 1 or forloop.counter0 == 2 %}
+                                <div class="form-group col-md-6 mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    <div class="input-group">
+                                        {{ each_form }}
+                                        <div class="input-group-append" id='password_see{{ forloop.counter0 }}' style='cursor: pointer;'>
+                                            <span class="input-group-text">
+                                                <i id='password-eye{{ forloop.counter0 }}' class="fas fa-eye-slash"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {{ each_form.errors }}
+                                </div>
+                            {% else %}
+                                <div class="form-group col-md-6 mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    {{ each_form }}
+                                    {{ each_form.errors }}
+                                </div>
+                            {% endif %}
                             {% if forloop.counter0 == 0 %}
                                 <div class="form-group col-md-6"></div>
                             {% endif %}
@@ -121,6 +135,38 @@
         $("#id_faculty").on('input', function() {
             var text = $("#id_faculty").find(":selected").text();
             $("#faculty").html(text);
+        });
+
+        /* Password see button 1 */
+        $('#password_see1').click(function(){
+            var password_eye = $('#id_password1').attr('type');
+
+            if (password_eye == 'password'){
+                $('#id_password1').attr("type","text");
+                $('#password-eye1').removeClass('fas fa-eye-slash');
+                $('#password-eye1').addClass('fas fa-eye');
+            }
+            else{
+                $('#id_password1').attr("type","password");
+                $('#password-eye1').removeClass('fas fa-eye');
+                $('#password-eye1').addClass('fas fa-eye-slash');
+            }
+        });
+
+        /* Password see button 2 */
+        $('#password_see2').click(function(){
+            var password_eye = $('#id_password2').attr('type');
+
+            if (password_eye == 'password'){
+                $('#id_password2').attr("type","text");
+                $('#password-eye2').removeClass('fas fa-eye-slash');
+                $('#password-eye2').addClass('fas fa-eye');
+            }
+            else{
+                $('#id_password2').attr("type","password");
+                $('#password-eye2').removeClass('fas fa-eye');
+                $('#password-eye2').addClass('fas fa-eye-slash');
+            }
         });
     </script>
 {% endblock %}

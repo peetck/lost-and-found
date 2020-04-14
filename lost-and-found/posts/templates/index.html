@@ -65,7 +65,9 @@
                                         <b>{{ post.title|truncatechars:25 }}</b>
                                     </h5>
                                     <p class="card-text">
-                                        {{ post.desc|truncatechars:20 }}
+                                        <p>{{ post.desc|truncatechars:20 }}</p>
+                                        <p>{{ post.location }}</p>
+                                        <p>{{ post.date_time }}</p>
                                     </p>
                                 </div>
                                 <div class="container mb-3 ml-1">
@@ -75,9 +77,11 @@
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                        <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
-                                        <b>โดย</b> : {{ post.user }}
+                                        <b>เบอร์ติดต่อ : </b> {{ post.contact1 }}
+                                        <br>
+                                        <b>อีเมล์ : </b> {{ post.contact2 }}
+                                        <br>
+                                        <b>โดย : </b> {{ post.user }}
                                     </small>
                                 </div>
                             </div>
@@ -107,7 +111,9 @@
                                     <b>{{ post.title|truncatechars:25 }}</b>
                                 </h5>
                                 <p class="card-text">
-                                    {{ post.desc|truncatechars:20 }}
+                                    <p>{{ post.desc|truncatechars:20 }}</p>
+                                    <p>{{ post.location }}</p>
+                                    <p>{{ post.date_time }}</p>
                                 </p>
                             </div>
                             <div class="container mb-3 ml-1">
@@ -117,9 +123,11 @@
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">
-                                    <!-- <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                    <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br> -->
-                                    <b>โดย</b> : {{ post.user }}
+                                    <b>เบอร์ติดต่อ : </b> {{ post.contact1 }}
+                                    <br>
+                                    <b>อีเมล์ : </b> {{ post.contact2 }}
+                                    <br>
+                                    <b>โดย : </b> {{ post.user }}
                                 </small>
                             </div>
                         </div>

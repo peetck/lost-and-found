@@ -1,57 +1,65 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
+
+    <h1 class='mt-5'>สร้างโพสต์</h1>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-lg-8">
-                <h1>สร้าง Post</h1>
+            <div class="col-md-8">
                 {% if key_error %}
                     {{ key_error }}
                 {% endif %}
                 <form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <div class="form-row">
+                        {% for each_form in form %}
+                            <div class="form-group col-md-6 mb-4">
+                                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                {{ each_form }}
+                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                {{ each_form.errors }}
+                            </div>
+                        {% endfor %}
+
                     {% if not user.is_authenticated %}
-                        <div class="form-group">
-                            <label>Key </label>
+                        <div class="form-group col-md-6">
+                            <label>คีย์</label>
                             <input type="text" name='key' class='form-control' required>
                         </div>
                     {% endif %}
-                    <!-- <div class="form-group">
-                        <label>รูปภาพ</label>
-                        <div class="custom-file">
-                            <input type="file" class='custom-file-input' name='picture' id="input-file">
-                            <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
-                        </div>
-                    </div> -->
+
+                    </div>
                     <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
                 </form>
             </div>
-            <div class="col-lg-4">
-                <div class="card h-100 w-100 text-dark mycard">
+            <div class="col-md-4">
+                <div class="card w-100 text-dark mycard">
                     <div class="wrapper">
-                        <img class="card-img-top" src="https://scontent.fbkk9-2.fna.fbcdn.net/v/t1.0-9/86429655_2856531234390227_5550681713190895616_o.jpg?_nc_cat=109&_nc_sid=09cbfe&_nc_eui2=AeEjZlOz6X2tPaNSlbcwTzIQSoimIUXHYRVKiKYhRcdhFelXNxq0zgg3CEax8m0YZNJGrPdSgauo__awE8vIzHB0&_nc_ohc=V9tHLF1rSAwAX_2IFVJ&_nc_ht=scontent.fbkk9-2.fna&oh=95d5b6efe9409842e16177c2522f90bb&oe=5EB168AE" id='preview'>
+                        <img class="card-img-top" src="" id="avatar_preview">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">
-                            <b id='card-title'>ชื่อกระทู้</b>
+                            <b>ชื่อโพสต์</b>
                         </h5>
-                        <p class="card-text" id='card-detail'>
-                            รายละเอียดต่างๆเกี่ยวกับกระทู้
+                        <p class="card-text">
+                            <p>รายละเอียด</p>
+                            <p>สถานที่</p>
+                            <p>วันที่</p>
                         </p>
                     </div>
                     <div class="container mb-3 ml-1">
                         <p class="card-text">
-                            <span id='status' class="badge badge-pill badge-warning text-light">สถานะ</span>
-
-                            <span id='password-status' class="badge badge-pill badge-secondary text-light"></span>
+                            <span class="badge badge-pill badge-secondary" id='faculty'>มี key</span>
+                            <span class="badge badge-pill badge-secondary" id='faculty'>ไม่มี key</span>
                         </p>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">
-                            <b>เริ่ม</b> : <span id='poll-start-date'>{% now "d/m/Y H:i" %} </span> <br>
-                            <b>สิ้นสุด</b> : <span id='poll-end-date'> เวลาที่สิ้นสุดการโหวต </span> <br>
-                            <b>โดย</b> : {{ request.user }}
+                            <b>เบอร์ติดต่อ : </b> xxx-xxx-xxxx
+                            <br>
+                            <b>อีเมล์ : </b> example@example.com
+                            <br>
+                            <b>โดย : </b> {{ request.user }}
                         </small>
                     </div>
                 </div>
