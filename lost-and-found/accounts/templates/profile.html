@@ -4,25 +4,64 @@
     <h1>โปรไฟล์ของ {{ user.username }} </h1>
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <div class="container mt-5">
                     <div class="row">
-                        <div class="col card p-3 mr-4">
-                            โพสต์ทั้งหมดที่เคยสร้าง
-                            <h1> {{ posts|length }} </h1>
+                        <div class="col mb-4 rotate-img">
+                            <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-weight-bold text-uppercase mb-1">โพสต์ทั้งหมด</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ posts|length }}
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-archive fa-2x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col card p-3 mr-4">
-                            โพสต์ที่เปิดอยู่
-                            <h1> {{ active }} </h1>
+                        <div class="col mb-4 rotate-img">
+                            <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-weight-bold text-uppercase mb-1">โพสต์ที่เปิดอยู่</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ active }}
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-check-circle fa-2x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col card p-3 mr-4">
-                            โพสต์ที่ปิดแล้ว
-                            <h1> {{ closed }} </h1>
+                        <div class="col mb-4 rotate-img">
+                            <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-weight-bold text-uppercase mb-1">โพสต์ที่ปิดแล้ว</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ closed }}
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-times-circle fa-2x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="card h-100 w-100 text-dark mycard">
                     <div class="wrapper">
                         <img class="card-img-top" src="{{ user.userprofile.avatar.url }}" id="avatar_preview">

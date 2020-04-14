@@ -1,12 +1,64 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
-    <h1 class='mt-5 mb-4'> โพสต์ของฉัน </h1>
+    <h1 class='mt-5 mb-5'> โพสต์ของฉัน </h1>
     {% if user.is_authenticated %}
         <h5 class='mb-5'>
-            ทั้งหมด : <span class="badge badge-pill badge-dark text-light mr-5"> {{ posts|length }} </span>
-            เจอของหาย : <span class="badge badge-pill badge-success text-light mr-5"> {{ founds|length }} </span>
-            ตามหาของ : <span class="badge badge-pill badge-danger text-light"> {{ losts|length }} </span>
+            <div class="container">
+                <div class="row">
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ทั้งหมด</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ posts|length }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-archive fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์เจอของหาย</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ founds|length }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-folder-open fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ตามหาของ</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ losts|length }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-search fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </h5>
     {% endif %}
     <div class="container">

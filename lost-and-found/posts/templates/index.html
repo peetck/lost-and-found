@@ -34,21 +34,73 @@
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md card p-3 mr-4">
-                ของที่มีคนเจอทั้งหมด (ประกาศตามหาเจ้าของ)
-                <h1>{{ founds|length }}</h1>
+            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-uppercase mb-1">ของที่มีคนเจอทั้งหมด</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ founds|length }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-folder-open fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md card p-3 mr-4">
-                อยู่ระหว่างการดําเนินการ (ยังไม่มีคนมารับของ)
-                <h1>{{ active }}</h1>
+            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #f0ad4e !important">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-uppercase mb-1">อยู่ระหว่างการดําเนินการ</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ active }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-hourglass-half fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md card p-3 mr-4">
-                ส่งคืนเจ้าของเรียบร้อยแล้ว (มีคนมารับของแล้ว)
-                <h1> {{ closed }}</h1>
+            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-uppercase mb-1">ส่งคืนเรียบร้อยแล้ว</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ closed }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md card p-3 mr-4">
-                ประกาศตามหาของ
-                <h1>{{ losts|length }}</h1>
+            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5bc0de !important">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-uppercase mb-1">ประกาศตามหาของหาย</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ losts|length }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-search fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -60,12 +112,12 @@
     <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab" aria-controls="available" aria-selected="true">
-                <h3 class='text-dark'>Found <span class="badge badge-pill badge-success text-light"> {{ founds|length }}</span></h3>
+                <h3 class='text-dark'>เจอของหาย <span class="badge badge-pill badge-success text-light"> {{ founds|length }}</span></h3>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed" aria-selected="false">
-                <h3 class='text-dark'>Lost <span class="badge badge-pill badge-danger text-light"> {{ losts|length }}</span></h3>
+                <h3 class='text-dark'>ตามหาของ <span class="badge badge-pill badge-danger text-light"> {{ losts|length }}</span></h3>
             </a>
         </li>
     </ul>
@@ -76,7 +128,7 @@
                     {% if founds|length == 0 %}
                         <div class='col-lg-12 jumbotron text-center border border-dark'>
                             <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                            <h4>ไม่มีโพสต์ Found</h4>
+                            <h4>ไม่มีโพสต์เจอของหาย</h4>
                         </div>
                     {% endif %}
                     {% for post in founds %}
@@ -118,7 +170,7 @@
                     {% if losts|length == 0 %}
                         <div class='col-lg-12 jumbotron text-center border border-dark'>
                             <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                            <h4>ไม่มีโพสต์ losts</h4>
+                            <h4>ไม่มีโพสต์ตามหาของ</h4>
                         </div>
                     {% endif %}
                     {% for post in losts %}
