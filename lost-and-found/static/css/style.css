@@ -74,3 +74,12 @@ body{
     transform: translate(50%,-50%);
     z-index: 100;
 }
+
+/* rotate image */
+.rotate-img{
+    transition: .3s;
+}
+
+.rotate-img:hover{
+    transform: rotate(5deg);
+}

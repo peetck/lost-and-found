@@ -21,7 +21,7 @@
                         {% endfor %}
                         <div class="form-group col-md-6">
                             <label> คณะ </label>
-                            <select name="faculty" class='form-control'>
+                            <select name="faculty" class='form-control' id="id_faculty">
                                 {% for faculty in facultys %}
                                     <option value="{{ faculty.id }}">{{ faculty }}</option>
                                 {% endfor %}
@@ -30,8 +30,8 @@
                         <div class="form-group col-md-6 mb-5">
                             <label>รูปภาพ</label>
                             <div class="custom-file">
-                                <input type="file" class='custom-file-input' name='picture' id="input-file">
-                                <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                                <input type="file" class='custom-file-input' name='picture' id="avatar">
+                                <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
                             </div>
                         </div>
                     </div>
@@ -40,20 +40,23 @@
                 <div class="col-md-4">
                     <div class="card h-100 w-100 text-dark mycard">
                         <div class="wrapper">
-                            <img class="card-img-top" src="{% static 'images/user_default.gif' %}" alt="Card image cap">
+                            <img class="card-img-top" src="{% static 'images/user_default.gif' %}" id="avatar_preview">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">
-                                <b>ชื่อผู้ใช้งาน</b>
+                                <b id='username'>ชื่อผู้ใช้งาน</b>
                             </h5>
                             <p class="card-text">
-                                <p>ชื่อจริง นามสกุล</p>
-                                <p>อีเมล์</p>
+                                <p>
+                                    <span id='first_name'>ชื่อจริง</span>
+                                    <span id='last_name'>นามสกุล</span>
+                                </p>
+                                <p id='email'>อีเมล์</p>
                             </p>
                         </div>
                         <div class="container mb-3 ml-1">
                             <p class="card-text">
-                                <span class="badge badge-pill badge-success text-light">วิศวรกรรมศาสตร์</span>
+                                <span class="badge badge-pill badge-success" id='faculty'>วิศวรกรรมศาสตร์</span>
                             </p>
                         </div>
                         <div class="card-footer">
@@ -68,4 +71,56 @@
             </div>
         </div>
     </form>
+{% endblock %}
+
+{% block script %}
+    <script>
+        /* read URL function */
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#avatar_preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        /* Bind : picture (avatar) */
+        $("#avatar").change(function() {
+            readURL(this);
+            var fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').html(fileName);
+        });
+
+        /* Bind: username */
+        $("#id_username").on('input', function() {
+            var text = $("#id_username").val();
+            $("#username").html(text);
+        });
+
+        /* Bind: first_name */
+        $("#id_first_name").on('input', function() {
+            var text = $("#id_first_name").val();
+            $("#first_name").html(text);
+        });
+
+        /* Bind: last_name */
+        $("#id_last_name").on('input', function() {
+            var text = $("#id_last_name").val();
+            $("#last_name").html(text);
+        });
+
+        /* Bind: email */
+        $("#id_email").on('input', function() {
+            var text = $("#id_email").val();
+            $("#email").html(text);
+        });
+
+        /* Bind: email */
+        $("#id_faculty").on('input', function() {
+            var text = $("#id_faculty").find(":selected").text();
+            $("#faculty").html(text);
+        });
+    </script>
 {% endblock %}
