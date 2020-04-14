@@ -1,8 +1,14 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
-    <h1 class='my-5'> โพสต์ของฉัน </h1>
-
+    <h1 class='mt-5 mb-4'> โพสต์ของฉัน </h1>
+    {% if user.is_authenticated %}
+        <h5 class='mb-5'>
+            ทั้งหมด : <span class="badge badge-pill badge-dark text-light mr-5"> {{ posts|length }} </span>
+            เจอของหาย : <span class="badge badge-pill badge-success text-light mr-5"> {{ founds|length }} </span>
+            ตามหาของ : <span class="badge badge-pill badge-danger text-light"> {{ losts|length }} </span>
+        </h5>
+    {% endif %}
     <div class="container">
         {% if posts == 'key' %}
             <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
@@ -34,18 +40,23 @@
                                         <b>{{ post.title|truncatechars:25 }}</b>
                                     </h5>
                                     <p class="card-text">
-                                        {{ post.desc|truncatechars:20 }}
+                                        <p>{{ post.desc|truncatechars:20 }}</p>
+                                        <p>{{ post.location }}</p>
+                                        <p>{{ post.date_time }}</p>
                                     </p>
                                 </div>
                                 <div class="container mb-3 ml-1">
                                     <p class="card-text">
-                                        ----
+                                        {% if post.type == 'found' %}
+                                            <span class="badge badge-pill badge-success text-light">Found</span>
+                                        {% else %}
+                                            <span class="badge badge-pill badge-danger text-light">Lost</span>
+                                        {% endif %}
                                     </p>
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                        <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
+                                        <b>โดย : </b> {{ post.user }}
                                     </small>
                                 </div>
                             </a>

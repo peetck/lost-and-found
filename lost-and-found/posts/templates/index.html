@@ -3,30 +3,55 @@
 {% block content %}
     <div class="container mt-5">
         <div class="row">
-            <div class="col card p-3 mr-4">
+            <div class="col-lg-7 mb-5">
+                <h1 class='display-3'>
+                    ยินดีต้อนรับ
+                    <br>
+                    <span class='text-primary'>
+                        {% if user.is_authenticated %}
+                            {{ user }}
+                        {% else %}
+                            ผู้ใช้งาน
+                        {% endif %}
+                    </span>
+                    <br>
+                    เข้าสู่เว็บไซต์
+                    <br>
+                    <span>Lost & Found</span>
+                </h1>
+                <p class="mt-4 display-5">เว็บไซต์นี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
+
+                <div>
+                    <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5'>สร้างโพสต์ของคุณ</a>
+                </div>
+
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{% static 'images/lost&found.png' %}" class='img-fluid rotate-img'>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md card p-3 mr-4">
                 ของที่มีคนเจอทั้งหมด (ประกาศตามหาเจ้าของ)
                 <h1>{{ founds|length }}</h1>
             </div>
-            <div class="col card p-3 mr-4">
+            <div class="col-md card p-3 mr-4">
                 อยู่ระหว่างการดําเนินการ (ยังไม่มีคนมารับของ)
                 <h1>{{ active }}</h1>
             </div>
-            <div class="col card p-3 mr-4">
+            <div class="col-md card p-3 mr-4">
                 ส่งคืนเจ้าของเรียบร้อยแล้ว (มีคนมารับของแล้ว)
                 <h1> {{ closed }}</h1>
             </div>
-            <div class="col card p-3">
+            <div class="col-md card p-3 mr-4">
                 ประกาศตามหาของ
                 <h1>{{ losts|length }}</h1>
             </div>
         </div>
     </div>
-
-
-
-    <h1 class='mt-4'>
-        <a class='btn btn-warning' href="{% url 'create' %}">สร้าง Post</a>
-    </h1>
 
     <h1 class='text-center my-5'>
         โพสต์ทั้งหมด
@@ -72,15 +97,11 @@
                                 </div>
                                 <div class="container mb-3 ml-1">
                                     <p class="card-text">
-                                        <span class="badge badge-pill badge-success text-light">---</span>
+                                        <span class="badge badge-pill badge-success text-light">Found</span>
                                     </p>
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <b>เบอร์ติดต่อ : </b> {{ post.contact1 }}
-                                        <br>
-                                        <b>อีเมล์ : </b> {{ post.contact2 }}
-                                        <br>
                                         <b>โดย : </b> {{ post.user }}
                                     </small>
                                 </div>
@@ -118,15 +139,11 @@
                             </div>
                             <div class="container mb-3 ml-1">
                                 <p class="card-text">
-                                    <span class="badge badge-pill badge-success text-light">---</span>
+                                    <span class="badge badge-pill badge-danger text-light">Lost</span>
                                 </p>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">
-                                    <b>เบอร์ติดต่อ : </b> {{ post.contact1 }}
-                                    <br>
-                                    <b>อีเมล์ : </b> {{ post.contact2 }}
-                                    <br>
                                     <b>โดย : </b> {{ post.user }}
                                 </small>
                             </div>

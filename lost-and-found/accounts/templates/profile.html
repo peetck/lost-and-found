@@ -1,11 +1,26 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>Profile ของ {{ user.username }}</h1>
+    <h1>โปรไฟล์ของ {{ user.username }} </h1>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col card p-3 mr-4">
+                            โพสต์ทั้งหมดที่เคยสร้าง
+                            <h1> {{ posts|length }} </h1>
+                        </div>
+                        <div class="col card p-3 mr-4">
+                            โพสต์ที่เปิดอยู่
+                            <h1> {{ active }} </h1>
+                        </div>
+                        <div class="col card p-3 mr-4">
+                            โพสต์ที่ปิดแล้ว
+                            <h1> {{ closed }} </h1>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="card h-100 w-100 text-dark mycard">
@@ -14,19 +29,19 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">
-                            <b id='username'> {{ user.username }} </b>
+                            <b id='username'>{{ user.username }}</b>
                         </h5>
                         <p class="card-text">
                             <p>
                                 <span id='first_name'> {{ user.first_name }} </span>
                                 <span id='last_name'> {{ user.last_name }} </span>
                             </p>
-                            <p id='email'>อีเมล์</p>
+                            <p>อีเมล์ : <span id='email'> {{ user.email }} </span></p>
                         </p>
                     </div>
                     <div class="container mb-3 ml-1">
                         <p class="card-text">
-                            <span class="badge badge-pill badge-success" id='faculty'> {{ user.userprofile.faculty }}</span>
+                            <span class="badge badge-pill badge-success" id='faculty'> {{ user.userprofile.faculty }} </span>
                         </p>
                     </div>
                     <div class="card-footer">

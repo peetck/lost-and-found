@@ -85,10 +85,16 @@ class MyPostView(View):
     def get(self, request):
         if request.user.is_authenticated:
             posts = Post.objects.filter(user=request.user)
+            founds = Post.objects.filter(user=request.user, type='found')
+            losts = Post.objects.filter(user=request.user, type='lost')
         else:
             posts = "key"
+            founds = []
+            losts = []
         return render(request, self.template_name, {
-            'posts' : posts
+            'posts' : posts,
+            'founds' : founds,
+            'losts' : losts
         })
 
     def post(self, request):
@@ -107,8 +113,16 @@ class ProfileView(View):
 
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
+        posts = Post.objects.filter(user=user)
+        closed = 0
+        for post in posts:
+            if post.is_active == False:
+                closed += 1
         context = {
-            'user' : user
+            'user' : user,
+            'posts' : posts,
+            'closed' : closed,
+            'active' : len(posts) - closed
         }
         return render(request, self.template_name, context)
 

@@ -2,12 +2,32 @@
 
 {% block content %}
     <div class="container mt-4">
-        <h1>Chat Index</h1>
+        <h1>ห้องสนทนา</h1>
+        <input type="text" class='form-control my-3'>
+        <h3> ผู้ใช้งานทั้งหมด </h3>
+        <div class="container">
+            <div class="row">
+                {% for user in users %}
+                    <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'chat_to' user.id %}" >
+                        <div class="card h-100 w-100 text-dark mycard text-center">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b id='username'>{{ user.username }}</b>
+                                </h5>
+                                <p class="card-text">
 
-        <h2> Users </h2>
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
 
-        {% for user in users %}
-            <a href="{% url 'chat_to' user.id %}"> {{ user }}</a>
-        {% endfor %}
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
