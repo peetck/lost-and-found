@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css?family=Kanit:300&display=swap'); */
 *{
-    font-family: 'Kanit';
+    font-family: 'Kanit', sans-serif;
     word-wrap: break-word;
 }
 
@@ -83,5 +83,3 @@ body{
 .rotate-img:hover{
     transform: rotate(5deg);
 }
-
-/* */
