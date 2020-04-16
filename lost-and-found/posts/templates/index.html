@@ -1,6 +1,7 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
+<div class="container">
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-7 mb-5">
@@ -9,9 +10,9 @@
                     <br>
                     <span class='text-primary'>
                         {% if user.is_authenticated %}
-                            {{ user }}
+                        {{ user }}
                         {% else %}
-                            ผู้ใช้งาน
+                        ผู้ใช้งาน
                         {% endif %}
                     </span>
                     <br>
@@ -111,13 +112,17 @@
     </h1>
     <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab" aria-controls="available" aria-selected="true">
-                <h3 class='text-dark'>เจอของหาย <span class="badge badge-pill badge-success text-light"> {{ founds|length }}</span></h3>
+            <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab"
+                aria-controls="available" aria-selected="true">
+                <h3 class='text-dark'>เจอของหาย <span class="badge badge-pill badge-success text-light">
+                        {{ founds|length }}</span></h3>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed" aria-selected="false">
-                <h3 class='text-dark'>ตามหาของ <span class="badge badge-pill badge-danger text-light"> {{ losts|length }}</span></h3>
+            <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed"
+                aria-selected="false">
+                <h3 class='text-dark'>ตามหาของ <span class="badge badge-pill badge-danger text-light">
+                        {{ losts|length }}</span></h3>
             </a>
         </li>
     </ul>
@@ -126,39 +131,39 @@
             <div class="container">
                 <div class="row">
                     {% if founds|length == 0 %}
-                        <div class='col-lg-12 jumbotron text-center border border-dark'>
-                            <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                            <h4>ไม่มีโพสต์เจอของหาย</h4>
-                        </div>
+                    <div class='col-lg-12 jumbotron text-center border border-dark'>
+                        <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                        <h4>ไม่มีโพสต์เจอของหาย</h4>
+                    </div>
                     {% endif %}
                     {% for post in founds %}
-                        <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
-                            <div class="card h-100 w-100 text-dark mycard">
-                                <div class="wrapper">
-                                    <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <b>{{ post.title|truncatechars:25 }}</b>
-                                    </h5>
-                                    <p class="card-text">
-                                        <p>{{ post.desc|truncatechars:20 }}</p>
-                                        <p>{{ post.location }}</p>
-                                        <p>{{ post.date_time }}</p>
-                                    </p>
-                                </div>
-                                <div class="container mb-3 ml-1">
-                                    <p class="card-text">
-                                        <span class="badge badge-pill badge-success text-light">Found</span>
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">
-                                        <b>โดย : </b> {{ post.user }}
-                                    </small>
-                                </div>
+                    <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
+                        <div class="card h-100 w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                             </div>
-                        </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b>{{ post.title|truncatechars:25 }}</b>
+                                </h5>
+                                <p class="card-text">
+                                    <p>{{ post.desc|truncatechars:20 }}</p>
+                                    <p>{{ post.location }}</p>
+                                    <p>{{ post.date_time }}</p>
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    <span class="badge badge-pill badge-success text-light">Found</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>โดย : </b> {{ post.user }}
+                                </small>
+                            </div>
+                        </div>
+                    </a>
                     {% endfor %}
                 </div>
             </div>
@@ -168,10 +173,10 @@
             <div class="container">
                 <div class="row">
                     {% if losts|length == 0 %}
-                        <div class='col-lg-12 jumbotron text-center border border-dark'>
-                            <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                            <h4>ไม่มีโพสต์ตามหาของ</h4>
-                        </div>
+                    <div class='col-lg-12 jumbotron text-center border border-dark'>
+                        <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                        <h4>ไม่มีโพสต์ตามหาของ</h4>
+                    </div>
                     {% endif %}
                     {% for post in losts %}
                     <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
@@ -206,6 +211,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
 {% endblock %}

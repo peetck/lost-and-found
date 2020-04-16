@@ -1,122 +1,125 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
+<div class="container">
     <h1 class='mt-5 mb-5'> โพสต์ของฉัน </h1>
     {% if user.is_authenticated %}
-        <h5 class='mb-5'>
-            <div class="container">
-                <div class="row">
-                    <div class="col mb-4 rotate-img">
-                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ทั้งหมด</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            {{ posts|length }}
-                                        </div>
+    <h5 class='mb-5'>
+        <div class="container">
+            <div class="row">
+                <div class="col mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์ทั้งหมด</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ posts|length }}
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-archive fa-2x"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-archive fa-2x"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col mb-4 rotate-img">
-                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์เจอของหาย</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            {{ founds|length }}
-                                        </div>
+                </div>
+                <div class="col mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์เจอของหาย</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ founds|length }}
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-folder-open fa-2x"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-folder-open fa-2x"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col mb-4 rotate-img">
-                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ตามหาของ</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            {{ losts|length }}
-                                        </div>
+                </div>
+                <div class="col mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์ตามหาของ</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ losts|length }}
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-search fa-2x"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-search fa-2x"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </h5>
+        </div>
+    </h5>
     {% endif %}
     <div class="container">
         {% if posts == 'key' %}
-            <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
-            <form action="{% url 'my_posts' %}" method="POST">
-                {% csrf_token %}
-                <input type="text" name="key">
-                <input type="submit" value="ยืนยัน">
-            </form>
+        <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
+        <form action="{% url 'my_posts' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="key">
+            <input type="submit" value="ยืนยัน">
+        </form>
         {% else %}
-            <div class="row">
-                {% if posts|length == 0 %}
-                    <div class='col-lg-12 jumbotron text-center border border-dark'>
-                        <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                        <h4>ไม่มีโพสต์ที่คุณเคยสร้าง</h4>
-                    </div>
-                {% endif %}
-                {% for post in posts %}
-                    <div class='col-lg-3 my-3'>
-                        <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
-                            <a href="{% url 'post_delete' post.id %}">
-                                <img src="{% static 'images/close.png' %}" alt="" class='delete-btn' width='35px'>
-                            </a>
-                            <a class="card h-100 w-100 mb-0 text-decoration-none text-dark" href="{% url 'edit_post' post.id %}">
-                                <div class="wrapper">
-                                    <img class="card-img-top" src="#">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <b>{{ post.title|truncatechars:25 }}</b>
-                                    </h5>
-                                    <p class="card-text">
-                                        <p>{{ post.desc|truncatechars:20 }}</p>
-                                        <p>{{ post.location }}</p>
-                                        <p>{{ post.date_time }}</p>
-                                    </p>
-                                </div>
-                                <div class="container mb-3 ml-1">
-                                    <p class="card-text">
-                                        {% if post.type == 'found' %}
-                                            <span class="badge badge-pill badge-success text-light">Found</span>
-                                        {% else %}
-                                            <span class="badge badge-pill badge-danger text-light">Lost</span>
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">
-                                        <b>โดย : </b> {{ post.user }}
-                                    </small>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                {% endfor %}
+        <div class="row">
+            {% if posts|length == 0 %}
+            <div class='col-lg-12 jumbotron text-center border border-dark'>
+                <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                <h4>ไม่มีโพสต์ที่คุณเคยสร้าง</h4>
             </div>
+            {% endif %}
+            {% for post in posts %}
+            <div class='col-lg-3 my-3'>
+                <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
+                    <a href="{% url 'post_delete' post.id %}">
+                        <img src="{% static 'images/close.png' %}" alt="" class='delete-btn' width='35px'>
+                    </a>
+                    <a class="card h-100 w-100 mb-0 text-decoration-none text-dark"
+                        href="{% url 'edit_post' post.id %}">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="#">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b>{{ post.title|truncatechars:25 }}</b>
+                            </h5>
+                            <p class="card-text">
+                                <p>{{ post.desc|truncatechars:20 }}</p>
+                                <p>{{ post.location }}</p>
+                                <p>{{ post.date_time }}</p>
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                {% if post.type == 'found' %}
+                                <span class="badge badge-pill badge-success text-light">Found</span>
+                                {% else %}
+                                <span class="badge badge-pill badge-danger text-light">Lost</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <b>โดย : </b> {{ post.user }}
+                            </small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         {% endif %}
     </div>
+</div>
 
 {% endblock %}

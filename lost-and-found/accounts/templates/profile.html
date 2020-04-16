@@ -1,6 +1,7 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
+<div class="container mt-3">
     <h1>โปรไฟล์ของ {{ user.username }} </h1>
     <div class="container">
         <div class="row">
@@ -80,7 +81,8 @@
                     </div>
                     <div class="container mb-3 ml-1">
                         <p class="card-text">
-                            <span class="badge badge-pill badge-success" id='faculty'> {{ user.userprofile.faculty }} </span>
+                            <span class="badge badge-pill badge-success" id='faculty'> {{ user.userprofile.faculty }}
+                            </span>
                         </p>
                     </div>
                     <div class="card-footer">
@@ -94,4 +96,5 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

@@ -3,100 +3,147 @@
 {% load static %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/chat_index_style.css' %}">
+<link rel="stylesheet" href="{% static 'css/chat_index_style.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h1 class='my-5'>ห้องสนทนา</h1>
-    <div class='container mt-5'>
-        <div class="messaging">
-            <div class="inbox_msg">
-                <div class="inbox_people">
-                    <div class="headind_srch">
-                        <div class="recent_heading">
-                            <h4 class='mt-2'>ล่าสุด</h4>
-                        </div>
-                        <div class="srch_bar mt-2">
-                            <div class="form-group">
-                                <div class="input-group">
+<!-- <h1 class='my-5'>ห้องสนทนา</h1> -->
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h3 class='mt-2 text-dark'>แชท</h3>
+                    </div>
+                    <div class="srch_bar mt-2">
+                        <div class="form-group">
+                            <div class="input-group">
 
-                                    <input type='text' class='form-control' placeholder="ค้นหาผู้ใช้งาน">
-                                    <span class="input-group-append" id='password_see'>
-                                        <span class="input-group-text">
-                                            <i id='password-eye' class="fa fa-search"></i>
-                                        </span>
+                                <input type='text' class='form-control' placeholder="ค้นหาผู้ใช้งาน">
+                                <span class="input-group-append" id='password_see'>
+                                    <span class="input-group-text">
+                                        <i id='password-eye' class="fa fa-search"></i>
                                     </span>
-                                </div>
+                                </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="inbox_chat" id='inbox_chat'>
-                        <!-- Users Show here -->
                     </div>
                 </div>
-                <div class="mesgs">
-                    <div class="msg_history" id='msg_history'>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test which is a new approach to have all
-                                        solutions</p>
-                                    <span class="time_date"> 11:01 AM | June 9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
+                <div class="inbox_chat" id='inbox_chat'>
+                    <!-- Users Show here -->
+                </div>
+            </div>
+            <div class="mesgs">
+                <div class="msg_history" id='msg_history'>
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
+                                alt="sunil"> </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
                                 <p>Test which is a new approach to have all
                                     solutions</p>
                                 <span class="time_date"> 11:01 AM | June 9</span>
                             </div>
                         </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test, which is a new approach to have</p>
-                                    <span class="time_date"> 11:01 AM | Yesterday</span>
-                                </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
+                                alt="sunil"> </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>Test, which is a new approach to have</p>
+                                <span class="time_date"> 11:01 AM | Yesterday</span>
                             </div>
                         </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Test</p>
-                                <span class="time_date"> 11:01 AM | Today</span>
-                            </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Apollo University, Delhi, India Test</p>
+                            <span class="time_date"> 11:01 AM | Today</span>
                         </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>We work directly with our designers and suppliers,
-                                        and sell direct to you, which means quality, exclusive
-                                        products, at a price anyone can afford.</p>
-                                    <span class="time_date"> 11:01 AM | Today</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Test</p>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
+                                alt="sunil"> </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>We work directly with our designers and suppliers,
+                                    and sell direct to you, which means quality, exclusive
+                                    products, at a price anyone can afford.</p>
                                 <span class="time_date"> 11:01 AM | Today</span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group mt-3">
-                        <div class="input-group">
-                            <input type="text" class='form-control'>
-                            <div class="input-group-append" style='cursor: pointer;'>
-                                <span class="input-group-text">
-                                    <i class="fas fa-paper-plane"></i>
-                                </span>
-                            </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Apollo University, Delhi, India Test</p>
+                            <span class="time_date"> 11:01 AM | Today</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="input-group">
+                        <input type="text" class='form-control'>
+                        <div class="input-group-append" style='cursor: pointer;'>
+                            <span class="input-group-text">
+                                <i class="fas fa-paper-plane"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -106,98 +153,98 @@
 {% endblock %}
 
 {% block script %}
-    <script>
-        axios.defaults.xsrfCookieName = 'csrftoken'
-        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
+<script>
+    axios.defaults.xsrfCookieName = 'csrftoken'
+    axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
-        function makeChatHistoryBottom(){
-            var msg_history = document.querySelector('#msg_history');
-            msg_history.scrollTop = msg_history.scrollHeight - msg_history.clientHeight;
+    function makeChatHistoryBottom() {
+        var msg_history = document.querySelector('#msg_history');
+        msg_history.scrollTop = msg_history.scrollHeight - msg_history.clientHeight;
+    }
+
+    function addUser(username, msg, datetime, url, id) {
+        div1 = document.createElement('div')
+
+        div2 = document.createElement('div')
+        div2.setAttribute('class', 'chat_people')
+
+        div3 = document.createElement('div')
+        div3.setAttribute('class', 'chat_img')
+
+        img = document.createElement('img')
+        img.src = url
+        img.setAttribute('class', 'border border-dark')
+
+        div3.appendChild(img)
+
+        div4 = document.createElement('div')
+        div4.setAttribute('class', 'chat_ib')
+
+        h5 = document.createElement('h5')
+        h5.innerHTML = username + ' <span class="chat_date">' + datetime + '</span>'
+
+        p = document.createElement('p')
+        p.innerHTML = msg
+
+        div4.appendChild(h5)
+        div4.appendChild(p)
+
+        div2.appendChild(div3)
+        div2.appendChild(div4)
+
+        div1.appendChild(div2)
+
+        inbox_chat = document.getElementById('inbox_chat')
+
+        if (inbox_chat.children.length === 0) {
+            div1.setAttribute('class', 'chat_list active_chat')
+        }
+        else {
+            div1.setAttribute('class', 'chat_list')
         }
 
-        function addUser(username, msg, datetime, url, id){
-            div1 = document.createElement('div')
+        span = document.createElement('a')
+        span.setAttribute('onclick', 'ChangeMessagePage(' + id + ')')
+        span.style.cursor = 'pointer'
 
-            div2 = document.createElement('div')
-            div2.setAttribute('class', 'chat_people')
+        span.appendChild(div1)
 
-            div3 = document.createElement('div')
-            div3.setAttribute('class', 'chat_img')
+        inbox_chat.appendChild(span)
+    }
 
-            img = document.createElement('img')
-            img.src = url
-            img.setAttribute('class', 'border border-dark')
+    function ChangeMessagePage(id) {
+        console.log('change to id=' + id)
+    }
+    makeChatHistoryBottom();
 
-            div3.appendChild(img)
+    axios.post('{% url "chat_api" %}')
+        .then(function (response) {
+            // handle success
+            data = response.data.users;
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
 
-            div4 = document.createElement('div')
-            div4.setAttribute('class', 'chat_ib')
-
-            h5 = document.createElement('h5')
-            h5.innerHTML = username + ' <span class="chat_date">' + datetime + '</span>'
-
-            p = document.createElement('p')
-            p.innerHTML = msg
-
-            div4.appendChild(h5)
-            div4.appendChild(p)
-
-            div2.appendChild(div3)
-            div2.appendChild(div4)
-
-            div1.appendChild(div2)
-
-            inbox_chat = document.getElementById('inbox_chat')
-
-            if (inbox_chat.children.length === 0){
-                div1.setAttribute('class', 'chat_list active_chat')
-            }
-            else{
-                div1.setAttribute('class', 'chat_list')
-            }
-
-            span = document.createElement('a')
-            span.setAttribute('onclick', 'ChangeMessagePage(' + id + ')')
-            span.style.cursor = 'pointer'
-
-            span.appendChild(div1)
-
-            inbox_chat.appendChild(span)
-        }
-
-        function ChangeMessagePage(id){
-            console.log('change to id=' + id)
-        }
-        makeChatHistoryBottom();
-
-        axios.post('{% url "chat_api" %}')
-            .then(function (response) {
-                // handle success
-                data = response.data.users;
-                console.log(data);
-                for (var i = 0; i < data.length; i++){
-
-                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 
-                    username = (data[i][0]);
-                    msg = (data[i][1]);
-                    if (data[i][2] === ''){
-                        datetime = 'ไม่มีข้อมูล';
-                    }
-                    else{
-                        dateobject = new Date(data[i][2]);
-                        datetime = months[dateobject.getMonth()] + " " + dateobject.getDate();
-                    }
-                    url = (data[i][3]);
-                    id = (data[i][4])
-
-                    addUser(username, msg, datetime, url, id);
+                username = (data[i][0]);
+                msg = (data[i][1]);
+                if (data[i][2] === '') {
+                    datetime = 'ไม่มีข้อมูล';
                 }
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-    </script>
+                else {
+                    dateobject = new Date(data[i][2]);
+                    datetime = months[dateobject.getMonth()] + " " + dateobject.getDate();
+                }
+                url = (data[i][3]);
+                id = (data[i][4])
+
+                addUser(username, msg, datetime, url, id);
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+</script>
 {% endblock %}

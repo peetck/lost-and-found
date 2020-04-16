@@ -8,12 +8,14 @@ img {
     overflow: hidden;
     width: 40%;
     border-right: 1px solid #c4c4c4;
+    height: 100%;
 }
 
 .inbox_msg {
     border: 1px solid #c4c4c4;
     clear: both;
     overflow: hidden;
+    height: 100%;
 }
 
 .top_spac {
@@ -84,7 +86,7 @@ img {
 }
 
 .inbox_chat {
-    height: 550px;
+    height: 100%;
     overflow-y: scroll;
 }
 
@@ -129,6 +131,7 @@ img {
     float: left;
     padding: 30px 15px 0 25px;
     width: 60%;
+    height: 100%;
 }
 
 .sent_msg p {
@@ -171,11 +174,12 @@ img {
 }
 
 .messaging {
-    padding: 0 0 50px 0;
+    padding: 0 0 0 0;
+    height: calc(100% - 75px);
 }
 
 .msg_history {
-    height: 530px;
+    height: 90%;
     overflow-y: auto;
 }
 
