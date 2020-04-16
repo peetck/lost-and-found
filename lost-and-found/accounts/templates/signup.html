@@ -10,30 +10,30 @@
                 <div class="col-lg-8 mb-5">
                     <div class="form-row">
                         {% for each_form in form %}
-                        {% if forloop.counter0 == 1 or forloop.counter0 == 2 %}
-                        <div class="form-group col-md-6 mb-4">
-                            <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                            <div class="input-group">
-                                {{ each_form }}
-                                <div class="input-group-append" id='password_see{{ forloop.counter0 }}'
-                                    style='cursor: pointer;'>
-                                    <span class="input-group-text">
-                                        <i id='password-eye{{ forloop.counter0 }}' class="fas fa-eye-slash"></i>
-                                    </span>
+                            {% if forloop.counter0 == 1 or forloop.counter0 == 2 %}
+                                <div class="form-group col-md-6 mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    <div class="input-group">
+                                        {{ each_form }}
+                                        <div class="input-group-append" id='password_see{{ forloop.counter0 }}'
+                                            style='cursor: pointer;'>
+                                            <span class="input-group-text">
+                                                <i id='password-eye{{ forloop.counter0 }}' class="fas fa-eye-slash"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {{ each_form.errors }}
                                 </div>
-                            </div>
-                            {{ each_form.errors }}
-                        </div>
-                        {% else %}
-                        <div class="form-group col-md-6 mb-4">
-                            <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                            {{ each_form }}
-                            {{ each_form.errors }}
-                        </div>
-                        {% endif %}
-                        {% if forloop.counter0 == 0 %}
-                        <div class="form-group col-md-6"></div>
-                        {% endif %}
+                            {% else %}
+                                <div class="form-group col-md-6 mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    {{ each_form }}
+                                    {{ each_form.errors }}
+                                </div>
+                            {% endif %}
+                            {% if forloop.counter0 == 0 %}
+                                <div class="form-group col-md-6"></div>
+                            {% endif %}
                         {% endfor %}
                         <div class="form-group col-md-6">
                             <label> คณะ </label>
@@ -79,7 +79,7 @@
                             <small class="text-muted">
                                 <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
                                 <br>
-                                <b>เวลา : </b> {% now "h:i a" %}
+                                <b>เวลา : </b> {% now "H:i" %}
                             </small>
                         </div>
                     </div>

@@ -35,46 +35,13 @@
             </div>
             <div class="mesgs">
                 <div class="msg_history" id='msg_history'>
+                    <!-- Chat Messages (History) -->
                     <div class="incoming_msg">
                         <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
                                 alt="sunil"> </div>
                         <div class="received_msg">
                             <div class="received_withd_msg">
-                                <p>Test which is a new approach to have all
-                                    solutions</p>
-                                <span class="time_date"> 11:01 AM | June 9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                alt="sunil"> </div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
-                                <p>Test, which is a new approach to have</p>
-                                <span class="time_date"> 11:01 AM | Yesterday</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Apollo University, Delhi, India Test</p>
-                            <span class="time_date"> 11:01 AM | Today</span>
-                        </div>
-                    </div>
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                alt="sunil"> </div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
-                                <p>We work directly with our designers and suppliers,
+                                <p class='bg-dark text-light'>We work directly with our designers and suppliers,
                                     and sell direct to you, which means quality, exclusive
                                     products, at a price anyone can afford.</p>
                                 <span class="time_date"> 11:01 AM | Today</span>
@@ -83,59 +50,28 @@
                     </div>
                     <div class="outgoing_msg">
                         <div class="sent_msg">
-                            <p>Apollo University, Delhi, India Test</p>
-                            <span class="time_date"> 11:01 AM | Today</span>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
+                            <p class='bg-dark'>Test which is a new approach to have all
                                 solutions</p>
                             <span class="time_date"> 11:01 AM | June 9</span>
                         </div>
                     </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
+                                alt="sunil"> </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p class='bg-dark text-light'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit, quis officiis, asperiores ipsa adipisci praesentium vel deserunt possimus voluptatem ratione molestias nemo officia accusantium fugiat fugit totam aliquam necessitatibus nobis.</p>
+                                <span class="time_date"> 11:01 AM | Today</span>
+                            </div>
                         </div>
                     </div>
                     <div class="outgoing_msg">
                         <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
+                            <p class='bg-dark'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae pariatur at sed laborum et, excepturi odio officiis iste quod animi consequuntur, perspiciatis aperiam, ea nobis velit quaerat optio aut laboriosam.</p>
                             <span class="time_date"> 11:01 AM | June 9</span>
                         </div>
                     </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="form-group mt-3">
                     <div class="input-group">
@@ -173,7 +109,7 @@
 
         img = document.createElement('img')
         img.src = url
-        img.setAttribute('class', 'border border-dark')
+        img.setAttribute('class', 'rounded-circle')
 
         div3.appendChild(img)
 
@@ -181,7 +117,7 @@
         div4.setAttribute('class', 'chat_ib')
 
         h5 = document.createElement('h5')
-        h5.innerHTML = username + ' <span class="chat_date">' + datetime + '</span>'
+        h5.innerHTML = '<b>' + username + '</b>' + ' <span class="chat_date">' + datetime + '</span>'
 
         p = document.createElement('p')
         p.innerHTML = msg

@@ -2,11 +2,11 @@ from django import forms
 from .models import Post
 
 class PostForm(forms.ModelForm):
-    date_time = forms.DateField(input_formats=['%d/%m/%Y'], label='วันที่')
-    date_time.widget.attrs = {'class' : 'form-control', 'placeholder' : 'dd/mm/yy'}
+    date_time = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'], label='วันและเวลา')
+    date_time.widget.attrs = {'class' : 'form-control datetimepicker-input', 'data-target' : '#datetimepicker'}
     class Meta:
         model = Post
-        fields = ['title', 'type', 'desc', 'assetType', 'location', 'date_time', 'contact1', 'contact2']
+        fields = ['title', 'desc', 'type', 'assetType', 'location', 'date_time', 'contact1', 'contact2']
 
         widgets = {
             'desc' : forms.Textarea(attrs={'class' : 'form-control', 'placeholder' : 'รายละเอียดต่างๆ เช่น คุณลักษณะเป็นยังไง เป็นต้น'}),

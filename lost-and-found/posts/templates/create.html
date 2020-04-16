@@ -1,66 +1,87 @@
 {% extends 'base_layout.html' %}
+{% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
+{% endblock %}
 {% block content %}
-
-    <h1 class='mt-5'>สร้างโพสต์</h1>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-8">
-                {% if key_error %}
-                    {{ key_error }}
-                {% endif %}
-                <form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
-                    {% csrf_token %}
-                    <div class="form-row">
-                        {% for each_form in form %}
-                            <div class="form-group col-md-6 mb-4">
-                                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                {{ each_form }}
-                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                                {{ each_form.errors }}
-                            </div>
-                        {% endfor %}
-
-                    {% if not user.is_authenticated %}
-                        <div class="form-group col-md-6">
-                            <label>คีย์</label>
-                            <input type="text" name='key' class='form-control' required>
-                        </div>
+    <div class="container">
+        <h1 class='mt-2'>สร้างโพสต์ <i class="fas fa-archive"></i> </h1>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-8">
+                    {% if key_error %}
+                        {{ key_error }}
                     {% endif %}
+                    <form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            {% for each_form in form %}
+                                <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    {% if forloop.counter0 == 5 %}
+                                        <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                                            {{ each_form }}
+                                            <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                            {{ each_form.errors }}
+                                            <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        {{ each_form }}
+                                        <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                        {{ each_form.errors }}
+                                    {% endif %}
+                                </div>
 
-                    </div>
-                    <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
-                </form>
-            </div>
-            <div class="col-md-4">
-                <div class="card w-100 text-dark mycard">
-                    <div class="wrapper">
-                        <img class="card-img-top" src="" id="avatar_preview">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <b>ชื่อโพสต์</b>
-                        </h5>
-                        <p class="card-text">
-                            <p>รายละเอียด</p>
-                            <p>สถานที่</p>
-                            <p>วันที่</p>
-                        </p>
-                    </div>
-                    <div class="container mb-3 ml-1">
-                        <p class="card-text">
-                            <span class="badge badge-pill badge-secondary" id='faculty'>มี key</span>
-                            <span class="badge badge-pill badge-secondary" id='faculty'>ไม่มี key</span>
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            <b>เบอร์ติดต่อ : </b> xxx-xxx-xxxx
-                            <br>
-                            <b>อีเมล์ : </b> example@example.com
-                            <br>
-                            <b>โดย : </b> {{ request.user }}
-                        </small>
+                                {% if forloop.counter0 == 0 %}
+                                    <div class="form-group col-md-6"></div>
+                                {% endif %}
+
+                            {% endfor %}
+
+                            {% if not user.is_authenticated %}
+                                <div class="form-group col-md-6">
+                                    <label>คีย์</label>
+                                    <input type="text" name='key' class='form-control' required>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                        <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="card w-100 text-dark mycard">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="" id="avatar_preview">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b>ชื่อโพสต์</b>
+                            </h5>
+                            <p class="card-text">
+                                <p>รายละเอียด</p>
+                                <p>สถานที่</p>
+                                <p>วันที่</p>
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                <span class="badge badge-pill badge-secondary" id='faculty'>มี key</span>
+                                <span class="badge badge-pill badge-secondary" id='faculty'>ไม่มี key</span>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <b>เบอร์ติดต่อ : </b> xxx-xxx-xxxx
+                                <br>
+                                <b>อีเมล์ : </b> example@example.com
+                                <br>
+                                <b>โดย : </b> {{ request.user }}
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,9 +90,29 @@
 {% endblock %}
 
 {% block script %}
-    <!-- <script>
-        $(document).ready(function(){
-            $('#input-file').attr("multiple","true");
+    <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tempus.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
+
+    <!-- Datetime Picker -->
+    <script>
+        /* Make it use Font Awesome 5 */
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default,{
+            icons: {
+                time: 'fas fa-clock',
+                date: 'fas fa-calendar-alt',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check-o',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
         });
-    </script> -->
+
+        $('#datetimepicker').datetimepicker({
+            locale: 'th',
+        });
+    </script>
 {% endblock %}
