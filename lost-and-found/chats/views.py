@@ -3,23 +3,13 @@ from django.contrib.auth.models import User
 from django.views import View
 from .models import Message
 
-
-
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 
 # Create your views here.
 
-@method_decorator(csrf_exempt, name='dispatch')
-class ChatIndexView(View):
-    template_name = 'chat_index.html'
-
-    def get(self, request):
-        return render(request, self.template_name, {})
-
-    def post(self, request):
+def chat_api(request):
+    if request.method == 'POST':
         users = User.objects.all()
         data = []
         for user in users:
@@ -51,3 +41,10 @@ class ChatIndexView(View):
             data.append([user.username, message, datetime, user.userprofile.avatar.url, user.id])
 
         return JsonResponse({'users' : data})
+
+class ChatIndexView(View):
+    template_name = 'chat_index.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {})
+

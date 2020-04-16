@@ -107,7 +107,10 @@
 
 {% block script %}
     <script>
-        function makeHistoryBottom(){
+        axios.defaults.xsrfCookieName = 'csrftoken'
+        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
+
+        function makeChatHistoryBottom(){
             var msg_history = document.querySelector('#msg_history');
             msg_history.scrollTop = msg_history.scrollHeight - msg_history.clientHeight;
         }
@@ -165,9 +168,9 @@
         function ChangeMessagePage(id){
             console.log('change to id=' + id)
         }
-        makeHistoryBottom();
+        makeChatHistoryBottom();
 
-        axios.post('{% url "chat_index" %}')
+        axios.post('{% url "chat_api" %}')
             .then(function (response) {
                 // handle success
                 data = response.data.users;
