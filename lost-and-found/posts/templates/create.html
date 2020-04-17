@@ -65,29 +65,29 @@
                 <div class="col-md-4">
                     <div class="card w-100 text-dark mycard">
                         <div class="wrapper">
-                            <img class="card-img-top" src="" id="avatar_preview">
+                            <img class="card-img-top" src="{% static 'images/post_default.png' %}" id="avatar_preview">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">
-                                <b>ชื่อโพสต์</b>
+                                <b id='title'>ชื่อโพสต์</b>
                             </h5>
                             <p class="card-text">
-                                <p>รายละเอียด</p>
-                                <p>สถานที่</p>
-                                <p>วันที่</p>
+                                <p id='desc'>รายละเอียด</p>
+                                <p id='location'>สถานที่</p>
+                                <p id='date_time'>วันที่</p>
+                                <p id='assetType'>ประเภท</p>
                             </p>
                         </div>
                         <div class="container mb-3 ml-1">
                             <p class="card-text">
-                                <span class="badge badge-pill badge-secondary" id='faculty'>มี key</span>
-                                <span class="badge badge-pill badge-secondary" id='faculty'>ไม่มี key</span>
+                                <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
                             </p>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">
-                                <b>เบอร์ติดต่อ : </b> xxx-xxx-xxxx
+                                <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
                                 <br>
-                                <b>อีเมล์ : </b> example@example.com
+                                <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
                                 <br>
                                 <b>โดย : </b> {{ request.user }}
                             </small>
@@ -175,5 +175,47 @@
 
             $('#pictures').append(div);
         }
+
+        /* Bind: title */
+        $("#id_title").on('input', function () {
+            var text = $("#id_title").val();
+            $("#title").html(text);
+        });
+
+        /* Bind: desc */
+        $("#id_desc").on('input', function () {
+            var text = $("#id_desc").val();
+            $("#desc").html(text);
+        });
+
+        /* Bind: location */
+        $("#id_location").on('input', function () {
+            var text = $("#id_location").val();
+            $("#location").html(text);
+        });
+
+        /* Bind: date_time */
+        $("#datetimepicker").on('change.datetimepicker', function (e) {
+            $("#date_time").html($("#datetimepicker").find("input").val());
+        });
+
+        /* Bind: contact1 */
+        $("#id_contact1").on('input', function () {
+            var text = $("#id_contact1").val();
+            $("#contact1").html(text);
+        });
+
+        /* Bind: contact2 */
+        $("#id_contact2").on('input', function () {
+            var text = $("#id_contact2").val();
+            $("#contact2").html(text);
+        });
+
+        /* Bind: assetType */
+        $("#id_assetType").on('change', function () {
+            var text = $("#id_assetType").find(":selected").text();
+            $("#assetType").html(text);
+        });
+
     </script>
 {% endblock %}

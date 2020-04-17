@@ -14,10 +14,10 @@ class AssetType(models.Model):
 class Post(models.Model):
     is_active = models.BooleanField(default=True)
     TYPE = (
+        ('found', 'เจอของหาย'),
         ('lost', 'ตามหาของ'),
-        ('found', 'เจอของหาย')
     )
-    type = models.CharField(choices=TYPE, max_length=255)
+    type = models.CharField(choices=TYPE, max_length=255, default='found')
     date_time = models.DateTimeField()
     create_at = models.DateTimeField(auto_now_add=True)
     desc = models.TextField()
@@ -30,6 +30,6 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 class PostPicture(models.Model):
-    picture = models.ImageField(default='posts/default.png')
+    picture = models.ImageField(default='posts/post_default.png', upload_to='posts/')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
