@@ -1,7 +1,9 @@
-from django.shortcuts import render, HttpResponse, redirect
-from .forms import PostForm
+from django.shortcuts import render, redirect
+from .forms import PostForm, PostPictureForm
 from .models import Post, PostPicture
 from django.views import View
+from django.forms import formset_factory
+
 # Create your views here.
 
 class IndexView(View):
@@ -30,14 +32,18 @@ class IndexView(View):
 
 class CreateView(View):
     template_name = 'create.html'
-    context = {}
+    PictureFormSet = formset_factory(PostPictureForm, extra=1)
     def get(self, request):
         form = PostForm()
-        self.context['form'] = form
-        return render(request, self.template_name, self.context)
+        formset = self.PictureFormSet()
+        return render(request, self.template_name, {
+            'form' : form,
+            'formset' : formset
+        })
 
     def post(self, request):
         form = PostForm(request.POST)
+        formset = self.PictureFormSet(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             if request.user.is_authenticated:
@@ -46,14 +52,25 @@ class CreateView(View):
                 post.key = request.POST.get('key')
                 for i in Post.objects.all():
                     if i.key == post.key:
-                        self.context['form'] = form
-                        self.context['key_error'] = 'มี key นี้อยู่ในระบบแล้ว'
-                        return render(request, self.template_name, self.context)
+                        return render(request, self.template_name, {
+                            'form' : form,
+                            'key_error' : 'มี key นี้อยู่ในระบบแล้ว'
+                        })
             post.save()
+            passed = False
+            for picture in formset:
+                if picture.is_valid():
+                    picture = picture.save(commit=False)
+                    if picture.picture == 'posts/default.png' and passed:
+                        continue
+                    picture.post = post
+                    picture.save()
+                    passed = True
             return redirect('detail', post_id=post.id)
 
-        self.context['form'] = form
-        return render(request, self.template_name, self.context)
+        return render(request, self.template_name, {
+            'form' : form
+        })
 
 class DetailView(View):
     template_name = 'detail.html'

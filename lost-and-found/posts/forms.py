@@ -1,5 +1,6 @@
 from django import forms
-from .models import Post
+from .models import Post, PostPicture
+from django.core.exceptions import ValidationError
 
 class PostForm(forms.ModelForm):
     date_time = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'], label='วันและเวลา')
@@ -26,6 +27,15 @@ class PostForm(forms.ModelForm):
             'contact2' : 'อีเมล์',
             'type' : 'ประเภทของโพสต์',
             'assetType' : 'ประเภทของสิ่งของ',
+        }
+
+class PostPictureForm(forms.ModelForm):
+    class Meta:
+        model = PostPicture
+        fields = ['picture']
+
+        widgets = {
+            'picture' : forms.FileInput(attrs={'class' : 'custom-file-input'})
         }
 
 

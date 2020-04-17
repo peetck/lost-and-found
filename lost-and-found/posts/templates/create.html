@@ -48,6 +48,16 @@
                                 </div>
                             {% endif %}
 
+                            {{ formset.management_form }}
+                            <div class="form-group col-md-7" id='pictures'>
+                                <label>รูปภาพ <span class='btn btn-warning' onclick='addPictureInput();'> + </span></label>
+                                {% for each_form in formset %}
+                                    <div class="custom-file">
+                                        <input type="file" name="{{ each_form.picture.html_name }}" class="custom-file-input" accept="image/*" id="{{ each_form.picture.html_name }}">
+                                        <label class="custom-file-label" for="{{ each_form.picture.html_name }}">อัพโหลดไฟล์</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                         <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
                     </form>
@@ -87,6 +97,7 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block script %}
@@ -94,9 +105,8 @@
     <script type="text/javascript" src="{% static 'js/tempus.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
 
-    <!-- Datetime Picker -->
     <script>
-        /* Make it use Font Awesome 5 */
+        /* Make datetime picker use Font Awesome 5 */
         $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default,{
             icons: {
                 time: 'fas fa-clock',
@@ -111,8 +121,59 @@
             }
         });
 
+        /* initial datetime picker */
         $('#datetimepicker').datetimepicker({
             locale: 'th',
         });
+
+        /* Show image fileName on input:file */
+        $('.custom-file-input').on('change',function(){
+            //get the file name
+            var fileName = $(this).val().split('\\').pop();
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+        });
+
+        function addPictureInput(event){
+
+            // ID : TOTAL_FORMS = "id_form-TOTAL_FORMS"
+            // ID : INITIAL_FORMS = "id_form-INITIAL_FORMS"
+            // ID : MIN_NUM_FORMS = "id_form-MIN_NUM_FORMS"
+            // ID : MAX_NUM_FORMS = "id_form-MAX_NUM_FORMS"
+
+            let total_forms = $('#id_form-TOTAL_FORMS');
+            total_forms.val(parseInt(total_forms.val()) + 1)
+
+            let id = 'form-' + (parseInt(total_forms.val()) - 1) + '-picture'
+
+            let div = document.createElement('div')
+            div.setAttribute('class', 'custom-file')
+
+            let inp = document.createElement('input')
+            inp.setAttribute('type', 'file')
+            inp.setAttribute('name', id)
+            inp.setAttribute('class', 'custom-file-input')
+            inp.setAttribute('accept', 'image/*')
+            inp.setAttribute('id', id)
+
+            /* Show image fileName on input:file */
+            inp.addEventListener('change', function(){
+                var fileName = $(this).val().split('\\').pop();
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            })
+
+            let label = document.createElement('label')
+            label.setAttribute('class', 'custom-file-label')
+            label.setAttribute('for', id)
+            label.innerHTML = 'อัพโหลดไฟล์'
+
+            // append
+
+            div.append(inp)
+            div.append(label)
+
+            $('#pictures').append(div);
+        }
     </script>
 {% endblock %}
