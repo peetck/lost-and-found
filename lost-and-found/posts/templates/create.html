@@ -5,99 +5,100 @@
     <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
 {% endblock %}
 {% block content %}
+
+<form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
     <div class="container">
         <h1 class='mt-2'>สร้างโพสต์ <i class="fas fa-archive"></i> </h1>
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-8">
-                    {% if key_error %}
-                        {{ key_error }}
-                    {% endif %}
-                    <form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            {% for each_form in form %}
-                                <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
-                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                    {% if forloop.counter0 == 5 %}
-                                        <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+        <div class="row">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        {% if key_error %}
+                            {{ key_error }}
+                        {% endif %}
+                            {% csrf_token %}
+                            <div class="form-row">
+                                {% for each_form in form %}
+                                    <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
+                                        <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                        {% if forloop.counter0 == 5 %}
+                                            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                                                {{ each_form }}
+                                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                                {{ each_form.errors }}
+                                                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                                </div>
+                                            </div>
+                                        {% else %}
                                             {{ each_form }}
                                             <small class="form-text text-muted"> {{ each_form.help_text }} </small>
                                             {{ each_form.errors }}
-                                            <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        {{ each_form }}
-                                        <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                                        {{ each_form.errors }}
-                                    {% endif %}
-                                </div>
-
-                                {% if forloop.counter0 == 0 %}
-                                    <div class="form-group col-md-6"></div>
-                                {% endif %}
-
-                            {% endfor %}
-
-                            {% if not user.is_authenticated %}
-                                <div class="form-group col-md-6">
-                                    <label>คีย์</label>
-                                    <input type="text" name='key' class='form-control' required>
-                                </div>
-                            {% endif %}
-
-                            {{ formset.management_form }}
-                            <div class="form-group col-md-7" id='pictures'>
-                                <label>รูปภาพ <span class='btn btn-warning' onclick='addPictureInput();'> + </span></label>
-                                {% for each_form in formset %}
-                                    <div class="custom-file">
-                                        <input type="file" name="{{ each_form.picture.html_name }}" class="custom-file-input" accept="image/*" id="{{ each_form.picture.html_name }}">
-                                        <label class="custom-file-label" for="{{ each_form.picture.html_name }}">อัพโหลดไฟล์</label>
+                                        {% endif %}
                                     </div>
+
+                                    {% if forloop.counter0 == 0 and not user.is_authenticated %}
+                                        <div class="form-group col-md-6">
+                                            <label for='id_key'>คีย์</label>
+                                            <input type="text" name='key' class='form-control' id='id_key' required>
+                                            <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
+                                        </div>
+                                    {% endif %}
+
                                 {% endfor %}
+
+                                {{ formset.management_form }}
+                                <div class="form-group col-md-7" id='pictures'>
+                                    <label>
+                                        รูปภาพ <span class='btn btn-warning' onclick='addPictureInput();'> <i class="fa fa-plus"></i> </span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
-                    </form>
-                </div>
-                <div class="col-md-4">
-                    <div class="card w-100 text-dark mycard">
-                        <div class="wrapper">
-                            <img class="card-img-top" src="{% static 'images/post_default.png' %}" id="avatar_preview">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <b id='title'>ชื่อโพสต์</b>
-                            </h5>
-                            <p class="card-text">
-                                <p id='desc'>รายละเอียด</p>
-                                <p id='location'>สถานที่</p>
-                                <p id='date_time'>วันที่</p>
-                                <p id='assetType'>ประเภท</p>
-                            </p>
-                        </div>
-                        <div class="container mb-3 ml-1">
-                            <p class="card-text">
-                                <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">
-                                <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
-                                <br>
-                                <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
-                                <br>
-                                <b>โดย : </b> {{ request.user }}
-                            </small>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{% static 'images/post_default.png' %}" id="avatar_preview">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b id='title'>ชื่อโพสต์</b>
+                                </h5>
+                                <p class="card-text">
+                                    <p id='desc'>รายละเอียด</p>
+                                    <p id='location'>สถานที่</p>
+                                    <p id='date_time'>วันที่</p>
+                                    <p id='assetType'>ประเภท</p>
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
+                                    <br>
+                                    <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
+                                    <br>
+                                    <b>โดย : </b> {{ request.user }}
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row my-3" id='preview_pictures'>
+            <!-- <div class="col-md">
+                <img src="{% static 'images/close.png' %}" alt="" class='img-fluid'>
+            </div> -->
+        </div>
 
+        <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
+    </div>
+</form>
 {% endblock %}
 
 {% block script %}
@@ -126,14 +127,6 @@
             locale: 'th',
         });
 
-        /* Show image fileName on input:file */
-        $('.custom-file-input').on('change',function(){
-            //get the file name
-            var fileName = $(this).val().split('\\').pop();
-            //replace the "Choose a file" label
-            $(this).next('.custom-file-label').html(fileName);
-        });
-
         function addPictureInput(event){
 
             // ID : TOTAL_FORMS = "id_form-TOTAL_FORMS"
@@ -142,9 +135,8 @@
             // ID : MAX_NUM_FORMS = "id_form-MAX_NUM_FORMS"
 
             let total_forms = $('#id_form-TOTAL_FORMS');
-            total_forms.val(parseInt(total_forms.val()) + 1)
 
-            let id = 'form-' + (parseInt(total_forms.val()) - 1) + '-picture'
+            let id = 'form-' + (parseInt(total_forms.val())) + '-picture'
 
             let div = document.createElement('div')
             div.setAttribute('class', 'custom-file')
@@ -156,13 +148,6 @@
             inp.setAttribute('accept', 'image/*')
             inp.setAttribute('id', id)
 
-            /* Show image fileName on input:file */
-            inp.addEventListener('change', function(){
-                var fileName = $(this).val().split('\\').pop();
-                //replace the "Choose a file" label
-                $(this).next('.custom-file-label').html(fileName);
-            })
-
             let label = document.createElement('label')
             label.setAttribute('class', 'custom-file-label')
             label.setAttribute('for', id)
@@ -173,7 +158,40 @@
             div.append(inp)
             div.append(label)
 
-            $('#pictures').append(div);
+            div.style.display = 'none'
+
+
+            inp.addEventListener('change', function(){
+                /* if user upload picture */
+                total_forms.val(parseInt(total_forms.val()) + 1)
+                $('#pictures').append(div);
+
+                /* <div class="col-md">
+                    <img src="{% static 'images/close.png' %}" alt="" class='img-fluid'>
+                </div> */
+
+                let col = document.createElement('div')
+                col.setAttribute('class', 'col-md-3 mb-3')
+
+                let img = document.createElement('img')
+                img.setAttribute('class', 'img-fluid')
+                img.setAttribute('width', '100%')
+
+                // read URL of image and set it to img:src (for preview before upload)
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+
+                // append
+                col.append(img)
+                $('#preview_pictures').append(col)
+            })
+            inp.click();
+
         }
 
         /* Bind: title */

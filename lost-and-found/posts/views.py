@@ -32,7 +32,7 @@ class IndexView(View):
 
 class CreateView(View):
     template_name = 'create.html'
-    PictureFormSet = formset_factory(PostPictureForm, extra=1)
+    PictureFormSet = formset_factory(PostPictureForm, extra=0)
     def get(self, request):
         form = PostForm()
         formset = self.PictureFormSet()
