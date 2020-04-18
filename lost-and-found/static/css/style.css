@@ -72,8 +72,8 @@ body{
     margin-bottom: 15px;
  }
 
- /* delete btn */
- .delete-btn{
+ /* top right btn on card */
+ .top-right-btn{
     position: absolute;
     right: 0;
     top: 0;

@@ -44,21 +44,17 @@
                                             <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
                                         </div>
                                     {% endif %}
-
                                 {% endfor %}
 
-                                {{ formset.management_form }}
-                                <div class="form-group col-md-7" id='pictures'>
-                                    <label>
-                                        รูปภาพ <span class='btn btn-warning' onclick='addPictureInput();'> <i class="fa fa-plus"></i> </span>
-                                    </label>
+                                <div class="form-group col-md-6">
+                                    <input class='btn btn-primary' type="submit" value="สร้างโพสต์">
                                 </div>
                             </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card w-100 text-dark mycard">
                             <div class="wrapper">
-                                <img class="card-img-top" src="{% static 'images/post_default.png' %}" id="avatar_preview">
+                                <img class="card-img-top" src="{% static 'images/post_default.png' %}" id="picture_preview">
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">
@@ -90,13 +86,13 @@
                 </div>
             </div>
         </div>
-        <div class="row my-3" id='preview_pictures'>
-            <!-- <div class="col-md">
-                <img src="{% static 'images/close.png' %}" alt="" class='img-fluid'>
-            </div> -->
+        <div class="row my-3 border border-dark jumbotron" id='pictures'>
+            {{ formset.management_form }}
+            <!-- Picture that upload'll be here -->
+            <h1 class='col-12 text-center mb-5'>
+                อัพโหลดรูปภาพ <i class="fa fa-plus-circle" onclick='addPictureInput();' style="cursor: pointer;"></i>
+            </h1>
         </div>
-
-        <input type="submit" value="สร้างโพสต์" class='btn btn-primary'>
     </div>
 </form>
 {% endblock %}
@@ -127,12 +123,11 @@
             locale: 'th',
         });
 
+        let pictures = []
+
         function addPictureInput(event){
 
             // ID : TOTAL_FORMS = "id_form-TOTAL_FORMS"
-            // ID : INITIAL_FORMS = "id_form-INITIAL_FORMS"
-            // ID : MIN_NUM_FORMS = "id_form-MIN_NUM_FORMS"
-            // ID : MAX_NUM_FORMS = "id_form-MAX_NUM_FORMS"
 
             let total_forms = $('#id_form-TOTAL_FORMS');
 
@@ -148,15 +143,9 @@
             inp.setAttribute('accept', 'image/*')
             inp.setAttribute('id', id)
 
-            let label = document.createElement('label')
-            label.setAttribute('class', 'custom-file-label')
-            label.setAttribute('for', id)
-            label.innerHTML = 'อัพโหลดไฟล์'
-
             // append
 
             div.append(inp)
-            div.append(label)
 
             div.style.display = 'none'
 
@@ -164,34 +153,102 @@
             inp.addEventListener('change', function(){
                 /* if user upload picture */
                 total_forms.val(parseInt(total_forms.val()) + 1)
-                $('#pictures').append(div);
+                $('#pictures').append(div) // append hidden div
+                pictures.push(div)
 
-                /* <div class="col-md">
-                    <img src="{% static 'images/close.png' %}" alt="" class='img-fluid'>
-                </div> */
-
+                /* <div class="col-md-3 my-3"> */
                 let col = document.createElement('div')
-                col.setAttribute('class', 'col-md-3 mb-3')
+                col.setAttribute('class', 'col-md-3 my-3')
 
+                /* <div class="card h-100 w-100 text-dark mycard" style='border:none;'> */
+                let card = document.createElement('div')
+                card.setAttribute('class', 'card h-100 w-100 text-dark mycard')
+                card.style.border = 'none'
+
+                /* <span style="cursor: pointer;"> */
+                let span = document.createElement('span')
+                span.style.cursor = 'pointer'
+
+                /* if user undo upload */
+                span.addEventListener('click', function(){
+                    let custom_file = this.parentElement.parentElement.previousElementSibling // div custom-file
+                    let preview_card = this.parentElement.parentElement
+
+
+                    total_forms.val(parseInt(total_forms.val()) - 1)
+
+
+                    let pointer = custom_file
+                    while (pointer.nextElementSibling.nextElementSibling){
+                        pointer = pointer.nextElementSibling.nextElementSibling
+
+                        let hidden = pointer.children[0] // hidden input
+                        let old_id = hidden.getAttribute('id')
+                        let new_id = 'form-' + (parseInt(old_id.slice(old_id.indexOf('-') + 1, old_id.indexOf('-', old_id.indexOf('-') + 1))) - 1) + '-picture'
+                        hidden.setAttribute('name', new_id)
+                        hidden.setAttribute('id', new_id)
+                    }
+
+                    custom_file.remove()
+                    preview_card.remove() // delete preview_card
+
+                    refreshPreviewCardImg()
+                })
+
+                /* <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'> */
+                let close = document.createElement('img')
+                close.setAttribute('src', "{% static 'images/close.png' %}")
+                close.setAttribute('class', 'top-right-btn')
+                close.setAttribute('width', '35px')
+
+                /* <div class="card h-100 w-100 mb-0 text-dark"> */
+                let card_inside = document.createElement('div')
+                card_inside.setAttribute('class', 'card h-100 w-100 mb-0 text-dark')
+
+                /* <div class="wrapper"> */
+                let wrapper = document.createElement('div')
+                wrapper.setAttribute('class', 'wrapper')
+
+                /* <img class="card-img-top" src="{{ user_upload_picture }}"> */
                 let img = document.createElement('img')
-                img.setAttribute('class', 'img-fluid')
-                img.setAttribute('width', '100%')
+                img.setAttribute('class', 'card-img-top')
 
                 // read URL of image and set it to img:src (for preview before upload)
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
-                        img.setAttribute('src', e.target.result);
+                        img.setAttribute('src', e.target.result); // display upload img
+                        refreshPreviewCardImg();
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
 
-                // append
-                col.append(img)
-                $('#preview_pictures').append(col)
+                // Append
+                wrapper.append(img)
+                card_inside.append(wrapper)
+
+                span.append(close)
+
+                card.append(span)
+                card.append(card_inside)
+
+                col.append(card)
+
+                $('#pictures').append(col)
             })
             inp.click();
 
+        }
+
+        function refreshPreviewCardImg(){
+            /* display first img to card */
+            try{
+                let photo = document.getElementById('pictures').querySelector('.col-md-3.my-3').firstElementChild.lastElementChild.firstElementChild.firstElementChild
+                $('#picture_preview').attr('src', photo.getAttribute('src'));
+            }
+            catch(e){
+                $('#picture_preview').attr('src', "{% static 'images/post_default.png' %}");
+            }
         }
 
         /* Bind: title */
