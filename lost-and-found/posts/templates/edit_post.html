@@ -7,86 +7,91 @@
 
 
 {% block content %}
-    <div class='container'>
-        <div class='row'>
-            <div class="container mt-4">
-                <div class="row">
-                    <div class="col-md-8">
-                        {% if key_error %}
-                            {{ key_error }}
-                        {% endif %}
-                            {% csrf_token %}
-                            <div class="form-row">
-                                {% for each_form in form %}
-                                    <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
-                                        <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                        {% if forloop.counter0 == 5 %}
-                                            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+    <form action='/edit_post/success/{{ id_of_post }}/' method='POST'>
+        {% csrf_token %}
+        <div class='container'>
+            <div class='row'>
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            {% if key_error %}
+                                {{ key_error }}
+                            {% endif %}
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    {% for each_form in form %}
+                                        <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
+                                            <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                            {% if forloop.counter0 == 5 %}
+                                                <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                                                    {{ each_form }}
+                                                    <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                                    {{ each_form.errors }}
+                                                    <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
                                                 {{ each_form }}
                                                 <small class="form-text text-muted"> {{ each_form.help_text }} </small>
                                                 {{ each_form.errors }}
-                                                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
-                                                </div>
-                                            </div>
-                                        {% else %}
-                                            {{ each_form }}
-                                            <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                                            {{ each_form.errors }}
-                                        {% endif %}
-                                    </div>
-
-                                    {% if forloop.counter0 == 0 and not user.is_authenticated %}
-                                        <div class="form-group col-md-6">
-                                            <label for='id_key'>คีย์</label>
-                                            <input type="text" name='key' class='form-control' id='id_key' required>
-                                            <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
+                                            {% endif %}
                                         </div>
-                                    {% endif %}
-                                {% endfor %}
 
-                                <div class="form-group col-md-6">
-                                    <input class='btn btn-primary' type="submit" value="แก้ไขโพสต์">
+                                        {% if forloop.counter0 == 0 and not user.is_authenticated %}
+                                            <div class="form-group col-md-6">
+                                                <label for='id_key'>คีย์</label>
+                                                <input type="text" name='key' class='form-control' id='id_key' required>
+                                                <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <div class="form-group col-md-6">
+                                        <input class='btn btn-primary' type="submit" value="แก้ไขโพสต์">
+                                    </div>
                                 </div>
-                            </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card w-100 text-dark mycard">
-                            <div class="wrapper">
-                                <img class="card-img-top" src="{% static 'images/post_default.gif' %}" id="picture_preview">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <b id='title'>ชื่อโพสต์</b>
-                                </h5>
-                                <p class="card-text">
-                                    <p id='desc'>รายละเอียด</p>
-                                    <p id='location'>สถานที่</p>
-                                    <p id='date_time'>วันที่</p>
-                                    <p id='assetType'>ประเภท</p>
-                                </p>
-                            </div>
-                            <div class="container mb-3 ml-1">
-                                <p class="card-text">
-                                    <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">
-                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
-                                    <br>
-                                    <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
-                                    <br>
-                                    <b>โดย : </b> {{ request.user }}
-                                </small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card w-100 text-dark mycard">
+                                <div class="wrapper">
+                                    <img class="card-img-top" src="{% static 'images/post_default.gif' %}" id="picture_preview">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <b id='title'>ชื่อโพสต์</b>
+                                    </h5>
+                                    <p class="card-text">
+                                        <p id='desc'>รายละเอียด</p>
+                                        <p id='location'>สถานที่</p>
+                                        <p id='date_time'>วันที่</p>
+                                        <p id='assetType'>ประเภท</p>
+                                    </p>
+                                </div>
+                                <div class="container mb-3 ml-1">
+                                    <p class="card-text">
+                                        <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">
+                                        <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
+                                        <br>
+                                        <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
+                                        <br>
+                                        <b>โดย : </b> {{ request.user }}
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
+    </form>
+
+    {{ edit }}
 
 {% endblock %}
 

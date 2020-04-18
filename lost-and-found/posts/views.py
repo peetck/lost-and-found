@@ -4,6 +4,7 @@ from .models import Post, PostPicture
 from django.views import View
 from django.forms import formset_factory
 
+
 # Create your views here.
 
 class IndexView(View):
@@ -93,8 +94,21 @@ class EditPostView(View):
 
         
         return render(request, self.template_name, {
-            'form' : form
+            'form' : form,
+            'id_of_post': post_id
         })
+        
+    def post(self, request, post_id):
+        
+        get_post = Post.objects.get(id=post_id)
+        form = PostForm(request.POST, instance=get_post)
+        
+        if form.is_valid():
+            
+            form.save()
+            
+            return redirect('edit_post', post_id=post_id)
+        
 
 
 def delete_view(request, post_id):
