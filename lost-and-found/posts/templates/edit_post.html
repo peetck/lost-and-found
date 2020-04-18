@@ -7,7 +7,7 @@
 
 
 {% block content %}
-    <form action='/edit_post/success/{{ id_of_post }}/' method='POST'>
+    <form action="{% url 'edit_post' post_id %}" method='POST'>
         {% csrf_token %}
         <div class='container'>
             <div class='row'>
