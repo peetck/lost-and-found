@@ -87,7 +87,7 @@
 
         </div>
     </div>
-    
+
 {% endblock %}
 
 
@@ -115,6 +115,7 @@
         /* initial datetime picker */
         $('#datetimepicker').datetimepicker({
             locale: 'th',
+            date : $('#id_date_time').val() // get date from post object
         });
 
         let pictures = []
