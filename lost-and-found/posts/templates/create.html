@@ -7,6 +7,7 @@
 {% block content %}
 
 <form action="{% url 'create' %}" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
     <div class="container">
         <h1 class='mt-2'>สร้างโพสต์ <i class="fas fa-archive"></i> </h1>
         <div class="row">
@@ -16,40 +17,43 @@
                         {% if key_error %}
                             {{ key_error }}
                         {% endif %}
-                            {% csrf_token %}
-                            <div class="form-row">
-                                {% for each_form in form %}
-                                    <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
-                                        <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                        {% if forloop.counter0 == 5 %}
-                                            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                                                {{ each_form }}
-                                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
-                                                {{ each_form.errors }}
-                                                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
-                                                </div>
-                                            </div>
-                                        {% else %}
+                        <div class="form-row">
+                            {% for each_form in form %}
+                                <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    {% if forloop.counter0 == 5 %}
+                                        <div class="input-group date" id="datetimepicker" data-target-input="nearest">
                                             {{ each_form }}
                                             <small class="form-text text-muted"> {{ each_form.help_text }} </small>
                                             {{ each_form.errors }}
-                                        {% endif %}
-                                    </div>
-
-                                    {% if forloop.counter0 == 0 and not user.is_authenticated %}
-                                        <div class="form-group col-md-6">
-                                            <label for='id_key'>คีย์</label>
-                                            <input type="text" name='key' class='form-control' id='id_key' required>
-                                            <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
+                                            <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                            </div>
                                         </div>
+                                    {% else %}
+                                        {{ each_form }}
+                                        <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                        {{ each_form.errors }}
                                     {% endif %}
-                                {% endfor %}
+                                </div>
 
-                                <div class="form-group col-md-6">
-                                    <input class='btn btn-primary' type="submit" value="สร้างโพสต์">
+                                {% if forloop.counter0 == 0 and not user.is_authenticated %}
+                                    <div class="form-group col-md-6">
+                                        <label for='id_key'>คีย์</label>
+                                        <input type="text" name='key' class='form-control' id='id_key' required>
+                                        <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            <div class="form-group col-md-6">
+                                <label>อัพโหลดรูปภาพ</label>
+                                <div class="custom-file">
+                                    <p type="file" class='custom-file-input' onclick="addPictureInput();" style="cursor: pointer;"></p>
+                                    <label class="custom-file-label" for="avatar">เพิ่มรูปภาพ</label>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card w-100 text-dark mycard">
@@ -86,13 +90,21 @@
                 </div>
             </div>
         </div>
-        <div class="row my-3 border border-dark jumbotron" id='pictures'>
+
+        <h1 class='mt-3'>รูปภาพของโพสต์ <i class="fas fa-image"></i> </h1>
+        <div class="row mt-5 mb-4 jumbotron border border-dark" id='pictures'>
             {{ formset.management_form }}
             <!-- Picture that upload'll be here -->
-            <h1 class='col-12 text-center mb-5'>
-                อัพโหลดรูปภาพ <i class="fa fa-plus-circle" onclick='addPictureInput();' style="cursor: pointer;"></i>
+
+            <h1 class="col-12 text-center" id='no-upload'>
+                ไม่มีรูปภาพที่อัพโหลด
+                <br>
+                <i class="fas fa-not-equal mt-3"></i>
             </h1>
+
         </div>
+
+        <input type="submit" value="สร้างโพสต์" class="btn btn-lg btn-block btn-primary mb-5">
     </div>
 </form>
 {% endblock %}
@@ -152,6 +164,8 @@
 
             inp.addEventListener('change', function(){
                 /* if user upload picture */
+                document.getElementById('no-upload').style.display = 'none'
+
                 total_forms.val(parseInt(total_forms.val()) + 1)
                 $('#pictures').append(div) // append hidden div
                 pictures.push(div)
@@ -248,6 +262,7 @@
             }
             catch(e){
                 $('#picture_preview').attr('src', "{% static 'images/post_default.png' %}");
+                document.getElementById('no-upload').style.display = ''
             }
         }
 
