@@ -1,7 +1,290 @@
 {% extends 'base_layout.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
+{% endblock %}
+
 
 {% block content %}
-    <h1>แก้ไขโพสต์</h1>
+    <div class='container'>
+        <div class='row'>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        {% if key_error %}
+                            {{ key_error }}
+                        {% endif %}
+                            {% csrf_token %}
+                            <div class="form-row">
+                                {% for each_form in form %}
+                                    <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
+                                        <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                        {% if forloop.counter0 == 5 %}
+                                            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                                                {{ each_form }}
+                                                <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                                {{ each_form.errors }}
+                                                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            {{ each_form }}
+                                            <small class="form-text text-muted"> {{ each_form.help_text }} </small>
+                                            {{ each_form.errors }}
+                                        {% endif %}
+                                    </div>
 
-    <h3> {{ post }}</h3>
+                                    {% if forloop.counter0 == 0 and not user.is_authenticated %}
+                                        <div class="form-group col-md-6">
+                                            <label for='id_key'>คีย์</label>
+                                            <input type="text" name='key' class='form-control' id='id_key' required>
+                                            <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <div class="form-group col-md-6">
+                                    <input class='btn btn-primary' type="submit" value="แก้ไขโพสต์">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{% static 'images/post_default.png' %}" id="picture_preview">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b id='title'>ชื่อโพสต์</b>
+                                </h5>
+                                <p class="card-text">
+                                    <p id='desc'>รายละเอียด</p>
+                                    <p id='location'>สถานที่</p>
+                                    <p id='date_time'>วันที่</p>
+                                    <p id='assetType'>ประเภท</p>
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
+                                    <br>
+                                    <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
+                                    <br>
+                                    <b>โดย : </b> {{ request.user }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+{% endblock %}
+
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tempus.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
+
+    <script>
+        /* Make datetime picker use Font Awesome 5 */
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default,{
+            icons: {
+                time: 'fas fa-clock',
+                date: 'fas fa-calendar-alt',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check-o',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
+        });
+
+        /* initial datetime picker */
+        $('#datetimepicker').datetimepicker({
+            locale: 'th',
+        });
+
+        let pictures = []
+
+        function addPictureInput(event){
+
+            // ID : TOTAL_FORMS = "id_form-TOTAL_FORMS"
+
+            let total_forms = $('#id_form-TOTAL_FORMS');
+
+            let id = 'form-' + (parseInt(total_forms.val())) + '-picture'
+
+            let div = document.createElement('div')
+            div.setAttribute('class', 'custom-file')
+
+            let inp = document.createElement('input')
+            inp.setAttribute('type', 'file')
+            inp.setAttribute('name', id)
+            inp.setAttribute('class', 'custom-file-input')
+            inp.setAttribute('accept', 'image/*')
+            inp.setAttribute('id', id)
+
+            // append
+
+            div.append(inp)
+
+            div.style.display = 'none'
+
+
+            inp.addEventListener('change', function(){
+                /* if user upload picture */
+                total_forms.val(parseInt(total_forms.val()) + 1)
+                $('#pictures').append(div) // append hidden div
+                pictures.push(div)
+
+                /* <div class="col-md-3 my-3"> */
+                let col = document.createElement('div')
+                col.setAttribute('class', 'col-md-3 my-3')
+
+                /* <div class="card h-100 w-100 text-dark mycard" style='border:none;'> */
+                let card = document.createElement('div')
+                card.setAttribute('class', 'card h-100 w-100 text-dark mycard')
+                card.style.border = 'none'
+
+                /* <span style="cursor: pointer;"> */
+                let span = document.createElement('span')
+                span.style.cursor = 'pointer'
+
+                /* if user undo upload */
+                span.addEventListener('click', function(){
+                    let custom_file = this.parentElement.parentElement.previousElementSibling // div custom-file
+                    let preview_card = this.parentElement.parentElement
+
+
+                    total_forms.val(parseInt(total_forms.val()) - 1)
+
+
+                    let pointer = custom_file
+                    while (pointer.nextElementSibling.nextElementSibling){
+                        pointer = pointer.nextElementSibling.nextElementSibling
+
+                        let hidden = pointer.children[0] // hidden input
+                        let old_id = hidden.getAttribute('id')
+                        let new_id = 'form-' + (parseInt(old_id.slice(old_id.indexOf('-') + 1, old_id.indexOf('-', old_id.indexOf('-') + 1))) - 1) + '-picture'
+                        hidden.setAttribute('name', new_id)
+                        hidden.setAttribute('id', new_id)
+                    }
+
+                    custom_file.remove()
+                    preview_card.remove() // delete preview_card
+
+                    refreshPreviewCardImg()
+                })
+
+                /* <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'> */
+                let close = document.createElement('img')
+                close.setAttribute('src', "{% static 'images/close.png' %}")
+                close.setAttribute('class', 'top-right-btn')
+                close.setAttribute('width', '35px')
+
+                /* <div class="card h-100 w-100 mb-0 text-dark"> */
+                let card_inside = document.createElement('div')
+                card_inside.setAttribute('class', 'card h-100 w-100 mb-0 text-dark')
+
+                /* <div class="wrapper"> */
+                let wrapper = document.createElement('div')
+                wrapper.setAttribute('class', 'wrapper')
+
+                /* <img class="card-img-top" src="{{ user_upload_picture }}"> */
+                let img = document.createElement('img')
+                img.setAttribute('class', 'card-img-top')
+
+                // read URL of image and set it to img:src (for preview before upload)
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.setAttribute('src', e.target.result); // display upload img
+                        refreshPreviewCardImg();
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+
+                // Append
+                wrapper.append(img)
+                card_inside.append(wrapper)
+
+                span.append(close)
+
+                card.append(span)
+                card.append(card_inside)
+
+                col.append(card)
+
+                $('#pictures').append(col)
+            })
+            inp.click();
+
+        }
+
+        function refreshPreviewCardImg(){
+            /* display first img to card */
+            try{
+                let photo = document.getElementById('pictures').querySelector('.col-md-3.my-3').firstElementChild.lastElementChild.firstElementChild.firstElementChild
+                $('#picture_preview').attr('src', photo.getAttribute('src'));
+            }
+            catch(e){
+                $('#picture_preview').attr('src', "{% static 'images/post_default.png' %}");
+            }
+        }
+
+        /* Bind: title */
+        $("#id_title").on('input', function () {
+            var text = $("#id_title").val();
+            $("#title").html(text);
+        });
+
+        /* Bind: desc */
+        $("#id_desc").on('input', function () {
+            var text = $("#id_desc").val();
+            $("#desc").html(text);
+        });
+
+        /* Bind: location */
+        $("#id_location").on('input', function () {
+            var text = $("#id_location").val();
+            $("#location").html(text);
+        });
+
+        /* Bind: date_time */
+        $("#datetimepicker").on('change.datetimepicker', function (e) {
+            $("#date_time").html($("#datetimepicker").find("input").val());
+        });
+
+        /* Bind: contact1 */
+        $("#id_contact1").on('input', function () {
+            var text = $("#id_contact1").val();
+            $("#contact1").html(text);
+        });
+
+        /* Bind: contact2 */
+        $("#id_contact2").on('input', function () {
+            var text = $("#id_contact2").val();
+            $("#contact2").html(text);
+        });
+
+        /* Bind: assetType */
+        $("#id_assetType").on('change', function () {
+            var text = $("#id_assetType").find(":selected").text();
+            $("#assetType").html(text);
+        });
+
+    </script>
 {% endblock %}

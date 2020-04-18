@@ -89,10 +89,13 @@ class EditPostView(View):
 
     def get(self, request, post_id):
         post = Post.objects.get(id=post_id)
+        form = PostForm(instance=post)
 
+        
         return render(request, self.template_name, {
-            'post' : post
+            'form' : form
         })
+
 
 def delete_view(request, post_id):
     post = Post.objects.get(id=post_id)
