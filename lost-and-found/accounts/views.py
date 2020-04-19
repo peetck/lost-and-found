@@ -101,12 +101,14 @@ class MyPostView(View):
         key = request.POST.get('key')
         try:
             post = Post.objects.get(key=key)
+            return render(request, self.template_name, {
+                'posts' : [post]
+            })
         except:
-            post = []
-
-        return render(request, self.template_name, {
-            'posts' : [post]
-        })
+            return render(request, self.template_name, {
+                'posts' : 'key',
+                'key_error' : 'ไม่มีโพสต์นี้ในระบบ'
+            })
 
 class ProfileView(View):
     template_name = 'profile.html'
