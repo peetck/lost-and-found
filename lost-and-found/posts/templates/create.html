@@ -65,20 +65,23 @@
                                     <b id='title'>ชื่อโพสต์</b>
                                 </h5>
                                 <p class="card-text">
-                                    <p id='desc'>รายละเอียด</p>
-                                    <p id='location'>สถานที่</p>
-                                    <p id='date_time'>วันที่</p>
-                                    <p id='assetType'>ประเภท</p>
+                                    <p id='desc'>รายละเอียดต่างๆ เช่น คุณลักษณะเป็นยังไง เป็นต้น</p>
                                 </p>
                             </div>
                             <div class="container mb-3 ml-1">
                                 <p class="card-text">
-                                    <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
+                                    <span class="badge badge-pill badge-success" id='type'>เจอของหาย</span>
                                 </p>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">
-                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
+                                    <b>ประเภทของสิ่งของ : </b><span id='assetType'>---------</span>
+                                    <br>
+                                    <b>สถานที่ : </b><span id='location'>สถานที่</span>
+                                    <br>
+                                    <b>วันและเวลา : </b><span id='date_time'>{% now "d/m/Y H:i" %}</span>
+                                    <br>
+                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'>xxx-xxx-xxxx</span>
                                     <br>
                                     <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
                                     <br>
@@ -115,6 +118,15 @@
     <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
 
     <script>
+
+        /* truncatechars function */
+        function truncatechars(text, lim) {
+            if (text.length > lim){
+                return text.substring(0, lim - 1) + "...";
+            }
+            return text;
+        }
+
         /* Make datetime picker use Font Awesome 5 */
         $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default,{
             icons: {
@@ -133,6 +145,7 @@
         /* initial datetime picker */
         $('#datetimepicker').datetimepicker({
             locale: 'th',
+            date: new Date()
         });
 
         let pictures = []
@@ -174,9 +187,9 @@
                 let col = document.createElement('div')
                 col.setAttribute('class', 'col-md-3 my-3')
 
-                /* <div class="card h-100 w-100 text-dark mycard" style='border:none;'> */
+                /* <div class="card w-100 text-dark mycard" style='border:none;'> */
                 let card = document.createElement('div')
-                card.setAttribute('class', 'card h-100 w-100 text-dark mycard')
+                card.setAttribute('class', 'card w-100 text-dark mycard')
                 card.style.border = 'none'
 
                 /* <span style="cursor: pointer;"> */
@@ -268,13 +281,13 @@
 
         /* Bind: title */
         $("#id_title").on('input', function () {
-            var text = $("#id_title").val();
+            var text = truncatechars($("#id_title").val(), 20);
             $("#title").html(text);
         });
 
         /* Bind: desc */
         $("#id_desc").on('input', function () {
-            var text = $("#id_desc").val();
+            var text = truncatechars($("#id_desc").val(), 50);
             $("#desc").html(text);
         });
 
@@ -305,6 +318,18 @@
         $("#id_assetType").on('change', function () {
             var text = $("#id_assetType").find(":selected").text();
             $("#assetType").html(text);
+        });
+
+        /* Bind: type */
+        $("#id_type").on('change', function () {
+            var text = $("#id_type").find(":selected").text();
+            $("#type").html(text);
+            if (text == 'เจอของหาย'){
+                $("#type").attr('class', 'badge badge-pill badge-success')
+            }
+            else{
+                $("#type").attr('class', 'badge badge-pill badge-danger')
+            }
         });
 
     </script>

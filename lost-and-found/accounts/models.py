@@ -14,3 +14,6 @@ class UserProfile(models.Model):
     avatar = models.ImageField(default='accounts/user_default.gif', upload_to='accounts/') # Picture of user
     user = models.OneToOneField(User, on_delete=models.CASCADE) # reference to User Table
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE) # reference to Faculty Table
+
+    def __str__(self):
+        return self.user.username

@@ -2,45 +2,73 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views import View
 from .models import Message
-
+from .serializers import MessageSerializer
 from django.http import JsonResponse
 import json
 
 # Create your views here.
 
 def chat_api(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         users = User.objects.all()
         data = []
         for user in users:
             if user == request.user:
                 continue
-            sends = user.chat.message_set.all()
-            gets = Message.objects.filter(to=user)
+            sends = request.user.chat.message_set.filter(to=user).order_by('-timestamp')
+            gets = Message.objects.filter(chat=user.chat, to=request.user).order_by('-timestamp')
+
+            print(sends, gets)
+
+            message = ''
+            datetime = ''
 
             if len(sends) != 0 and len(gets) != 0:
-                last_send_msg = sends.order_by('-timestamp')[0]
-                last_get_msg = gets.order_by('-timestamp')[0]
-                if last_send_msg.timestamp > last_get_msg.timestamp:
-                    message = last_send_msg.message
-                    datetime = last_send_msg.timestamp
+                if sends[0].timestamp > gets[0].timestamp:
+                    message = sends[0].message
+                    datetime = sends[0].timestamp
                 else:
-                    message = last_get_msg.message
-                    datetime = last_get_msg.timestamp
+                    message = gets[0].message
+                    datetime = gets[0].timestamp
             elif len(sends) != 0:
-                last_send_msg = sends.order_by('-timestamp')[0]
-                message = last_send_msg.message
-                datetime = last_send_msg.timestamp
+                message = sends[0].message
+                datetime = sends[0].timestamp
             elif len(gets) != 0:
-                last_get_msg = gets.order_by('-timestamp')[0]
-                message = last_get_msg.message
-                datetime = last_get_msg.timestamp
-            else:
-                message = ''
-                datetime = ''
-            data.append([user.username, message, datetime, user.userprofile.avatar.url, user.id])
+                message = gets[0].message
+                datetime = gets[0].timestamp
 
-        return JsonResponse({'users' : data})
+            data.append([user.username, message, datetime, user.userprofile.avatar.url, user.id])
+        return JsonResponse(data, safe=False)
+
+def message_api(request, user_id):
+    if request.method == 'GET':
+        user = User.objects.get(id=user_id)
+
+        # get conversation msg
+
+        sends = request.user.chat.message_set.filter(to=user).order_by('timestamp')
+        gets = Message.objects.filter(chat=user.chat, to=request.user).order_by('timestamp')
+
+        sends_serializer = MessageSerializer(sends, many=True)
+        gets_serializer = MessageSerializer(gets, many=True)
+        # return
+        return JsonResponse({
+            'sends' : sends_serializer.data,
+            'gets' : gets_serializer.data
+            })
+    if request.method == 'POST':
+        user = User.objects.get(id=user_id)
+
+        data = json.loads(request.body)
+
+        message = Message.objects.create(
+            message=data.get('message'),
+            seen=False,
+            chat=request.user.chat,
+            to=user
+        )
+
+        return JsonResponse(MessageSerializer(message).data)
 
 class ChatIndexView(View):
     template_name = 'chat_index.html'

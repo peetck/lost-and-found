@@ -64,58 +64,65 @@
     {% endif %}
     <div class="container">
         {% if posts == 'key' %}
-        <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
-        <form action="{% url 'my_posts' %}" method="POST">
-            {% csrf_token %}
-            <input type="text" name="key">
-            <input type="submit" value="ยืนยัน">
-        </form>
+            <h2>กรุณากรอก key เพื่อจัดการกระทู้ของคุณ</h2>
+            <form action="{% url 'my_posts' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="key">
+                <input type="submit" value="ยืนยัน">
+            </form>
         {% else %}
         <div class="row">
             {% if posts|length == 0 %}
-            <div class='col-lg-12 jumbotron text-center border border-dark'>
-                <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                <h4>ไม่มีโพสต์ที่คุณเคยสร้าง</h4>
-            </div>
+                <div class='col-lg-12 jumbotron text-center border border-dark'>
+                    <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                    <h4>ไม่มีโพสต์ที่คุณเคยสร้าง</h4>
+                </div>
             {% endif %}
             {% for post in posts %}
-            <div class='col-lg-3 my-3'>
-                <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
-                    <a href="{% url 'post_delete' post.id %}">
-                        <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'>
-                    </a>
-                    <a class="card h-100 w-100 mb-0 text-decoration-none text-dark"
-                        href="{% url 'edit_post' post.id %}">
-                        <div class="wrapper">
-                            <img class="card-img-top" src="#">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <b>{{ post.title|truncatechars:25 }}</b>
-                            </h5>
-                            <p class="card-text">
-                                <p>{{ post.desc|truncatechars:20 }}</p>
-                                <p>{{ post.location }}</p>
-                                <p>{{ post.date_time }}</p>
-                            </p>
-                        </div>
-                        <div class="container mb-3 ml-1">
-                            <p class="card-text">
-                                {% if post.type == 'found' %}
-                                <span class="badge badge-pill badge-success text-light">Found</span>
-                                {% else %}
-                                <span class="badge badge-pill badge-danger text-light">Lost</span>
-                                {% endif %}
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">
-                                <b>โดย : </b> {{ post.user }}
-                            </small>
-                        </div>
-                    </a>
+                <div class='col-lg-3 my-3'>
+                    <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
+                        <a href="{% url 'post_delete' post.id %}">
+                            <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'>
+                        </a>
+                        <a class="card h-100 w-100 mb-0 text-decoration-none text-dark" href="{% url 'edit_post' post.id %}">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b>{{ post.title|truncatechars:20 }}</b>
+                                </h5>
+                                <p class="card-text">
+                                    <p>{{ post.desc|truncatechars:50 }}</p>
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    {% if post.type == 'found' %}
+                                        <span class="badge badge-pill badge-success text-light">เจอของหาย</span>
+                                    {% else %}
+                                        <span class="badge badge-pill badge-danger text-light">ตามหาของ</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
+                                    <br>
+                                    <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
+                                    <br>
+                                    <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
+                                    <br>
+                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
+                                    <br>
+                                    <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
+                                    <br>
+                                    <b>โดย : </b> {{ post.user.username }}
+                                </small>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
         {% endif %}

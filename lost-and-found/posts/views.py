@@ -95,7 +95,7 @@ class EditPostView(View):
 
         return render(request, self.template_name, {
             'form' : form,
-            'post_id': post_id
+            'post': post
         })
 
     def post(self, request, post_id):

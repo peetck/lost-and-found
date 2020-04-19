@@ -7,9 +7,10 @@
 
 
 {% block content %}
-    <form action="{% url 'edit_post' post_id %}" method='POST'>
+    <form action="{% url 'edit_post' post.id %}" method='POST'>
         {% csrf_token %}
         <div class='container'>
+            <h1 class='mt-2'>แก้ไขโพสต์ : {{ post }} <i class="fas fa-edit ml-1"></i> </h1>
             <div class='row'>
                 <div class="container mt-4">
                     <div class="row">
@@ -59,27 +60,30 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <b id='title'>ชื่อโพสต์</b>
+                                        <b id='title'>{{ post.title|truncatechars:20 }} </b>
                                     </h5>
                                     <p class="card-text">
-                                        <p id='desc'>รายละเอียด</p>
-                                        <p id='location'>สถานที่</p>
-                                        <p id='date_time'>วันที่</p>
-                                        <p id='assetType'>ประเภท</p>
+                                        <p id='desc'>{{ post.desc|truncatechars:50 }}</p>
                                     </p>
                                 </div>
                                 <div class="container mb-3 ml-1">
                                     <p class="card-text">
-                                        <span class="badge badge-pill badge-success" id='faculty'>เจอของหาย</span>
+                                        <span class="badge badge-pill badge-danger text-light" id='type'>ตามหาของ</span>
                                     </p>
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <b>เบอร์ติดต่อ : </b> <span id='contact1'></span>
+                                        <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
                                         <br>
-                                        <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
+                                        <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
                                         <br>
-                                        <b>โดย : </b> {{ request.user }}
+                                        <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
+                                        <br>
+                                        <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
+                                        <br>
+                                        <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
+                                        <br>
+                                        <b>โดย : </b> {{ post.user.username }}
                                     </small>
                                 </div>
                             </div>
@@ -290,6 +294,18 @@
         $("#id_assetType").on('change', function () {
             var text = $("#id_assetType").find(":selected").text();
             $("#assetType").html(text);
+        });
+
+        /* Bind: type */
+        $("#id_type").on('change', function () {
+            var text = $("#id_type").find(":selected").text();
+            $("#type").html(text);
+            if (text == 'เจอของหาย'){
+                $("#type").attr('class', 'badge badge-pill badge-success')
+            }
+            else{
+                $("#type").attr('class', 'badge badge-pill badge-danger')
+            }
         });
 
     </script>
