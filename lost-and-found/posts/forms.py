@@ -7,14 +7,15 @@ class PostForm(forms.ModelForm):
     date_time.widget.attrs = {'class' : 'form-control datetimepicker-input', 'data-target' : '#datetimepicker'}
     class Meta:
         model = Post
-        fields = ['title', 'desc', 'type', 'assetType', 'location', 'date_time', 'contact1', 'contact2']
+        fields = ['is_active','title','desc', 'type', 'assetType', 'date_time','location', 'contact1', 'contact2']
 
         widgets = {
             'desc' : forms.Textarea(attrs={'class' : 'form-control', 'placeholder' : 'รายละเอียดต่างๆ เช่น คุณลักษณะเป็นยังไง เป็นต้น'}),
             'title' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'ชื่อโพสต์'}),
+            'is_active': forms.CheckboxInput(attrs={'class' : ''}),
             'location' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'สถานที่ เช่น ห้องนํ้า เป็นต้น'}),
             'contact1' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'xxx-xxx-xxxx'}),
-            'contact2' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'example@example.com'}),
+            'contact2' : forms.EmailInput(attrs={'class' : 'form-control', 'placeholder' : 'example@example.com'}),
             'type' : forms.Select(attrs={'class' : 'form-control'}),
             'assetType' : forms.Select(attrs={'class' : 'form-control'}),
         }

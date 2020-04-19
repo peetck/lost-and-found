@@ -3,11 +3,13 @@
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
+    
 {% endblock %}
 
 
 {% block content %}
     <form action="{% url 'edit_post' post.id %}" method='POST'>
+    
         {% csrf_token %}
         <div class='container'>
             <h1 class='mt-2'>แก้ไขโพสต์ : {{ post }} <i class="fas fa-edit ml-1"></i> </h1>
