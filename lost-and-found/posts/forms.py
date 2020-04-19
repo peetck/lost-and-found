@@ -23,6 +23,7 @@ class PostForm(forms.ModelForm):
         labels = {
             'desc' : 'รายละเอียด',
             'title' : 'ชื่อโพสต์',
+            'is_active' : 'สภานะโพสต์ เปิด/ปิด',
             'location' : 'สถานที่',
             'contact1' : 'เบอร์ติดต่อ',
             'contact2' : 'อีเมล์',
