@@ -147,6 +147,10 @@
                                     {% else %}
                                         <span class="badge badge-pill badge-danger text-light">ตามหาของ</span>
                                     {% endif %}
+
+                                    {% if post.is_active == False %}
+                                        <span class="badge badge-pill badge-secondary text-light">โพสต์ปิดแล้ว</span>
+                                    {% endif %}
                                 </p>
                             </div>
                             <div class="card-footer">
