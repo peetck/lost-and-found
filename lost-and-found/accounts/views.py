@@ -94,7 +94,8 @@ class MyPostView(View):
         return render(request, self.template_name, {
             'posts' : posts,
             'founds' : founds,
-            'losts' : losts
+            'losts' : losts,
+            'closed' : len(Post.objects.filter(is_active=False))
         })
 
     def post(self, request):

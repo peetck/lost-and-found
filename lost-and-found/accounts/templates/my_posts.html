@@ -70,25 +70,23 @@
                     </div>
                 </div>
                 <div class="col mb-4 rotate-img">
-                            <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="font-weight-bold text-uppercase mb-1">โพสต์ที่ปิดแล้ว</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์ที่ปิดแล้ว</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 {{ closed }}
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-times-circle fa-2x"></i>
-                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-times-circle fa-2x"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+            </div>
         </div>
     </h5>
     {% endif %}
@@ -130,7 +128,11 @@
                         </a>
                         <a class="card h-100 w-100 mb-0 text-decoration-none text-dark" href="{% url 'edit_post' post.id %}">
                             <div class="wrapper">
-                                <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                                {% if post.postpicture_set.all|length == 0 %}
+                                    <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
+                                {% else %}
+                                    <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                                {% endif %}
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">
