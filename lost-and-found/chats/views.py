@@ -24,20 +24,24 @@ def chat_api(request):
                 if sends[0].timestamp > gets[0].timestamp:
                     message = sends[0].message
                     date_time = sends[0].timestamp
+                    seen = True
                 else:
                     message = gets[0].message
                     date_time = gets[0].timestamp
+                    seen = gets[0].seen
             elif len(sends) != 0:
                 message = sends[0].message
                 date_time = sends[0].timestamp
+                seen = True
             elif len(gets) != 0:
                 message = gets[0].message
                 date_time = gets[0].timestamp
+                seen = gets[0].seen
             else:
-                no_message.append([user.username, '', '', user.userprofile.avatar.url, user.id])
+                no_message.append([user.username, '', '', user.userprofile.avatar.url, user.id, ''])
                 continue
 
-            data.append([user.username, message, date_time, user.userprofile.avatar.url, user.id])
+            data.append([user.username, message, date_time, user.userprofile.avatar.url, user.id, seen])
 
         data.sort(key=lambda x : x[2], reverse=True)
         data.extend(no_message)
@@ -51,6 +55,9 @@ def message_api(request, user_id):
 
         sends = request.user.chat.message_set.filter(to=user).order_by('timestamp')
         gets = Message.objects.filter(chat=user.chat, to=request.user).order_by('timestamp')
+
+
+        gets.update(seen=True)
 
         sends_serializer = MessageSerializer(sends, many=True)
         gets_serializer = MessageSerializer(gets, many=True)

@@ -5,7 +5,6 @@ var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oc
 var current = null
 var search = ''
 function initialize(){
-    $('#inbox_chat').html('')
     axios.get('/chats/chat_api/' + '?search=' + search)
         .then(function (response) {
             // handle success
@@ -22,7 +21,8 @@ function initialize(){
                 }
                 url = data[i][3]
                 id = data[i][4]
-                displayUser(username, msg, datetime, url, id);
+                seen = data[i][5]
+                displayUser(username, msg, datetime, url, id, seen);
 
                 if (current === null){
                     select(id, url, username)
@@ -40,7 +40,12 @@ function makeChatHistoryBottom() {
     msg_history.scrollTop = msg_history.scrollHeight - msg_history.clientHeight;
 }
 
-function displayUser(username, msg, datetime, url, id) {
+function displayUser(username, msg, datetime, url, id, seen) {
+
+    if (document.getElementById(id)){
+        document.getElementById(id).remove()
+    }
+
     div1 = document.createElement('div')
 
     div2 = document.createElement('div')
@@ -63,7 +68,11 @@ function displayUser(username, msg, datetime, url, id) {
     h5.innerHTML = '<b>' + username + '</b>' + ' <span class="chat_date">' + datetime + '</span>'
 
     p = document.createElement('p')
-    p.innerHTML = truncatechars(msg, 100)
+    p.innerText = truncatechars(msg, 100)
+    if (!seen && datetime !== 'ไม่มีข้อมูล'){
+        p.setAttribute('class', 'font-weight-bold')
+        h5.innerHTML = '<b>' + username + '</b> ' + '<i class="fas fa-exclamation-circle"></i>' + '<span class="chat_date">' + datetime + '</span>'
+    }
 
     div4.appendChild(h5)
     div4.appendChild(p)
@@ -116,31 +125,36 @@ function getMessage(id) {
             let gets = data.gets
             let sends = data.sends
             let messages = []
+            let seens = []
             let i = 0;
             let j = 0;
             while (i < sends.length && j < gets.length){
                 if (new Date(sends[i].timestamp) < new Date(gets[j].timestamp)){
                     sends[i]['type'] = 'send'
                     messages.push(sends[i])
+                    seens.push(sends[i]['seen'])
                     i++
                 }
                 else{
                     gets[j]['type'] = 'get'
                     messages.push(gets[j])
+                    seens.push(gets[j]['seen'])
                     j++
                 }
             }
             while (i < sends.length){
                 sends[i]['type'] = 'send'
                 messages.push(sends[i])
+                seens.push(sends[i]['seen'])
                 i++
             }
             while (j < gets.length){
                 gets[j]['type'] = 'get'
                 messages.push(gets[j])
+                seens.push(gets[j]['seen'])
                 j++
             }
-            displayMessage(messages, data.url)
+            displayMessage(messages, data.url, seens)
         })
         .catch(function (error) {
             // handle error
@@ -148,16 +162,21 @@ function getMessage(id) {
         })
 }
 
-function displayMessage(messages, url){
+function displayMessage(messages, url, seens){
     let msg_history = document.getElementById('msg_history')
     msg_history.innerHTML = ''
 
     for (let i = 0; i < messages.length; i++){
         let message = messages[i]
+        let seen = seens[i]
 
         if (message.type == 'send'){
             let div = createOutGoingMessage(message)
             msg_history.append(div)
+
+            if (seen) {
+                div.querySelector('.time_date').innerText += ' (อ่านแล้ว) '
+            }
         }
         else if (message.type == 'get'){
             let div = createInComingMessage(message, url)
@@ -294,8 +313,13 @@ $('#send_message_btn').on('click', function(){
 
 $('#search_user').on('keyup', function(e){
     search = e.currentTarget.value;
+    $('#inbox_chat').html('')
     initialize();
 })
 
 
 initialize();
+
+setInterval(function(){
+    getMessage(current);
+}, 1000)
