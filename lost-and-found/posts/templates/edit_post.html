@@ -3,13 +3,13 @@
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
-    
+
 {% endblock %}
 
 
 {% block content %}
     <form action="{% url 'edit_post' post.id %}" method='POST'>
-    
+
         {% csrf_token %}
         <div class='container'>
             <h1 class='mt-2'>แก้ไขโพสต์ : {{ post }} <i class="fas fa-edit ml-1"></i> </h1>
@@ -70,7 +70,11 @@
                                 </div>
                                 <div class="container mb-3 ml-1">
                                     <p class="card-text">
-                                        <span class="badge badge-pill badge-danger text-light" id='type'>ตามหาของ</span>
+                                        {% if post.type == 'found' %}
+                                            <span class="badge badge-pill badge-success text-light" id='type'>เจอของหาย</span>
+                                        {% else %}
+                                            <span class="badge badge-pill badge-danger text-light" id='type'>ตามหาของ</span>
+                                        {% endif %}
                                     </p>
                                 </div>
                                 <div class="card-footer">
