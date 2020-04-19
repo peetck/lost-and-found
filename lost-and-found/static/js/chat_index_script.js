@@ -96,7 +96,10 @@ function select(id, url, username){
 
     current = id
 
-    document.querySelector('.active_chat').setAttribute('class', 'chat_list') // set to not selected
+    let active = document.querySelector('.active_chat')
+    if (active){
+        active.setAttribute('class', 'chat_list') // set to not selected
+    }
     document.getElementById(current).firstElementChild.setAttribute('class', 'chat_list active_chat') // selected
 
     document.getElementById('chat_to_name').innerText = username
