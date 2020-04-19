@@ -21,6 +21,17 @@
                                 {{ key_error }}
                             {% endif %}
                                 {% csrf_token %}
+                                {% if post.is_active == True %}
+                               <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="ifTrue" value="True" checked>
+                                    <label class="custom-control-label" for="ifTrue">สถานะของโพสต์ : เปิด</label>
+                                </div><br>
+                            {% else %}
+                            <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="ifTrue" value="True" disabled >
+                                    <label class="custom-control-label" for="ifTrue">สถานะของโพสต์ : โพสต์ปิดแล้ว</label>
+                                </div><br>
+                            {% endif %}
                                 <div class="form-row">
                                     {% for each_form in form %}
                                         <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">

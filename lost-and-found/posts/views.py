@@ -99,8 +99,16 @@ class EditPostView(View):
         })
 
     def post(self, request, post_id):
+        
+        
 
         get_post = Post.objects.get(id=post_id)
+        if request.POST.get('ifTrue'):
+            get_post.is_active = True
+            get_post.save()
+        else:
+            get_post.is_active = False
+            get_post.save()
         form = PostForm(request.POST, instance=get_post)
 
         if form.is_valid():
