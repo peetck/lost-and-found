@@ -7,7 +7,7 @@ class PostForm(forms.ModelForm):
     date_time.widget.attrs = {'class' : 'form-control datetimepicker-input', 'data-target' : '#datetimepicker'}
     class Meta:
         model = Post
-        fields = ['title','desc', 'type', 'assetType', 'date_time','location', 'contact1', 'contact2']
+        fields = ['title','desc', 'type', 'assetType', 'location','date_time', 'contact1', 'contact2']
 
         widgets = {
             'desc' : forms.Textarea(attrs={'class' : 'form-control', 'placeholder' : 'รายละเอียดต่างๆ เช่น คุณลักษณะเป็นยังไง เป็นต้น'}),
