@@ -94,6 +94,11 @@ img {
     background: #ebebeb;
 }
 
+.incoming_msg{
+    overflow: hidden;
+    margin: 26px 0 26px;
+}
+
 .incoming_msg_img {
     display: inline-block;
     width: 6%;
@@ -113,7 +118,7 @@ img {
     font-size: 14px;
     margin: 0;
     padding: 5px 10px 5px 12px;
-    width: 100%;
+    width: 85%;
 }
 
 .time_date {
@@ -179,7 +184,13 @@ img {
 }
 
 .msg_history {
-    height: 90%;
+    position: relative;
+    top: 12%;
+    height: 80%;
     overflow-y: auto;
 }
 
+#input_message_box{
+    position: relative;
+    top: 7%
+}

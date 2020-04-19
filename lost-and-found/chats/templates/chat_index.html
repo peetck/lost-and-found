@@ -18,7 +18,7 @@
                     <div class="srch_bar mt-2">
                         <div class="form-group">
                             <div class="input-group">
-                                <input type='text' class='form-control' placeholder="ค้นหาผู้ใช้งาน">
+                                <input id='search_user' type='text' class='form-control' placeholder="ค้นหาผู้ใช้งาน">
                                 <span class="input-group-append" id='password_see'>
                                     <span class="input-group-text">
                                         <i id='password-eye' class="fa fa-search"></i>
@@ -33,10 +33,16 @@
                 </div>
             </div>
             <div class="mesgs">
+                <div class="container-fluid p-0 m-0" style="position: fixed;">
+                    <img class='rounded-circle' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
+                    <span class='h5 ml-3' id='chat_to_name'> ------ </span>
+                    <hr>
+                </div>
                 <div class="msg_history" id='msg_history'>
                     <!-- Chat Messages (History) -->
+
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group mt-5" id='input_message_box'>
                     <div class="input-group">
                         <input type="text" class='form-control' id='send_message_input'>
                         <div class="input-group-append" style='cursor: pointer;'>

@@ -1,16 +1,15 @@
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-current = null
-
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+var current = null
+var search = ''
 function initialize(){
-
-    axios.get('/chats/chat_api/')
+    $('#inbox_chat').html('')
+    axios.get('/chats/chat_api/' + '?search=' + search)
         .then(function (response) {
             // handle success
             data = response.data;
-            console.log(data)
             for (var i = 0; i < data.length; i++) {
                 username = data[i][0]
                 msg = data[i][1]
@@ -23,10 +22,10 @@ function initialize(){
                 }
                 url = data[i][3]
                 id = data[i][4]
-                addUser(username, msg, datetime, url, id);
+                displayUser(username, msg, datetime, url, id);
 
-                if (i == 0){
-                    getMessage(id, url)
+                if (current === null){
+                    select(id, url, username)
                 }
             }
         })
@@ -41,7 +40,7 @@ function makeChatHistoryBottom() {
     msg_history.scrollTop = msg_history.scrollHeight - msg_history.clientHeight;
 }
 
-function addUser(username, msg, datetime, url, id) {
+function displayUser(username, msg, datetime, url, id) {
     div1 = document.createElement('div')
 
     div2 = document.createElement('div')
@@ -64,7 +63,7 @@ function addUser(username, msg, datetime, url, id) {
     h5.innerHTML = '<b>' + username + '</b>' + ' <span class="chat_date">' + datetime + '</span>'
 
     p = document.createElement('p')
-    p.innerHTML = msg
+    p.innerHTML = truncatechars(msg, 100)
 
     div4.appendChild(h5)
     div4.appendChild(p)
@@ -76,15 +75,15 @@ function addUser(username, msg, datetime, url, id) {
 
     inbox_chat = document.getElementById('inbox_chat')
 
-    if (inbox_chat.children.length === 0) {
+    if (current === null || current === id){
         div1.setAttribute('class', 'chat_list active_chat')
     }
-    else {
+    else{
         div1.setAttribute('class', 'chat_list')
     }
 
     span = document.createElement('span')
-    span.setAttribute('onclick', 'getMessage(' + id + ',"' + url + '")')
+    span.setAttribute('onclick', ' select( ' + id + ',"' + url + '",' + '"' + username + '")')
     span.setAttribute('id', id)
     span.style.cursor = 'pointer'
 
@@ -93,13 +92,23 @@ function addUser(username, msg, datetime, url, id) {
     inbox_chat.appendChild(span)
 }
 
-function getMessage(id, url) {
+function select(id, url, username){
+
+    current = id
+
+    document.querySelector('.active_chat').setAttribute('class', 'chat_list') // set to not selected
+    document.getElementById(current).firstElementChild.setAttribute('class', 'chat_list active_chat') // selected
+
+    document.getElementById('chat_to_name').innerText = username
+    document.getElementById('chat_to_img').setAttribute('src', url)
+
+    getMessage(current)
+}
+
+function getMessage(id) {
     axios.get('/chats/message_api/' + id + '/')
         .then(function (response) {
             // handle success
-
-            current = id
-
             data = response.data;
             let gets = data.gets
             let sends = data.sends
@@ -128,7 +137,7 @@ function getMessage(id, url) {
                 messages.push(gets[j])
                 j++
             }
-            displayMessage(messages, url)
+            displayMessage(messages, data.url)
         })
         .catch(function (error) {
             // handle error
@@ -153,6 +162,7 @@ function displayMessage(messages, url){
         }
     }
     makeChatHistoryBottom();
+    initialize()
 }
 
 function createOutGoingMessage(message){
@@ -177,7 +187,7 @@ function createOutGoingMessage(message){
     let span = document.createElement('span')
     span.setAttribute('class', 'time_date')
     let datetime = new Date(message.timestamp)
-    span.innerText = datetime.getHours() + ":" + datetime.getMinutes() + " | " + months[datetime.getMonth()] + " " + datetime.getDate()
+    span.innerText = datetime.getHours() + ":" + ((datetime.getMinutes() < 10 ? '0' : '') + datetime.getMinutes()) + " | " + months[datetime.getMonth()] + " " + datetime.getDate()
 
     // append
     div2.append(p)
@@ -210,6 +220,8 @@ function createInComingMessage(message, url){
 
     let img = document.createElement('img')
     img.setAttribute('src', url)
+    img.setAttribute('style', 'height: 60px; width: 60px;')
+    img.setAttribute('class', 'rounded-circle')
 
     let div3 = document.createElement('div')
     div3.setAttribute('class', 'received_msg')
@@ -224,7 +236,7 @@ function createInComingMessage(message, url){
     let span = document.createElement('span')
     span.setAttribute('class', 'time_date')
     let datetime = new Date(message.timestamp)
-    span.innerText = datetime.getHours() + ":" + datetime.getMinutes() + " | " + months[datetime.getMonth()] + " " + datetime.getDate()
+    span.innerText = datetime.getHours() + ":" + ((datetime.getMinutes() < 10 ? '0' : '') + datetime.getMinutes()) + " | " + months[datetime.getMonth()] + " " + datetime.getDate()
 
     // append
 
@@ -247,15 +259,7 @@ function sendMessage(msg){
     })
         .then(function (response) {
             // send message success
-            let msg_history = document.getElementById('msg_history')
-            let datetime = new Date(response.data.timestamp)
-            msg_history.append(createOutGoingMessage(response.data))
-
-            document.getElementById(current).firstElementChild.firstElementChild.lastElementChild.lastElementChild.innerHTML = response.data.message
-
-            document.getElementById(current).firstElementChild.firstElementChild.lastElementChild.firstElementChild.lastElementChild.innerHTML = months[datetime.getMonth()] + " " + datetime.getDate()
-
-            makeChatHistoryBottom();
+            getMessage(current)
         })
         .catch(function (error) {
             // handle error
@@ -263,16 +267,32 @@ function sendMessage(msg){
         })
 }
 
+/* truncatechars function */
+function truncatechars(text, lim) {
+    if (text.length > lim){
+        return text.substring(0, lim - 1) + "...";
+    }
+    return text;
+}
+
 $('#send_message_input').on('keydown', function(e){
-    if (e.key === 'Enter'){
+    if (e.key === 'Enter' && e.currentTarget.value.trim() !== ''){
         sendMessage(e.currentTarget.value);
+        e.currentTarget.value = ''
     }
 })
 
 $('#send_message_btn').on('click', function(){
-    sendMessage($('#send_message_input').val());
+    if ($('#send_message_input').val().trim() !== ''){
+        sendMessage($('#send_message_input').val());
+        $('#send_message_input').val('')
+    }
 })
 
+$('#search_user').on('keyup', function(e){
+    search = e.currentTarget.value;
+    initialize();
+})
 
 
 initialize();
