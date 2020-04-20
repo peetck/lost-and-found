@@ -75,7 +75,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="font-weight-bold text-uppercase mb-1">ส่งคืนเรียบร้อยแล้ว</div>
-                               
+
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     {{ closed }}
                                 </div>
@@ -141,7 +141,11 @@
                         <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
                             <div class="card h-100 w-100 text-dark mycard">
                                 <div class="wrapper">
-                                    <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}" alt="Card image cap">
+                                    {% if post.postpicture_set.all|length == 0 %}
+                                        <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
+                                    {% else %}
+                                        <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                                    {% endif %}
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
@@ -169,7 +173,7 @@
                                         <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
                                         <br>
                                         <b>โดย : </b> {{ post.user.username }}
-                                        
+
                                     </small>
                                 </div>
                             </div>
@@ -193,7 +197,11 @@
                         <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
                             <div class="card h-100 w-100 text-dark mycard">
                                 <div class="wrapper">
-                                    <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}" alt="Card image cap">
+                                    {% if post.postpicture_set.all|length == 0 %}
+                                        <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
+                                    {% else %}
+                                        <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                                    {% endif %}
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">

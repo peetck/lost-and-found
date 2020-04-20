@@ -11,7 +11,7 @@ class IndexView(View):
     context = {}
     template_name = 'index.html'
     def get(self, request):
-        posts = Post.objects.all()
+        posts = Post.objects.filter(is_active=True)
         losts = []
         founds = []
         active = 0
@@ -99,8 +99,8 @@ class EditPostView(View):
         })
 
     def post(self, request, post_id):
-        
-        
+
+
 
         get_post = Post.objects.get(id=post_id)
         if request.POST.get('ifTrue'):

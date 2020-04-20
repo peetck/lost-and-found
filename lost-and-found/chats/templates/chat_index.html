@@ -34,8 +34,12 @@
             </div>
             <div class="mesgs">
                 <div class="container-fluid p-0 m-0" style="position: fixed;">
-                    <img class='rounded-circle' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
-                    <span class='h5 ml-3' id='chat_to_name'> ------ </span>
+                    <div class="row">
+                        <div class="col">
+                            <img class='rounded-circle' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
+                            <span class='h5 ml-3' id='chat_to_name'> Loading ... </span>
+                        </div>
+                    </div>
                     <hr>
                 </div>
                 <div class="msg_history" id='msg_history'>

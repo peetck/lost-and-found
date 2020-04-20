@@ -111,7 +111,7 @@ function select(id, url, username){
     }
     document.getElementById(current).firstElementChild.setAttribute('class', 'chat_list active_chat') // selected
 
-    document.getElementById('chat_to_name').innerText = username
+    document.getElementById('chat_to_name').innerHTML = "<a class='text-decoration-none text-dark' href='" + '/accounts/' + id + "'>" + username + "</a>"
     document.getElementById('chat_to_img').setAttribute('src', url)
 
     getMessage(current)

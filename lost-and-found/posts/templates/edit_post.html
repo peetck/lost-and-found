@@ -51,14 +51,6 @@
                                                 {{ each_form.errors }}
                                             {% endif %}
                                         </div>
-
-                                        {% if forloop.counter0 == 0 and not user.is_authenticated %}
-                                            <div class="form-group col-md-6">
-                                                <label for='id_key'>คีย์</label>
-                                                <input type="text" name='key' class='form-control' id='id_key' required>
-                                                <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
-                                            </div>
-                                        {% endif %}
                                     {% endfor %}
 
                                     <div class="form-group col-md-6">
@@ -69,7 +61,11 @@
                         <div class="col-md-4">
                             <div class="card w-100 text-dark mycard">
                                 <div class="wrapper">
-                                    <img class="card-img-top" src="{% static 'images/post_default.gif' %}" id="picture_preview">
+                                    {% if post.postpicture_set.all|length == 0 %}
+                                        <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
+                                    {% else %}
+                                        <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                                    {% endif %}
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
