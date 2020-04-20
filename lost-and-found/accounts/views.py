@@ -140,6 +140,7 @@ def ChangePass_view(request, user_id):
         if request.POST.get('newpass') == request.POST.get('connewpass'):
             user.set_password(request.POST.get('newpass'))
             user.save()
+            login(request, user)
             return render(request,'change_password.html',context={
                 'success' : 'เปลี่ยนรหัสสำเร็จ!!'
             })
