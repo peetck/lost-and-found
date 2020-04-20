@@ -134,3 +134,18 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+def ChangePass_view(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.POST:
+        if request.POST.get('newpass') == request.POST.get('connewpass'):
+            user.set_password(request.POST.get('newpass'))
+            user.save()
+            return render(request,'change_password.html',context={
+                'success' : 'เปลี่ยนรหัสสำเร็จ!!'
+            })
+        else:
+            return render(request,'change_password.html',context={
+                'error' : 'รหัสไม่ตรงกัน!!'
+            })
+    return render(request,'change_password.html')
+
