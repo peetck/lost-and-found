@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignupForm
+from .forms import SignupForm, MyPasswordChangeForm
 from .models import Faculty, UserProfile
 from posts.models import Post
 from chats.models import Chat
@@ -134,19 +134,46 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-def ChangePass_view(request, user_id):
-    user = User.objects.get(id=user_id)
-    if request.POST:
+class ChangePasswordView(View):
+    template_name = 'change_password.html'
+
+    def get(self, request):
+        user = request.user
+        form = MyPasswordChangeForm(user=user)
+
+        return render(request, self.template_name, {
+            'user' : user,
+            'form' : form
+        })
+
+    def post(self, request):
+        user = request.user
+        form = MyPasswordChangeForm(data=request.POST, user=user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        else:
+            return render(request, self.template_name, {
+                'user' : user,
+                'form' : form
+            })
+
+
+
+    """ if request.POST:
         if request.POST.get('newpass') == request.POST.get('connewpass'):
             user.set_password(request.POST.get('newpass'))
-            user.save()
-            login(request, user)
-            return render(request,'change_password.html',context={
-                'success' : 'เปลี่ยนรหัสสำเร็จ!!'
+            if user.is_valid():
+                user.save()
+                return redirect('login')
+            else:
+                return render(request, 'change_password.html',context={
+                'error' : '--'
             })
         else:
             return render(request,'change_password.html',context={
-                'error' : 'รหัสไม่ตรงกัน!!'
+                'error' : 'รหัสผ่านไม่ตรงกัน!!'
             })
-    return render(request,'change_password.html')
+    return render(request,'change_password.html') """
 

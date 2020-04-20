@@ -43,7 +43,7 @@
                             <p class='btn m-0 index'>
                                 ห้องสนทนา
                             </p>
-                            
+
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -58,10 +58,10 @@
                                 <a class="dropdown-item" href="/admin">
                                     จัดการโพสต์
                                 </a>
-                                
+
                             {% endif %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'Change_Password' user.id %}">
+                            <a class="dropdown-item" href="{% url 'change_password' %}">
                                     เปลี่ยนรหัสผ่าน
                                 </a>
                             <a class="dropdown-item" href="{% url 'logout' %}">
