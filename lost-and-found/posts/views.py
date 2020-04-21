@@ -119,7 +119,6 @@ class EditPostView(View):
         if form.is_valid():
 
             post = form.save(commit=False)
-            print(request.POST.get('is_active'))
             is_active = request.POST.get('is_active')
             if is_active:
                 post.is_active = True
