@@ -7,9 +7,9 @@ from django.http import JsonResponse
 import json
 
 # Create your views here.
+class ChatAPI(View):
 
-def chat_api(request):
-    if request.method == 'GET':
+    def get(self, request):
         search = request.GET.get('search')
         print(search)
         users = User.objects.filter(username__contains=search)
@@ -47,8 +47,9 @@ def chat_api(request):
         data.extend(no_message)
         return JsonResponse(data, safe=False)
 
-def message_api(request, user_id):
-    if request.method == 'GET':
+class MessageAPI(View):
+
+    def get(self, request, user_id):
         user = User.objects.get(id=user_id)
 
         # get conversation msg
@@ -67,7 +68,8 @@ def message_api(request, user_id):
             'gets' : gets_serializer.data,
             'url' : user.userprofile.avatar.url
             })
-    if request.method == 'POST':
+
+    def post(self, request, user_id):
         user = User.objects.get(id=user_id)
 
         data = json.loads(request.body)
