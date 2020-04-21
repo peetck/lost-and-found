@@ -159,21 +159,3 @@ class ChangePasswordView(View):
                 'form' : form
             })
 
-
-
-    """ if request.POST:
-        if request.POST.get('newpass') == request.POST.get('connewpass'):
-            user.set_password(request.POST.get('newpass'))
-            if user.is_valid():
-                user.save()
-                return redirect('login')
-            else:
-                return render(request, 'change_password.html',context={
-                'error' : '--'
-            })
-        else:
-            return render(request,'change_password.html',context={
-                'error' : 'รหัสผ่านไม่ตรงกัน!!'
-            })
-    return render(request,'change_password.html') """
-

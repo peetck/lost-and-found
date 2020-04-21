@@ -1,11 +1,24 @@
 from django.shortcuts import render, redirect
 from .forms import PostForm, PostPictureForm
+from django.http import JsonResponse
 from .models import Post, PostPicture
 from django.views import View
 from django.forms import formset_factory
 
+from .serializers import PostSerializer, PostPictureSerializer
 
 # Create your views here.
+
+class PostAPI(View):
+
+    def get(self, request):
+        posts = Post.objects.filter(is_active=True)
+        pictures = PostPicture.objects.all()
+
+        serializer_posts = PostSerializer(posts, many=True)
+        serializer_pictures = PostPictureSerializer(pictures, many=True)
+
+        return JsonResponse([serializer_posts.data, serializer_pictures.data], safe=False)
 
 class IndexView(View):
     context = {}
@@ -100,20 +113,21 @@ class EditPostView(View):
 
     def post(self, request, post_id):
 
-
-
-        get_post = Post.objects.get(id=post_id)
-        if request.POST.get('ifTrue'):
-            get_post.is_active = True
-            get_post.save()
-        else:
-            get_post.is_active = False
-            get_post.save()
-        form = PostForm(request.POST, instance=get_post)
+        post = Post.objects.get(id=post_id)
+        form = PostForm(request.POST, instance=post)
 
         if form.is_valid():
 
-            form.save()
+            post = form.save(commit=False)
+
+            """ if request.POST.get('ifTrue'):
+                post.is_active = True
+                post.save()
+            else:
+                post.is_active = False
+                post.save() """
+
+            post.save()
 
             return redirect('edit_post', post_id=post_id)
 

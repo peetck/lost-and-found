@@ -111,134 +111,17 @@
         โพสต์ทั้งหมด
         <span class="badge badge-pill badge-dark text-light"> {{ all }} </span>
     </h1>
-    <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab"
-                aria-controls="available" aria-selected="true">
-                <h3 class='text-dark'>เจอของหาย <span class="badge badge-pill badge-success text-light">
-                        {{ founds|length }}</span></h3>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed"
-                aria-selected="false">
-                <h3 class='text-dark'>ตามหาของ <span class="badge badge-pill badge-danger text-light">
-                        {{ losts|length }}</span></h3>
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content mb-5">
-        <div class="tab-pane fade show active" id="available" role="tabpanel" aria-labelledby="available-tab">
-            <div class="container">
-                <div class="row">
-                    {% if founds|length == 0 %}
-                    <div class='col-lg-12 jumbotron text-center border border-dark'>
-                        <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                        <h4>ไม่มีโพสต์เจอของหาย</h4>
-                    </div>
-                    {% endif %}
-                    {% for post in founds %}
-                        <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
-                            <div class="card h-100 w-100 text-dark mycard">
-                                <div class="wrapper">
-                                    {% if post.postpicture_set.all|length == 0 %}
-                                        <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
-                                    {% else %}
-                                        <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
-                                    {% endif %}
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <b>{{ post.title|truncatechars:20 }} </b>
-                                    </h5>
-                                    <p class="card-text">
-                                        <p>{{ post.desc|truncatechars:50 }}</p>
-                                    </p>
-                                </div>
-                                <div class="container mb-3 ml-1">
-                                    <p class="card-text">
-                                        <span class="badge badge-pill badge-success text-light">เจอของหาย</span>
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">
-                                        <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
-                                        <br>
-                                        <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
-                                        <br>
-                                        <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
-                                        <br>
-                                        <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
-                                        <br>
-                                        <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
-                                        <br>
-                                        <b>โดย : </b> {{ post.user.username }}
 
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
-            <div class="container">
-                <div class="row">
-
-                    {% if losts|length == 0 %}
-                        <div class='col-lg-12 jumbotron text-center border border-dark'>
-                            <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                            <h4>ไม่มีโพสต์ตามหาของ</h4>
-                        </div>
-                    {% endif %}
-                    {% for post in losts %}
-                        <a class="col-lg-3 my-3 text-decoration-none" href="{% url 'detail' post.id %}">
-                            <div class="card h-100 w-100 text-dark mycard">
-                                <div class="wrapper">
-                                    {% if post.postpicture_set.all|length == 0 %}
-                                        <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
-                                    {% else %}
-                                        <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
-                                    {% endif %}
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <b>{{ post.title|truncatechars:20 }} </b>
-                                    </h5>
-                                    <p class="card-text">
-                                        <p>{{ post.desc|truncatechars:50 }}</p>
-                                    </p>
-                                </div>
-                                <div class="container mb-3 ml-1">
-                                    <p class="card-text">
-                                        <span class="badge badge-pill badge-danger text-light">ตามหาของ</span>
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">
-                                        <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
-                                        <br>
-                                        <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
-                                        <br>
-                                        <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
-                                        <br>
-                                        <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
-                                        <br>
-                                        <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
-                                        <br>
-                                        <b>โดย : </b> {{ post.user.username }}
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
+    <div class="container">
+        <div class="row" id='all_post'>
         </div>
     </div>
+
 </div>
 
 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/index_script.js' %}"></script>
 {% endblock %}
