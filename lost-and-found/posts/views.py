@@ -21,7 +21,6 @@ class PostAPI(View):
         return JsonResponse([serializer_posts.data, serializer_pictures.data], safe=False)
 
 class IndexView(View):
-    context = {}
     template_name = 'index.html'
     def get(self, request):
         posts = Post.objects.filter(is_active=True)
@@ -36,12 +35,13 @@ class IndexView(View):
                 if post.is_active:
                     active += 1
 
-        self.context['losts'] = losts
-        self.context['founds'] = founds
-        self.context['active'] = active
-        self.context['closed'] = len(founds) - active
-        self.context['all'] = len(founds) + len(losts)
-        return render(request, self.template_name, self.context)
+        return render(request, self.template_name, {
+            'losts' : losts,
+            'founds' : founds,
+            'active' : active,
+            'closed' : len(founds) - active,
+            'all' : len(founds) + len(losts)
+        })
 
 
 class CreateView(View):
@@ -119,13 +119,12 @@ class EditPostView(View):
         if form.is_valid():
 
             post = form.save(commit=False)
-
-            """ if request.POST.get('ifTrue'):
+            print(request.POST.get('is_active'))
+            is_active = request.POST.get('is_active')
+            if is_active:
                 post.is_active = True
-                post.save()
             else:
                 post.is_active = False
-                post.save() """
 
             post.save()
 
