@@ -114,8 +114,15 @@ function createCardText(type){
 
     let p = document.createElement('p')
     p.setAttribute('class', 'card-text')
-    let msg = (type == 'found' ? 'เจอของหาย' : 'ตามหาของ')
-    p.innerHTML = '<span class="badge badge-pill badge-success text-light">' + msg + '</span>'
+    if (type == 'found'){
+        let msg = 'เจอของหาย'
+        p.innerHTML = '<span class="badge badge-pill badge-success text-light">' + msg + '</span>'
+    }
+    else{
+        let msg = 'ตามหาของ'
+        p.innerHTML = '<span class="badge badge-pill badge-danger text-light">' + msg + '</span>'
+    }
+
 
     div.append(p)
 
