@@ -7,6 +7,9 @@ from chats.models import Chat
 from django.contrib.auth.models import User
 from django.views import View
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 # Create your views here.
 class SignupView(View):
     template_name = 'signup.html'
@@ -159,3 +162,17 @@ class ChangePasswordView(View):
                 'form' : form
             })
 
+@method_decorator(login_required, name='dispatch')
+class EditProfileView(View):
+    template_name = 'edit_profile.html'
+
+    def get(self, request):
+        user = request.user
+
+        return render(request, self.template_name, {
+            'user' : user
+        })
+
+    def post(self, request):
+
+        return render(request, self.template_name, {})
