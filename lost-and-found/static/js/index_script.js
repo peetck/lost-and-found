@@ -97,7 +97,7 @@ function createCardBody(title, desc, assetType, location, date_time){
 
     let h5 = document.createElement('h5')
     h5.setAttribute('class', 'card-title')
-    h5.innerHTML = '<b>' + truncatechars(title, 20)  + '</b>'
+    h5.append(createBoldText(truncatechars(title, 20)))
 
     let cardtext = document.createElement('div')
     cardtext.setAttribute('class', 'card-text')
@@ -107,11 +107,17 @@ function createCardBody(title, desc, assetType, location, date_time){
 
     let p2 = document.createElement('p')
     p2.setAttribute('class', 'm-0')
-    p2.innerHTML = '<small> <b>ประเภทสิ่งของ : </b>' + assetType + '</small>'
+    let small = document.createElement('small')
+    small.append(createBoldText('ประเภทสิ่งของ : '))
+    small.append(assetType)
+    p2.append(small)
 
     let p3 = document.createElement('p')
     p3.setAttribute('class', 'm-0')
-    p3.innerHTML = '<small> <b>สถานที่ : </b>' + location + '</small>'
+    small = document.createElement('small')
+    small.append(createBoldText('สถานที่ : '))
+    small.append(location)
+    p3.append(small)
 
     let p4 = document.createElement('p')
     p4.setAttribute('class', 'm-0')
@@ -183,13 +189,19 @@ function createCardFooter(contact1, contact2, user){
     small.setAttribute('class', 'text-muted')
 
     let span1 = document.createElement('span')
-    span1.innerHTML = '<b>เบอร์ติดต่อ : </b>' + contact1 + '<br>'
+    span1.append(createBoldText('เบอร์ติดต่อ : '))
+    span1.append(contact1)
+    span1.append(document.createElement('br'))
 
     let span2 = document.createElement('span')
-    span2.innerHTML = '<b>อีเมล์ : </b>' + contact2 + '<br>'
+    span2.append(createBoldText('อีเมล์ : '))
+    span2.append(contact2)
+    span2.append(document.createElement('br'))
 
     let span3 = document.createElement('span')
-    span3.innerHTML = '<b>โดย : </b>' + user + '<br>'
+    span3.append(createBoldText('โดย : '))
+    span3.append(user)
+    span3.append(document.createElement('br'))
 
     small.append(span1)
     small.append(span2)
@@ -198,6 +210,12 @@ function createCardFooter(contact1, contact2, user){
     div.append(small)
 
     return div
+}
+
+function createBoldText(text){
+    let b = document.createElement('b')
+    b.innerText = text
+    return b
 }
 
 /* truncatechars function */

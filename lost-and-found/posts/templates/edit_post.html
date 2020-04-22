@@ -70,7 +70,22 @@
                                         <b id='title'>{{ post.title|truncatechars:20 }} </b>
                                     </h5>
                                     <p class="card-text">
-                                        <p id='desc'>{{ post.desc|truncatechars:50 }}</p>
+                                        <p id='desc'>{{ post.desc|truncatechars:15 }}</p>
+                                        <p class='m-0'>
+                                            <small>
+                                                <b>ประเภทสิ่งของ : </b> <span id='assetType'>{{ post.assetType }}</span>
+                                            </small>
+                                        </p>
+                                        <p class='m-0'>
+                                            <small>
+                                                <b>สถานที่ : </b> <span id='location'> {{ post.location }} </span>
+                                            </small>
+                                        </p>
+                                        <p class='m-0'>
+                                            <small>
+                                                <b>วันและเวลา : </b> <span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
+                                            </small>
+                                        </p>
                                     </p>
                                 </div>
                                 <div class="container mb-3 ml-1">
@@ -84,12 +99,6 @@
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
-                                        <br>
-                                        <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
-                                        <br>
-                                        <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
-                                        <br>
                                         <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
                                         <br>
                                         <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
@@ -117,6 +126,15 @@
     <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
 
     <script>
+
+        /* truncatechars function */
+        function truncatechars(text, lim) {
+            if (text.length > lim){
+                return text.substring(0, lim - 1) + "...";
+            }
+            return text;
+        }
+
         /* Make datetime picker use Font Awesome 5 */
         $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default,{
             icons: {
@@ -135,7 +153,7 @@
         /* initial datetime picker */
         $('#datetimepicker').datetimepicker({
             locale: 'th',
-            date : $('#id_date_time').val() // get date from post object
+            date: new Date()
         });
 
         let pictures = []
@@ -167,6 +185,8 @@
 
             inp.addEventListener('change', function(){
                 /* if user upload picture */
+                document.getElementById('no-upload').style.display = 'none'
+
                 total_forms.val(parseInt(total_forms.val()) + 1)
                 $('#pictures').append(div) // append hidden div
                 pictures.push(div)
@@ -175,9 +195,9 @@
                 let col = document.createElement('div')
                 col.setAttribute('class', 'col-md-3 my-3')
 
-                /* <div class="card h-100 w-100 text-dark mycard" style='border:none;'> */
+                /* <div class="card w-100 text-dark mycard" style='border:none;'> */
                 let card = document.createElement('div')
-                card.setAttribute('class', 'card h-100 w-100 text-dark mycard')
+                card.setAttribute('class', 'card w-100 text-dark mycard')
                 card.style.border = 'none'
 
                 /* <span style="cursor: pointer;"> */
@@ -263,54 +283,55 @@
             }
             catch(e){
                 $('#picture_preview').attr('src', "{% static 'images/post_default.gif' %}");
+                document.getElementById('no-upload').style.display = ''
             }
         }
 
         /* Bind: title */
         $("#id_title").on('input', function () {
-            var text = $("#id_title").val();
-            $("#title").html(text);
+            var text = truncatechars($("#id_title").val(), 20);
+            $("#title").text(text);
         });
 
         /* Bind: desc */
         $("#id_desc").on('input', function () {
-            var text = $("#id_desc").val();
-            $("#desc").html(text);
+            var text = truncatechars($("#id_desc").val(), 15);
+            $("#desc").text(text);
         });
 
         /* Bind: location */
         $("#id_location").on('input', function () {
             var text = $("#id_location").val();
-            $("#location").html(text);
+            $("#location").text(text);
         });
 
         /* Bind: date_time */
         $("#datetimepicker").on('change.datetimepicker', function (e) {
-            $("#date_time").html($("#datetimepicker").find("input").val());
+            $("#date_time").text($("#datetimepicker").find("input").val());
         });
 
         /* Bind: contact1 */
         $("#id_contact1").on('input', function () {
             var text = $("#id_contact1").val();
-            $("#contact1").html(text);
+            $("#contact1").text(text);
         });
 
         /* Bind: contact2 */
         $("#id_contact2").on('input', function () {
             var text = $("#id_contact2").val();
-            $("#contact2").html(text);
+            $("#contact2").text(text);
         });
 
         /* Bind: assetType */
         $("#id_assetType").on('change', function () {
             var text = $("#id_assetType").find(":selected").text();
-            $("#assetType").html(text);
+            $("#assetType").text(text);
         });
 
         /* Bind: type */
         $("#id_type").on('change', function () {
             var text = $("#id_type").find(":selected").text();
-            $("#type").html(text);
+            $("#type").text(text);
             if (text == 'เจอของหาย'){
                 $("#type").attr('class', 'badge badge-pill badge-success')
             }
