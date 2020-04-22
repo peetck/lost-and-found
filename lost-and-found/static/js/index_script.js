@@ -39,21 +39,21 @@ function initialize(){
                 <h4>ไม่มีโพสต์</h4>
             </div>
             */
-           let div = document.createElement('div')
-           div.setAttribute('class', 'col-lg-12 jumbotron text-center border border-dark')
+            let div = document.createElement('div')
+            div.setAttribute('class', 'col-lg-12 jumbotron text-center border border-dark')
 
-           let img = document.createElement('img')
-           img.setAttribute('src', '/static/images/post.png')
-           img.setAttribute('width', '15%')
-           img.setAttribute('class', 'mb-5')
+            let img = document.createElement('img')
+            img.setAttribute('src', '/static/images/post.png')
+            img.setAttribute('width', '15%')
+            img.setAttribute('class', 'mb-5')
 
-           let h4 = document.createElement('h4')
-           h4.innerText = 'ไม่มีโพสต์'
+            let h4 = document.createElement('h4')
+            h4.innerText = 'ไม่มีโพสต์'
 
-           div.append(img)
-           div.append(h4)
+            div.append(img)
+            div.append(h4)
 
-           document.getElementById('all_post').append(div)
+            document.getElementById('all_post').append(div)
         }
     })
     .catch(function (error) {
