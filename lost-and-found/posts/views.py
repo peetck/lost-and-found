@@ -90,20 +90,17 @@ class CreateView(View):
                             'key_error' : 'มีคีย์นี้อยู่ในระบบแล้ว'
                         })
             post.save()
-            passed = False
-            for picture in formset:
-                if picture.is_valid():
-                    picture = picture.save(commit=False)
-                    if picture.picture == 'posts/default.png' and passed:
-                        continue
-                    picture.post = post
-                    picture.save()
-                    passed = True
+            if request.POST.get('form-TOTAL_FORMS') != '0':
+                for picture in formset:
+                    if picture.is_valid():
+                        picture = picture.save(commit=False)
+                        picture.post = post
+                        picture.save()
             return redirect('detail', post_id=post.id)
-
-        return render(request, self.template_name, {
-            'form' : form
-        })
+        else:
+            return render(request, self.template_name, {
+                'form' : form
+            })
 
 class DetailView(View):
     template_name = 'detail.html'
@@ -119,25 +116,34 @@ class DetailView(View):
 
 class EditPostView(View):
     template_name = 'edit_post.html'
+    PictureFormSet = formset_factory(PostPictureForm, extra=0)
 
     def get(self, request, post_id):
         post = Post.objects.get(id=post_id)
+
         form = PostForm(instance=post)
 
         if request.user != post.user:
             return redirect('index')
 
 
+        formset = self.PictureFormSet()
+
+
         return render(request, self.template_name, {
             'form' : form,
             'post': post,
-            'anonymous' : True if post.user == None else False
+            'pictures' : post.postpicture_set.all(),
+            'formset' : formset,
+            'anonymous' : True if post.user == None else False,
         })
 
     def post(self, request, post_id):
 
         post = Post.objects.get(id=post_id)
         form = PostForm(request.POST, instance=post)
+
+        formset = self.PictureFormSet(request.POST, request.FILES)
 
         if form.is_valid():
 
@@ -158,11 +164,20 @@ class EditPostView(View):
 
             post.save()
 
-            return render(request, self.template_name, {
-                'form' : form,
-                'post': post,
-                'anonymous' : True if post.user == None else False
-             })
+            # ถ้า มีการกดลบรูป (JS จะ set value ของ input:hidden เป็น 0)
+            for picture in post.postpicture_set.all():
+                value = request.POST.get(f'{picture.id}')
+                if value == '0':
+                    picture.delete()
+
+            if request.POST.get('form-TOTAL_FORMS') != '0':
+                for picture in formset:
+                    if picture.is_valid():
+                        picture = picture.save(commit=False)
+                        picture.post = post
+                        picture.save()
+
+            return redirect('edit_post', post_id)
 
 
 
