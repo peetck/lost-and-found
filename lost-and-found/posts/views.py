@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import PostForm, PostPictureForm
 from django.http import JsonResponse
-from .models import Post, PostPicture
+from .models import Post, PostPicture, AssetType
 from django.views import View
 from django.forms import formset_factory
 
-from .serializers import PostSerializer
+from .serializers import PostSerializer, AssetTypeSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,11 +15,29 @@ from rest_framework import status
 class PostAPI(APIView):
 
     def get(self, request):
-        posts = Post.objects.filter(is_active=True)
+        search_title = request.GET.get('search_title')
+        search_location = request.GET.get('search_location')
+        search_assetType = int(request.GET.get('search_assetType'))
+        if search_assetType != -1:
+            posts = Post.objects.filter(
+                is_active=True,
+                title__icontains=search_title,
+                location__icontains=search_location,
+                assetType=AssetType.objects.get(id=search_assetType)
+            ).order_by('-create_at') # sort by create_at desc
+        else:
+            posts = Post.objects.filter(
+                is_active=True,
+                title__icontains=search_title,
+                location__icontains=search_location
+            ).order_by('-create_at') # sort by create_at desc
+
+        assetTypes = AssetType.objects.all()
 
         serializer_posts = PostSerializer(posts, many=True)
+        serializer_assetTypes = AssetTypeSerializer(assetTypes, many=True)
 
-        return Response(serializer_posts.data, status=status.HTTP_200_OK)
+        return Response([serializer_posts.data, serializer_assetTypes.data], status=status.HTTP_200_OK)
 
 class IndexView(View):
     template_name = 'index.html'

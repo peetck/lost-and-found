@@ -1,9 +1,24 @@
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+search_title = ''
+search_location = ''
+search_assetType = -1
+loaded = false
 function initialize(){
-    axios.get('/post_api/')
+    axios.get('/post_api/' + '?search_title=' + search_title + '&search_location=' + search_location + '&search_assetType=' + search_assetType)
     .then(function (response) {
         // handle success
-        posts = response.data
+        data = response.data
+
+        posts = data[0]
+        assetTypes = data[1]
+
+        // wipe page
+        $('#all_post').html('')
+        $('#assetType').html('')
+
+        createAssetTypeChoice(assetTypes)
+
+
 
         for (i = 0; i < posts.length; i++){
             if (posts[i].pictures.length >= 1){
@@ -15,6 +30,30 @@ function initialize(){
             createCard(posts[i].id, url, posts[i].title, posts[i].desc, posts[i].type,
                 posts[i].assetType, posts[i].location, posts[i].date_time,
                 posts[i].contact1, posts[i].contact2, posts[i].user)
+        }
+
+        if (posts.length == 0){ // if not have any posts
+            /*
+            <div class='col-lg-12 jumbotron text-center border border-dark'>
+                <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                <h4>ไม่มีโพสต์</h4>
+            </div>
+            */
+           let div = document.createElement('div')
+           div.setAttribute('class', 'col-lg-12 jumbotron text-center border border-dark')
+
+           let img = document.createElement('img')
+           img.setAttribute('src', '/static/images/post.png')
+           img.setAttribute('width', '15%')
+           img.setAttribute('class', 'mb-5')
+
+           let h4 = document.createElement('h4')
+           h4.innerText = 'ไม่มีโพสต์'
+
+           div.append(img)
+           div.append(h4)
+
+           document.getElementById('all_post').append(div)
         }
     })
     .catch(function (error) {
@@ -218,6 +257,29 @@ function createBoldText(text){
     return b
 }
 
+function createAssetTypeChoice(choices){
+    //console.log(choices[0])
+    let select = document.getElementById('assetType')
+
+    let option = document.createElement('option')
+    option.innerText = '---------'
+    option.value = -1
+    select.append(option)
+
+    for (i = 0; i < choices.length; i++){
+        option = document.createElement('option')
+        option.value = choices[i].id
+        option.innerText = choices[i].name
+        // if selected
+        if (choices[i].id == search_assetType){
+            option.selected = true
+        }
+        // append
+        select.append(option)
+    }
+
+}
+
 /* truncatechars function */
 function truncatechars(text, lim) {
     if (text.length > lim){
@@ -225,5 +287,22 @@ function truncatechars(text, lim) {
     }
     return text;
 }
+
+/* search event handle */
+$('#title').on('keyup', function(e){
+    search_title = e.currentTarget.value
+    initialize()
+});
+
+$('#location').on('keyup', function(e){
+    search_location = e.currentTarget.value
+    initialize()
+});
+
+$('#assetType').on('change', function(e){
+    search_assetType = $("#assetType :selected").val()
+    initialize()
+});
+
 
 initialize()

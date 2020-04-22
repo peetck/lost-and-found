@@ -1,125 +1,175 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+
+{% block style %}
+    <style>
+        .has-search .form-control {
+            padding-left: 2.375rem;
+        }
+
+        .has-search .form-control-feedback {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            width: 2.375rem;
+            height: 2.375rem;
+            line-height: 2.375rem;
+            text-align: center;
+            pointer-events: none;
+            color: #aaa;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-7 mb-5">
-                <h1 class='display-3'>
-                    ยินดีต้อนรับ
-                    <br>
-                    <span class='text-primary'>
-                        {% if user.is_authenticated %}
-                            {{ user }}
-                        {% else %}
-                            ผู้ใช้งาน
-                        {% endif %}
-                    </span>
-                    <br>
-                    เข้าสู่เว็บไซต์
-                    <br>
-                    <span>Lost & Found</span>
-                </h1>
-                <p class="mt-4 display-5">เว็บไซต์นี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
-
-                <div>
-                    <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5'>สร้างโพสต์ของคุณ</a>
-                </div>
-
-            </div>
-            <div class="col-lg-5 text-center">
-                <img src="{% static 'images/lost&found.png' %}" class='img-fluid rotate-img'>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
-                <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="font-weight-bold text-uppercase mb-1">ของที่มีคนเจอทั้งหมด</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ founds|length }}
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-folder-open fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
-                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #f0ad4e !important">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="font-weight-bold text-uppercase mb-1">อยู่ระหว่างการดําเนินการ</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ active }}
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-hourglass-half fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
-                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="font-weight-bold text-uppercase mb-1">ส่งคืนเรียบร้อยแล้ว</div>
-
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ closed }}
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-check-circle fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4 rotate-img">
-                <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="font-weight-bold text-uppercase mb-1">ประกาศตามหาของหาย</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ losts|length }}
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-search fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <h1 class='text-center my-5'>
-        โพสต์ทั้งหมด
-        <span class="badge badge-pill badge-dark text-light"> {{ all }} </span>
-    </h1>
-
     <div class="container">
-        <div class="row" id='all_post'>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-7 mb-5">
+                    <h1 class='display-3'>
+                        ยินดีต้อนรับ
+                        <br>
+                        <span class='text-primary'>
+                            {% if user.is_authenticated %}
+                                {{ user }}
+                            {% else %}
+                                ผู้ใช้งาน
+                            {% endif %}
+                        </span>
+                        <br>
+                        เข้าสู่เว็บไซต์
+                        <br>
+                        <span>Lost & Found</span>
+                    </h1>
+                    <p class="mt-4 display-5">เว็บไซต์นี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
+
+                    <div>
+                        <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5'>สร้างโพสต์ของคุณ</a>
+                    </div>
+
+                </div>
+                <div class="col-lg-5 text-center">
+                    <img src="{% static 'images/lost&found.png' %}" class='img-fluid rotate-img'>
+                </div>
+            </div>
         </div>
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">ของที่มีคนเจอทั้งหมด</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ founds|length }}
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-folder-open fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #f0ad4e !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">อยู่ระหว่างการดําเนินการ</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ active }}
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-hourglass-half fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">ส่งคืนเรียบร้อยแล้ว</div>
+
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ closed }}
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 rotate-img">
+                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-uppercase mb-1">ประกาศตามหาของหาย</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        {{ losts|length }}
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-search fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h1 class='text-center my-5'>
+            โพสต์ทั้งหมด
+            <span class="badge badge-pill badge-dark text-light"> {{ all }} </span>
+        </h1>
+
+        <div class="container">
+            <div class="form-row has-search mb-5">
+                <div class="col">
+                    <span class="fas fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" placeholder="ชื่อโพสต์" id='title'>
+                </div>
+                <div class="col">
+                    <span class="fas fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" placeholder="สถานที่" id='location'>
+                </div>
+                <div class="col">
+                    <span class="fas fa-search form-control-feedback"></span>
+                    <select class='form-control' id='assetType'>
+                        <!-- Asset Type'll be here -->
+                    </select>
+                </div>
+            </div>
+            <div class="row" id='all_post'>
+                {% if posts|length == 0 %}
+                    <div class='col-lg-12 jumbotron text-center border border-dark'>
+                        <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
+                        <h4>ไม่มีโพสต์</h4>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
     </div>
 
-</div>
-
-
+    <!-- Footer only index -->
+    <footer class='mt-4'>
+        <div style="height: 150px; overflow: hidden;" >
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #0275d8;"></path>
+            </svg>
+        </div>
+    </footer>
 {% endblock %}
 
 {% block script %}

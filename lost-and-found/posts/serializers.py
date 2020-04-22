@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post, PostPicture
+from .models import Post, PostPicture, AssetType
 
 class PostPictureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,4 +13,9 @@ class PostSerializer(serializers.ModelSerializer):
     pictures = PostPictureSerializer(source='postpicture_set', many=True)
     class Meta:
         model = Post
+        fields = '__all__'
+
+class AssetTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssetType
         fields = '__all__'

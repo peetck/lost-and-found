@@ -17,7 +17,7 @@ class ChatAPI(APIView):
 
     def get(self, request):
         search = request.GET.get('search')
-        users = User.objects.filter(username__contains=search)
+        users = User.objects.filter(username__icontains=search)
         data, no_message = [], []
         for user in users:
             if user == request.user:
