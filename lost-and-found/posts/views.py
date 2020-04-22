@@ -69,7 +69,7 @@ class CreateView(View):
                     if i.key == post.key:
                         return render(request, self.template_name, {
                             'form' : form,
-                            'key_error' : 'มี key นี้อยู่ในระบบแล้ว'
+                            'key_error' : 'มีคีย์นี้อยู่ในระบบแล้ว'
                         })
             post.save()
             passed = False
@@ -106,10 +106,14 @@ class EditPostView(View):
         post = Post.objects.get(id=post_id)
         form = PostForm(instance=post)
 
+        if request.user != post.user:
+            return redirect('index')
+
 
         return render(request, self.template_name, {
             'form' : form,
-            'post': post
+            'post': post,
+            'anonymous' : True if post.user == None else False
         })
 
     def post(self, request, post_id):
@@ -126,9 +130,21 @@ class EditPostView(View):
             else:
                 post.is_active = False
 
+            if post.user == None and request.POST.get('key') != post.key:
+                return render(request, self.template_name, {
+                    'form' : form,
+                    'post': post,
+                    'anonymous' : True if post.user == None else False,
+                    'key_error' : 'คีย์ที่กรอกมาไม่ถูกต้อง'
+                })
+
             post.save()
 
-            return redirect('edit_post', post_id=post_id)
+            return render(request, self.template_name, {
+                'form' : form,
+                'post': post,
+                'anonymous' : True if post.user == None else False
+             })
 
 
 

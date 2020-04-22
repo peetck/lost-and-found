@@ -49,6 +49,14 @@
                                                 {{ each_form.errors }}
                                             {% endif %}
                                         </div>
+                                        {% if forloop.counter0 == 0 and anonymous %}
+                                            <div class="form-group col-md-6">
+                                                <label for='id_key'>คีย์</label>
+                                                <input type="text" name='key' class='form-control' required>
+                                                <small class="form-text text-muted">กรุณากรอกคีย์ที่เคยตั้งไว้</small>
+                                            </div>
+                                        {% endif %}
+
                                     {% endfor %}
 
                                     <div class="form-group col-md-6">

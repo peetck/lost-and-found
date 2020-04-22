@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 from django.views import View
 from .models import Message
 from .serializers import MessageSerializer
-from django.http import JsonResponse
-import json
+
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -86,6 +88,7 @@ class MessageAPI(APIView):
 
         return Response(message_serializer.data, status=status.HTTP_200_OK)
 
+@method_decorator(login_required, name='dispatch')
 class ChatIndexView(View):
     template_name = 'chat_index.html'
 
