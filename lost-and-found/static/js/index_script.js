@@ -3,20 +3,14 @@ function initialize(){
     axios.get('/post_api/')
     .then(function (response) {
         // handle success
-        data = response.data
-
-        posts = data[0]
-        pictures = data[1]
-
-        console.log(posts)
-        console.log(pictures)
+        posts = response.data
 
         for (i = 0; i < posts.length; i++){
-            url = null
-            for (j = 0; j < pictures.length; j++){
-                if (pictures[j].post == posts[i].id){
-                    url = pictures[j].picture
-                }
+            if (posts[i].pictures.length >= 1){
+                url =  posts[i].pictures[0].picture
+            }
+            else{
+                url = null;
             }
             createCard(posts[i].id, url, posts[i].title, posts[i].desc, posts[i].type,
                 posts[i].assetType, posts[i].location, posts[i].date_time,
@@ -38,9 +32,9 @@ function createCard(id, url, title, desc, type, assetType, location, date_time, 
     card.setAttribute('class', 'card h-100 w-100 text-dark mycard')
 
     card.append(createCardWrapper(url))
-    card.append(createCardBody(title, desc))
-    card.append(createCardText(type))
-    card.append(createCardFooter(assetType, location, date_time, contact1, contact2, user))
+    card.append(createCardBody(title, desc, assetType, location, date_time))
+    card.append(createCardText(type,))
+    card.append(createCardFooter(contact1, contact2, user))
 
     a.append(card)
 
@@ -72,15 +66,30 @@ function createCardWrapper(url){
     return div
 }
 
-function createCardBody(title, desc){
+function createCardBody(title, desc, assetType, location, date_time){
     /*
     <div class="card-body">
         <h5 class="card-title">
-            <b>{{ post.title|truncatechars:20 }} </b>
+            <b>{{ post.title|truncatechars:20 }}</b>
         </h5>
-        <p class="card-text">
-            <p>{{ post.desc|truncatechars:50 }}</p>
-        </p>
+        <div class="card-text">
+            <p>{{ post.desc|truncatechars:15 }}</p>
+            <p class='m-0'>
+                <small>
+                    <b>ประเภทสิ่งของ : </b> <span id='assetType'>{{ post.assetType }}</span>
+                </small>
+            </p>
+            <p class='m-0'>
+                <small>
+                    <b>สถานที่ : </b> <span id='location'> {{ post.location }} </span>
+                </small>
+            </p>
+            <p class='m-0'>
+                <small>
+                    <b>วันและเวลา : </b> <span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
+                </small>
+            </p>
+        </div>
     </div>
     */
     let div = document.createElement('div')
@@ -90,12 +99,37 @@ function createCardBody(title, desc){
     h5.setAttribute('class', 'card-title')
     h5.innerHTML = '<b>' + truncatechars(title, 20)  + '</b>'
 
-    let p = document.createElement('p')
-    p.setAttribute('class', 'card-text')
-    p.innerHTML = '<p>' + truncatechars(desc, 50) + '</p>'
+    let cardtext = document.createElement('div')
+    cardtext.setAttribute('class', 'card-text')
+
+    let p1 = document.createElement('p')
+    p1.innerText = truncatechars(desc, 15)
+
+    let p2 = document.createElement('p')
+    p2.setAttribute('class', 'm-0')
+    p2.innerHTML = '<small> <b>ประเภทสิ่งของ : </b>' + assetType + '</small>'
+
+    let p3 = document.createElement('p')
+    p3.setAttribute('class', 'm-0')
+    p3.innerHTML = '<small> <b>สถานที่ : </b>' + location + '</small>'
+
+    let p4 = document.createElement('p')
+    p4.setAttribute('class', 'm-0')
+
+    let datetime = new Date(date_time)
+    datetime = ((datetime.getDate() < 10 ? '0' : '') + datetime.getDate()) + '/' + ((datetime.getMonth() + 1 < 10 ? '0' : '') + (datetime.getMonth() + 1)) + '/' +
+                 datetime.getFullYear() + ' ' + ((datetime.getHours() < 10 ? '0' : '') + datetime.getHours()) + ':' + ((datetime.getMinutes() < 10 ? '0' : '') + datetime.getMinutes())
+
+    p4.innerHTML = '<small> <b>วันและเวลา : </b>' + datetime + '</small>'
+
+    // append
+    cardtext.append(p1)
+    cardtext.append(p2)
+    cardtext.append(p3)
+    cardtext.append(p4)
 
     div.append(h5)
-    div.append(p)
+    div.append(cardtext)
 
     return div
 }
@@ -129,16 +163,10 @@ function createCardText(type){
     return div
 }
 
-function createCardFooter(assetType, location, date_time, contact1, contact2, user){
+function createCardFooter(contact1, contact2, user){
     /*
     <div class="card-footer">
         <small class="text-muted">
-            <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
-            <br>
-            <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
-            <br>
-            <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
-            <br>
             <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
             <br>
             <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
@@ -155,31 +183,17 @@ function createCardFooter(assetType, location, date_time, contact1, contact2, us
     small.setAttribute('class', 'text-muted')
 
     let span1 = document.createElement('span')
-    span1.innerHTML = '<b>ประเภทของสิ่งของ : </b>' + assetType + '<br>'
+    span1.innerHTML = '<b>เบอร์ติดต่อ : </b>' + contact1 + '<br>'
 
     let span2 = document.createElement('span')
-    span2.innerHTML = '<b>สถานที่ : </b>' + location + '<br>'
+    span2.innerHTML = '<b>อีเมล์ : </b>' + contact2 + '<br>'
 
     let span3 = document.createElement('span')
-    let datetime = new Date(date_time)
-    span3.innerHTML = '<b>วันและเวลา : </b>' + ((datetime.getDate() < 10 ? '0' : '') + datetime.getDate()) + '/' + ((datetime.getMonth() + 1 < 10 ? '0' : '') + (datetime.getMonth() + 1)) + '/' +
-    datetime.getFullYear() + ' ' + ((datetime.getHours() < 10 ? '0' : '') + datetime.getHours()) + ':' + ((datetime.getMinutes() < 10 ? '0' : '') + datetime.getMinutes()) + '<br>'
-
-    let span4 = document.createElement('span')
-    span4.innerHTML = '<b>เบอร์ติดต่อ : </b>' + contact1 + '<br>'
-
-    let span5 = document.createElement('span')
-    span5.innerHTML = '<b>อีเมล์ : </b>' + contact2 + '<br>'
-
-    let span6 = document.createElement('span')
-    span6.innerHTML = '<b>โดย : </b>' + user + '<br>'
+    span3.innerHTML = '<b>โดย : </b>' + user + '<br>'
 
     small.append(span1)
     small.append(span2)
     small.append(span3)
-    small.append(span4)
-    small.append(span5)
-    small.append(span6)
 
     div.append(small)
 

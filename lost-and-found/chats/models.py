@@ -18,7 +18,7 @@ class Chat(models.Model):
 class Message(models.Model):
     message = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
-    seen = models.BooleanField()
+    seen = models.BooleanField(default=False)
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     to = models.ForeignKey(User, on_delete=models.CASCADE)
 

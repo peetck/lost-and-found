@@ -138,9 +138,24 @@
                                 <h5 class="card-title">
                                     <b>{{ post.title|truncatechars:20 }}</b>
                                 </h5>
-                                <p class="card-text">
-                                    <p>{{ post.desc|truncatechars:50 }}</p>
-                                </p>
+                                <div class="card-text">
+                                    <p>{{ post.desc|truncatechars:15 }}</p>
+                                    <p class='m-0'>
+                                        <small>
+                                            <b>ประเภทสิ่งของ : </b> <span id='assetType'>{{ post.assetType }}</span>
+                                        </small>
+                                    </p>
+                                    <p class='m-0'>
+                                        <small>
+                                            <b>สถานที่ : </b> <span id='location'> {{ post.location }} </span>
+                                        </small>
+                                    </p>
+                                    <p class='m-0'>
+                                        <small>
+                                            <b>วันและเวลา : </b> <span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
+                                        </small>
+                                    </p>
+                                </div>
                             </div>
                             <div class="container mb-3 ml-1">
                                 <p class="card-text">
@@ -157,12 +172,6 @@
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">
-                                    <b>ประเภทของสิ่งของ : </b><span id='assetType'>{{ post.assetType }}</span>
-                                    <br>
-                                    <b>สถานที่ : </b><span id='location'> {{ post.location }} </span>
-                                    <br>
-                                    <b>วันและเวลา : </b><span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
-                                    <br>
                                     <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
                                     <br>
                                     <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>

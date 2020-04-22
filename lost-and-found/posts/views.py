@@ -5,20 +5,21 @@ from .models import Post, PostPicture
 from django.views import View
 from django.forms import formset_factory
 
-from .serializers import PostSerializer, PostPictureSerializer
+from .serializers import PostSerializer
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 # Create your views here.
 
-class PostAPI(View):
+class PostAPI(APIView):
 
     def get(self, request):
         posts = Post.objects.filter(is_active=True)
-        pictures = PostPicture.objects.all()
 
         serializer_posts = PostSerializer(posts, many=True)
-        serializer_pictures = PostPictureSerializer(pictures, many=True)
 
-        return JsonResponse([serializer_posts.data, serializer_pictures.data], safe=False)
+        return Response(serializer_posts.data, status=status.HTTP_200_OK)
 
 class IndexView(View):
     template_name = 'index.html'

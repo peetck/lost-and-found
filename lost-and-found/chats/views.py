@@ -6,12 +6,15 @@ from .serializers import MessageSerializer
 from django.http import JsonResponse
 import json
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 # Create your views here.
-class ChatAPI(View):
+class ChatAPI(APIView):
 
     def get(self, request):
         search = request.GET.get('search')
-        print(search)
         users = User.objects.filter(username__contains=search)
         data, no_message = [], []
         for user in users:
@@ -45,9 +48,9 @@ class ChatAPI(View):
 
         data.sort(key=lambda x : x[2], reverse=True)
         data.extend(no_message)
-        return JsonResponse(data, safe=False)
+        return Response(data, status=status.HTTP_200_OK)
 
-class MessageAPI(View):
+class MessageAPI(APIView):
 
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
@@ -63,25 +66,25 @@ class MessageAPI(View):
         sends_serializer = MessageSerializer(sends, many=True)
         gets_serializer = MessageSerializer(gets, many=True)
         # return
-        return JsonResponse({
+        return Response({
             'sends' : sends_serializer.data,
             'gets' : gets_serializer.data,
             'url' : user.userprofile.avatar.url
-            })
+            }, status=status.HTTP_200_OK)
 
     def post(self, request, user_id):
         user = User.objects.get(id=user_id)
 
-        data = json.loads(request.body)
-
         message = Message.objects.create(
-            message=data.get('message'),
+            message=request.data['message'],
             seen=False,
             chat=request.user.chat,
             to=user
         )
 
-        return JsonResponse(MessageSerializer(message).data)
+        message_serializer = MessageSerializer(message)
+
+        return Response(message_serializer.data, status=status.HTTP_200_OK)
 
 class ChatIndexView(View):
     template_name = 'chat_index.html'
