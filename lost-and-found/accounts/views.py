@@ -165,7 +165,7 @@ class ChangePasswordView(View):
 @method_decorator(login_required, name='dispatch')
 class EditProfileView(View):
     template_name = 'edit_profile.html'
-
+    
     def get(self, request):
         user = request.user
         form = EditProfileForm(instance=user)
@@ -175,5 +175,17 @@ class EditProfileView(View):
         })
 
     def post(self, request):
-
-        return render(request, self.template_name, {})
+        user = request.user
+        userprofile = UserProfile.objects.get(user=user)
+        form = EditProfileForm(request.POST,instance=user)
+        try:
+            picture = request.FILES['picture']
+        except:
+            picture = None
+        if picture != None:
+            userprofile.avatar = picture
+            userprofile.save()
+        if form.is_valid():
+            form.save()
+        
+        return redirect('index')
