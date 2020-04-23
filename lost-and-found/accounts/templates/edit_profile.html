@@ -2,7 +2,108 @@
 
 {% block content %}
     <div class="container">
-        <h1>Edit profile {{ user.username }}</h1>
-        <img src="{{ user.userprofile.avatar.url }}" alt="">
+        
+        <form action="{% url 'edit_profile' %}" method='POST' >
+        <h1> แก้ไขโปรไฟล์ : {{ user.username }}</h1>
+            <img src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
+                <div class="form-group col-md-6 mb-5">
+                        <label>รูปภาพ</label>
+                        <div class="custom-file">
+                            <input type="file" class='custom-file-input' name='picture' id="avatar">
+                            <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
+                        </div>
+                     <div class="form-row">
+                                    {% for each_form in form %}
+                                        {{ each_form }}
+                                    {% endfor %}
+                    </div>
+
+                </div>
+
+
+        </form>
     </div>
+{% endblock %}
+{% block script %}
+<script>
+    /* read URL function */
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#avatar_preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    /* Bind : picture (avatar) */
+    $("#avatar").change(function () {
+        readURL(this);
+        var fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').html(fileName);
+    });
+
+    /* Bind: username */
+    $("#id_username").on('input', function () {
+        var text = $("#id_username").val();
+        $("#username").html(text);
+    });
+
+    /* Bind: first_name */
+    $("#id_first_name").on('input', function () {
+        var text = $("#id_first_name").val();
+        $("#first_name").html(text);
+    });
+
+    /* Bind: last_name */
+    $("#id_last_name").on('input', function () {
+        var text = $("#id_last_name").val();
+        $("#last_name").html(text);
+    });
+
+    /* Bind: email */
+    $("#id_email").on('input', function () {
+        var text = $("#id_email").val();
+        $("#email").html(text);
+    });
+
+    /* Bind: faculty */
+    $("#id_faculty").on('input', function () {
+        var text = $("#id_faculty").find(":selected").text();
+        $("#faculty").html(text);
+    });
+
+    /* Password see button 1 */
+    $('#password_see1').click(function () {
+        var password_eye = $('#id_password1').attr('type');
+
+        if (password_eye == 'password') {
+            $('#id_password1').attr("type", "text");
+            $('#password-eye1').removeClass('fas fa-eye-slash');
+            $('#password-eye1').addClass('fas fa-eye');
+        }
+        else {
+            $('#id_password1').attr("type", "password");
+            $('#password-eye1').removeClass('fas fa-eye');
+            $('#password-eye1').addClass('fas fa-eye-slash');
+        }
+    });
+
+    /* Password see button 2 */
+    $('#password_see2').click(function () {
+        var password_eye = $('#id_password2').attr('type');
+
+        if (password_eye == 'password') {
+            $('#id_password2').attr("type", "text");
+            $('#password-eye2').removeClass('fas fa-eye-slash');
+            $('#password-eye2').addClass('fas fa-eye');
+        }
+        else {
+            $('#id_password2').attr("type", "password");
+            $('#password-eye2').removeClass('fas fa-eye');
+            $('#password-eye2').addClass('fas fa-eye-slash');
+        }
+    });
+</script>
 {% endblock %}

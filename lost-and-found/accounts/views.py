@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignupForm, MyPasswordChangeForm
+from .forms import SignupForm, MyPasswordChangeForm, EditProfileForm
 from .models import Faculty, UserProfile
 from posts.models import Post
 from chats.models import Chat
@@ -168,9 +168,10 @@ class EditProfileView(View):
 
     def get(self, request):
         user = request.user
-
+        form = EditProfileForm(instance=user)
         return render(request, self.template_name, {
-            'user' : user
+            'user' : user,
+            'form' : form
         })
 
     def post(self, request):
