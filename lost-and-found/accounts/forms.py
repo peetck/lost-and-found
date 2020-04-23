@@ -53,15 +53,10 @@ class MyPasswordChangeForm(PasswordChangeForm):
     )
 
 class EditProfileForm(forms.ModelForm):
-    username = forms.CharField(
-        widget = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'ชื่อผู้ใช้งาน'}),
-        label = 'ชื่อผู้ใช้งาน'
-    )
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ชื่อจริง'}),
         max_length=32,
         label = 'ชื่อจริง'
-
     )
     last_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'นามสกุล'}),
@@ -73,7 +68,7 @@ class EditProfileForm(forms.ModelForm):
         max_length=64,
         label='อีเมล์'
     )
-   
+
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email")
+        fields = ("first_name", "last_name", "email")
