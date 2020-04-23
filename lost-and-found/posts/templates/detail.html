@@ -1,5 +1,5 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block content %}
 
     <div class="container">
@@ -14,7 +14,11 @@
                     <div class="col-md-4">
                         <div class="card w-100 text-dark mycard">
                             <div class="wrapper">
-                                <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}" id="picture_preview">
+                                {% if post.postpicture_set.all|length == 0 %}
+                                    <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
+                                {% else %}
+                                    <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}">
+                                {% endif %}
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">

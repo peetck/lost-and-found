@@ -1,5 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
-/* @import url('https://fonts.googleapis.com/css?family=Kanit:300&display=swap'); */
+
+/* Scroll bar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px white;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #999999;
+}
+
 *{
     font-family: 'Kanit', sans-serif;
     word-wrap: break-word;

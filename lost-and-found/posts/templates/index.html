@@ -2,23 +2,7 @@
 {% load static %}
 
 {% block style %}
-    <style>
-        .has-search .form-control {
-            padding-left: 2.375rem;
-        }
-
-        .has-search .form-control-feedback {
-            position: absolute;
-            z-index: 2;
-            display: block;
-            width: 2.375rem;
-            height: 2.375rem;
-            line-height: 2.375rem;
-            text-align: center;
-            pointer-events: none;
-            color: #aaa;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -136,18 +120,30 @@
         <div class="container">
             <div class="form-row has-search mb-5">
                 <div class="col">
-                    <span class="fas fa-search form-control-feedback"></span>
+                    <label for="">ชื่อโพสต์</label>
                     <input type="text" class="form-control" placeholder="ชื่อโพสต์" id='title'>
                 </div>
                 <div class="col">
-                    <span class="fas fa-search form-control-feedback"></span>
+                    <label for="">สถานที่</label>
                     <input type="text" class="form-control" placeholder="สถานที่" id='location'>
                 </div>
                 <div class="col">
-                    <span class="fas fa-search form-control-feedback"></span>
+                    <label for="">ประเภทสิ่งของ</label>
                     <select class='form-control' id='assetType'>
                         <!-- Asset Type'll be here -->
                     </select>
+                </div>
+                <div class="col">
+                    <label>วันที่</label>
+                    <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                        <input placeholder="ไม่ระบุ" id='date_time' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker"/>
+                        <div class="input-group-append" style="cursor: pointer;" onclick="clearDate()">
+                            <div class="input-group-text"><i class="fa fa-times"></i></div>
+                        </div>
+                        <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row" id='all_post'>
@@ -173,5 +169,9 @@
 {% endblock %}
 
 {% block script %}
+    <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tempus.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'js/index_script.js' %}"></script>
 {% endblock %}

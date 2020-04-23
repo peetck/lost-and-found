@@ -10,6 +10,8 @@ from .serializers import PostSerializer, AssetTypeSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+from datetime import datetime
 # Create your views here.
 
 class PostAPI(APIView):
@@ -18,7 +20,30 @@ class PostAPI(APIView):
         search_title = request.GET.get('search_title')
         search_location = request.GET.get('search_location')
         search_assetType = int(request.GET.get('search_assetType'))
-        if search_assetType != -1:
+        search_date = request.GET.get('search_date')
+
+        if search_date != '' and search_assetType != -1:
+            date_time = datetime.strptime(search_date, "%d/%m/%Y")
+            posts = Post.objects.filter(
+                is_active=True,
+                title__icontains=search_title,
+                location__icontains=search_location,
+                assetType=AssetType.objects.get(id=search_assetType),
+                date_time__year=date_time.year,
+                date_time__month=date_time.month,
+                date_time__day=date_time.day
+            ).order_by('-create_at') # sort by create_at desc
+        elif search_date != '':
+            date_time = datetime.strptime(search_date, "%d/%m/%Y")
+            posts = Post.objects.filter(
+                is_active=True,
+                title__icontains=search_title,
+                location__icontains=search_location,
+                date_time__year=date_time.year,
+                date_time__month=date_time.month,
+                date_time__day=date_time.day
+            ).order_by('-create_at') # sort by create_at desc
+        elif search_assetType != -1:
             posts = Post.objects.filter(
                 is_active=True,
                 title__icontains=search_title,
@@ -29,7 +54,7 @@ class PostAPI(APIView):
             posts = Post.objects.filter(
                 is_active=True,
                 title__icontains=search_title,
-                location__icontains=search_location
+                location__icontains=search_location,
             ).order_by('-create_at') # sort by create_at desc
 
         assetTypes = AssetType.objects.all()

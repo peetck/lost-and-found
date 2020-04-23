@@ -4,8 +4,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 var current = null
 var search = ''
-function initialize(){
-    axios.get('/chats/chat_api/' + '?search=' + search)
+var messages = []
+async function initialize(){
+    await axios.get('/chats/chat_api/' + '?search=' + search)
         .then(function (response) {
             // handle success
             data = response.data;
@@ -114,47 +115,60 @@ function select(id, url, username){
     document.getElementById('chat_to_name').innerHTML = "<a class='text-decoration-none text-dark' href='" + '/accounts/' + id + "'>" + username + "</a>"
     document.getElementById('chat_to_img').setAttribute('src', url)
 
-    getMessage(current)
+    getMessage(current, true)
 }
 
-function getMessage(id) {
-    axios.get('/chats/message_api/' + id + '/')
+async function getMessage(id, scroll) {
+    await axios.get('/chats/message_api/' + id + '/')
         .then(function (response) {
             // handle success
             data = response.data;
             let gets = data.gets
             let sends = data.sends
-            let messages = []
+            let get_messages = []
             let seens = []
             let i = 0;
             let j = 0;
             while (i < sends.length && j < gets.length){
                 if (new Date(sends[i].timestamp) < new Date(gets[j].timestamp)){
                     sends[i]['type'] = 'send'
-                    messages.push(sends[i])
+                    get_messages.push(sends[i])
                     seens.push(sends[i]['seen'])
                     i++
                 }
                 else{
                     gets[j]['type'] = 'get'
-                    messages.push(gets[j])
+                    get_messages.push(gets[j])
                     seens.push(gets[j]['seen'])
                     j++
                 }
             }
             while (i < sends.length){
                 sends[i]['type'] = 'send'
-                messages.push(sends[i])
+                get_messages.push(sends[i])
                 seens.push(sends[i]['seen'])
                 i++
             }
             while (j < gets.length){
                 gets[j]['type'] = 'get'
-                messages.push(gets[j])
+                get_messages.push(gets[j])
                 seens.push(gets[j]['seen'])
                 j++
             }
-            displayMessage(messages, data.url, seens)
+
+            messages = get_messages
+
+            let position = document.getElementById('msg_history').scrollTop // save last position
+            let bottom = document.getElementById('msg_history').scrollHeight - document.getElementById('msg_history').clientHeight
+
+            displayMessage(data.url, seens)
+
+            document.getElementById('msg_history').scrollTop = position;
+
+            if (scroll || position == bottom){
+                /* make it bottom */
+                makeChatHistoryBottom()
+            }
         })
         .catch(function (error) {
             // handle error
@@ -162,7 +176,7 @@ function getMessage(id) {
         })
 }
 
-function displayMessage(messages, url, seens){
+function displayMessage(url, seens){
     let msg_history = document.getElementById('msg_history')
     msg_history.innerHTML = ''
 
@@ -183,8 +197,7 @@ function displayMessage(messages, url, seens){
             msg_history.append(div)
         }
     }
-    makeChatHistoryBottom();
-    initialize()
+    initialize() // because we need to display user on the left div
 }
 
 function createOutGoingMessage(message){
@@ -275,13 +288,13 @@ function createInComingMessage(message, url){
     return div
 }
 
-function sendMessage(msg){
-    axios.post('/chats/message_api/' + current + '/', {
+async function sendMessage(msg){
+    await axios.post('/chats/message_api/' + current + '/', {
         message : msg
     })
         .then(function (response) {
             // send message success
-            getMessage(current)
+            getMessage(current, true)
         })
         .catch(function (error) {
             // handle error
@@ -321,5 +334,5 @@ $('#search_user').on('keyup', function(e){
 initialize();
 
 setInterval(function(){
-    getMessage(current);
+    getMessage(current, false);
 }, 1000)

@@ -86,7 +86,7 @@ img {
 }
 
 .inbox_chat {
-    height: 100%;
+    height: 90%;
     overflow-y: scroll;
 }
 

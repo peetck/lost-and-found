@@ -1,10 +1,35 @@
+
+/* Make datetime picker use Font Awesome 5 */
+$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default,{
+    icons: {
+        time: 'fas fa-clock',
+        date: 'fas fa-calendar-alt',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check-o',
+        clear: 'fas fa-trash',
+        close: 'fas fa-times'
+    }
+});
+
+/* initial datetime picker */
+$('#datetimepicker').datetimepicker({
+    locale: 'th',
+    format: 'L',
+    useCurrent: false
+});
+
+
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 search_title = ''
 search_location = ''
 search_assetType = -1
+search_date = ''
 loaded = false
 function initialize(){
-    axios.get('/post_api/' + '?search_title=' + search_title + '&search_location=' + search_location + '&search_assetType=' + search_assetType)
+    axios.get('/post_api/' + '?search_title=' + search_title + '&search_location=' + search_location + '&search_assetType=' + search_assetType + '&search_date=' + search_date)
     .then(function (response) {
         // handle success
         data = response.data
@@ -288,6 +313,19 @@ function truncatechars(text, lim) {
     return text;
 }
 
+function clearDate(){
+    $('#datetimepicker').datetimepicker('clear')
+    search_date = ''
+    initialize()
+
+    $('#datetimepicker').datetimepicker('destroy')
+    $('#datetimepicker').datetimepicker({
+        locale: 'th',
+        format: 'L',
+        useCurrent: false
+    });
+}
+
 /* search event handle */
 $('#title').on('keyup', function(e){
     search_title = e.currentTarget.value
@@ -304,5 +342,9 @@ $('#assetType').on('change', function(e){
     initialize()
 });
 
+$('#datetimepicker').on("change.datetimepicker", function(e){
+    search_date = $("#datetimepicker").find("input").val()
+    initialize()
+})
 
 initialize()
