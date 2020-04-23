@@ -169,15 +169,26 @@ class EditProfileView(View):
     def get(self, request):
         user = request.user
         form = EditProfileForm(instance=user)
+        faculty = Faculty.objects.all()
+        
+
         return render(request, self.template_name, {
             'user' : user,
-            'form' : form
+            'form' : form,
+            'facultys' : faculty
         })
 
     def post(self, request):
         user = request.user
         userprofile = UserProfile.objects.get(user=user)
         form = EditProfileForm(request.POST,instance=user)
+        
+        faculty = Faculty.objects.get(id=int(request.POST.get('faculty')))
+        
+        userprofile.faculty = faculty
+        
+        userprofile.save()
+        
         try:
             picture = request.FILES['picture']
         except:

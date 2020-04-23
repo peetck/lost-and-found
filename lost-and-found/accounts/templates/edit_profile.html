@@ -6,23 +6,70 @@
         <form action="{% url 'edit_profile' %}" enctype="multipart/form-data" method='POST' >
         {% csrf_token %}
         <h1> แก้ไขโปรไฟล์ : {{ user.username }}</h1>
-            <img src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
-                <div class="form-group col-md-6 mb-5">
-                        <label>รูปภาพ</label>
-                        <div class="custom-file">
-                            <input type="file" class='custom-file-input' name='picture' id="avatar">
-                            <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
+            <div class="row">
+                <div class="col-lg-8 mb-5">
+                    <div class="form-row">
+                        {% for each_form in form %}
+                            <div class="form-group col-md-6 mb-4">
+                                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                {{ each_form }}
+                                {{ each_form.errors }}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group col-md-6">
+                            <label> คณะ </label>
+                            <select name="faculty" class='form-control' id="id_faculty">
+                                {% for faculty in facultys %}
+                                    {% if faculty != user.userprofile.faculty %}
+                                        <option value="{{ faculty.id }}">{{ faculty }}</option>
+                                    {% else %}
+                                        <option selected value="{{ faculty.id }}"> {{ user.userprofile.faculty }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                         </div>
-                     <div class="form-row">
-                                    {% for each_form in form %}
-                                        {{ each_form }}
-                                    {% endfor %}
+                        <div class="form-group col-md-6 mb-5">
+                            <label>รูปภาพ</label>
+                            <div class="custom-file">
+                                <input type="file" class='custom-file-input' name='picture' id="avatar">
+                                <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
+                            </div>
+                        </div>
                     </div>
-
+                    <button type="submit" class='btn btn-primary'>แก้ไข</button>
                 </div>
-                <input type="submit" value="แก้ไขโปรไฟล์" class="btn btn-lg btn-block btn-primary mb-5">
-
-
+                <div class="col-lg-4">
+                    <div class="card h-100 w-100 text-dark mycard">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b id='username'>ชื่อผู้ใช้งาน</b>
+                            </h5>
+                            <p class="card-text">
+                                <p>
+                                    <span id='first_name'>{{ user.first_name }}</span>
+                                    <span id='last_name'>{{ user.last_name }}</span>
+                                </p>
+                                <p>อีเมล์ : <span id='email'> {{ user.email }} </span></p>
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                <span class="badge badge-pill badge-success" id='faculty'>{{ user.userprofile.faculty }}</span>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
+                                <br>
+                                <b>เวลา : </b> {% now "H:i" %}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}
