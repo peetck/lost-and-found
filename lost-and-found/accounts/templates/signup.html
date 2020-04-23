@@ -1,93 +1,93 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
-<div class="container">
-    <h1 class='my-5'> สมัครสมาชิก <i class="fas fa-address-card"></i> </h1>
-    <form method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mb-5">
-                    <div class="form-row">
-                        {% for each_form in form %}
-                            {% if forloop.counter0 == 1 or forloop.counter0 == 2 %}
-                                <div class="form-group col-md-6 mb-4">
-                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                    <div class="input-group">
-                                        {{ each_form }}
-                                        <div class="input-group-append" id='password_see{{ forloop.counter0 }}'
-                                            style='cursor: pointer;'>
-                                            <span class="input-group-text">
-                                                <i id='password-eye{{ forloop.counter0 }}' class="fas fa-eye-slash"></i>
-                                            </span>
+    <div class="container">
+        <h1 class='my-5'> สมัครสมาชิก <i class="fas fa-address-card"></i> </h1>
+        <form method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-5">
+                        <div class="form-row">
+                            {% for each_form in form %}
+                                {% if forloop.counter0 == 1 or forloop.counter0 == 2 %}
+                                    <div class="form-group col-md-6 mb-4">
+                                        <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                        <div class="input-group">
+                                            {{ each_form }}
+                                            <div class="input-group-append" id='password_see{{ forloop.counter0 }}'
+                                                style='cursor: pointer;'>
+                                                <span class="input-group-text">
+                                                    <i id='password-eye{{ forloop.counter0 }}' class="fas fa-eye-slash"></i>
+                                                </span>
+                                            </div>
                                         </div>
+                                        {{ each_form.errors }}
                                     </div>
-                                    {{ each_form.errors }}
+                                {% else %}
+                                    <div class="form-group col-md-6 mb-4">
+                                        <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                        {{ each_form }}
+                                        {{ each_form.errors }}
+                                    </div>
+                                {% endif %}
+                                {% if forloop.counter0 == 0 %}
+                                    <div class="form-group col-md-6"></div>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="form-group col-md-6">
+                                <label> คณะ </label>
+                                <select name="faculty" class='form-control' id="id_faculty">
+                                    {% for faculty in facultys %}
+                                    <option value="{{ faculty.id }}">{{ faculty }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 mb-5">
+                                <label>รูปภาพ</label>
+                                <div class="custom-file">
+                                    <input type="file" class='custom-file-input' name='picture' id="avatar">
+                                    <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
                                 </div>
-                            {% else %}
-                                <div class="form-group col-md-6 mb-4">
-                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                    {{ each_form }}
-                                    {{ each_form.errors }}
-                                </div>
-                            {% endif %}
-                            {% if forloop.counter0 == 0 %}
-                                <div class="form-group col-md-6"></div>
-                            {% endif %}
-                        {% endfor %}
-                        <div class="form-group col-md-6">
-                            <label> คณะ </label>
-                            <select name="faculty" class='form-control' id="id_faculty">
-                                {% for faculty in facultys %}
-                                <option value="{{ faculty.id }}">{{ faculty }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6 mb-5">
-                            <label>รูปภาพ</label>
-                            <div class="custom-file">
-                                <input type="file" class='custom-file-input' name='picture' id="avatar">
-                                <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
                             </div>
                         </div>
+                        <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
                     </div>
-                    <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card h-100 w-100 text-dark mycard">
-                        <div class="wrapper">
-                            <img class="card-img-top" src="{% static 'images/user_default.gif' %}" id="avatar_preview">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <b id='username'>ชื่อผู้ใช้งาน</b>
-                            </h5>
-                            <p class="card-text">
-                                <p>
-                                    <span id='first_name'>ชื่อจริง</span>
-                                    <span id='last_name'>นามสกุล</span>
+                    <div class="col-lg-4">
+                        <div class="card h-100 w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{% static 'images/user_default.gif' %}" id="avatar_preview">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b id='username'>ชื่อผู้ใช้งาน</b>
+                                </h5>
+                                <p class="card-text">
+                                    <p>
+                                        <span id='first_name'>ชื่อจริง</span>
+                                        <span id='last_name'>นามสกุล</span>
+                                    </p>
+                                    <p>อีเมล์ : <span id='email'> example@example.com </span></p>
                                 </p>
-                                <p>อีเมล์ : <span id='email'> example@example.com </span></p>
-                            </p>
-                        </div>
-                        <div class="container mb-3 ml-1">
-                            <p class="card-text">
-                                <span class="badge badge-pill badge-success" id='faculty'>วิศวรกรรมศาสตร์</span>
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">
-                                <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
-                                <br>
-                                <b>เวลา : </b> {% now "H:i" %}
-                            </small>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    <span class="badge badge-pill badge-success" id='faculty'>วิศวรกรรมศาสตร์</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
+                                    <br>
+                                    <b>เวลา : </b> {% now "H:i" %}
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock %}
 
 {% block script %}

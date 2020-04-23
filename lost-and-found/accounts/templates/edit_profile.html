@@ -2,70 +2,79 @@
 
 {% block content %}
     <div class="container">
-        
+        <h1 class='my-5'> แก้ไขโปรไฟล์ : {{ user.username }}</h1>
+        {% if success %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle"></i> {{ success }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
         <form action="{% url 'edit_profile' %}" enctype="multipart/form-data" method='POST' >
         {% csrf_token %}
-        <h1> แก้ไขโปรไฟล์ : {{ user.username }}</h1>
-            <div class="row">
-                <div class="col-lg-8 mb-5">
-                    <div class="form-row">
-                        {% for each_form in form %}
-                            <div class="form-group col-md-6 mb-4">
-                                <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
-                                {{ each_form }}
-                                {{ each_form.errors }}
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-5">
+                        <div class="form-row">
+                            {% for each_form in form %}
+                                <div class="form-group col-md-6 mb-4">
+                                    <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
+                                    {{ each_form }}
+                                    {{ each_form.errors }}
+                                </div>
+                            {% endfor %}
+                            <div class="form-group col-md-6">
+                                <label> คณะ </label>
+                                <select name="faculty" class='form-control' id="id_faculty">
+                                    {% for faculty in facultys %}
+                                        {% if faculty != user.userprofile.faculty %}
+                                            <option value="{{ faculty.id }}">{{ faculty }}</option>
+                                        {% else %}
+                                            <option selected value="{{ faculty.id }}"> {{ user.userprofile.faculty }} </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
-                        {% endfor %}
-                        <div class="form-group col-md-6">
-                            <label> คณะ </label>
-                            <select name="faculty" class='form-control' id="id_faculty">
-                                {% for faculty in facultys %}
-                                    {% if faculty != user.userprofile.faculty %}
-                                        <option value="{{ faculty.id }}">{{ faculty }}</option>
-                                    {% else %}
-                                        <option selected value="{{ faculty.id }}"> {{ user.userprofile.faculty }} </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6 mb-5">
-                            <label>รูปภาพ</label>
-                            <div class="custom-file">
-                                <input type="file" class='custom-file-input' name='picture' id="avatar">
-                                <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
+                            <div class="form-group col-md-6 mb-5">
+                                <label>รูปภาพ</label>
+                                <div class="custom-file">
+                                    <input type="file" class='custom-file-input' name='picture' id="avatar">
+                                    <label class="custom-file-label" for="avatar">อัพโหลดไฟล์</label>
+                                </div>
                             </div>
                         </div>
+                        <button type="submit" class='btn btn-primary'>แก้ไข</button>
                     </div>
-                    <button type="submit" class='btn btn-primary'>แก้ไข</button>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card h-100 w-100 text-dark mycard">
-                        <div class="wrapper">
-                            <img class="card-img-top" src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <b id='username'>ชื่อผู้ใช้งาน</b>
-                            </h5>
-                            <p class="card-text">
-                                <p>
-                                    <span id='first_name'>{{ user.first_name }}</span>
-                                    <span id='last_name'>{{ user.last_name }}</span>
+                    <div class="col-lg-4">
+                        <div class="card h-100 w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b id='username'> {{ user.username }} </b>
+                                </h5>
+                                <p class="card-text">
+                                    <p>
+                                        <span id='first_name'>{{ user.first_name }}</span>
+                                        <span id='last_name'>{{ user.last_name }}</span>
+                                    </p>
+                                    <p>อีเมล์ : <span id='email'> {{ user.email }} </span></p>
                                 </p>
-                                <p>อีเมล์ : <span id='email'> {{ user.email }} </span></p>
-                            </p>
-                        </div>
-                        <div class="container mb-3 ml-1">
-                            <p class="card-text">
-                                <span class="badge badge-pill badge-success" id='faculty'>{{ user.userprofile.faculty }}</span>
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">
-                                <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
-                                <br>
-                                <b>เวลา : </b> {% now "H:i" %}
-                            </small>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    <span class="badge badge-pill badge-success" id='faculty'>{{ user.userprofile.faculty }}</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>สมัครสมาชิกวันที่ : </b> {% now "d F Y" %}
+                                    <br>
+                                    <b>เวลา : </b> {% now "H:i" %}
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,12 +102,6 @@
         $(this).next('.custom-file-label').html(fileName);
     });
 
-    /* Bind: username */
-    $("#id_username").on('input', function () {
-        var text = $("#id_username").val();
-        $("#username").html(text);
-    });
-
     /* Bind: first_name */
     $("#id_first_name").on('input', function () {
         var text = $("#id_first_name").val();
@@ -121,38 +124,6 @@
     $("#id_faculty").on('input', function () {
         var text = $("#id_faculty").find(":selected").text();
         $("#faculty").html(text);
-    });
-
-    /* Password see button 1 */
-    $('#password_see1').click(function () {
-        var password_eye = $('#id_password1').attr('type');
-
-        if (password_eye == 'password') {
-            $('#id_password1').attr("type", "text");
-            $('#password-eye1').removeClass('fas fa-eye-slash');
-            $('#password-eye1').addClass('fas fa-eye');
-        }
-        else {
-            $('#id_password1').attr("type", "password");
-            $('#password-eye1').removeClass('fas fa-eye');
-            $('#password-eye1').addClass('fas fa-eye-slash');
-        }
-    });
-
-    /* Password see button 2 */
-    $('#password_see2').click(function () {
-        var password_eye = $('#id_password2').attr('type');
-
-        if (password_eye == 'password') {
-            $('#id_password2').attr("type", "text");
-            $('#password-eye2').removeClass('fas fa-eye-slash');
-            $('#password-eye2').addClass('fas fa-eye');
-        }
-        else {
-            $('#id_password2').attr("type", "password");
-            $('#password-eye2').removeClass('fas fa-eye');
-            $('#password-eye2').addClass('fas fa-eye-slash');
-        }
     });
 </script>
 {% endblock %}
