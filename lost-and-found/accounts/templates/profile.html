@@ -62,8 +62,11 @@
                     </div>
                     <div class="row mt-5">
                         <div class='col-lg-12 jumbotron text-center border border-dark'>
-                            <h1>กราฟฟฟ</h1>
+                            <canvas id='Chart'></canvas>
+                            
                         </div>
+
+                        
                     </div>
                 </div>
             </div>
@@ -107,10 +110,63 @@
 {% block script %}
 
     <!-- Link js Chart -->
-    <script src=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <script>
-        /*  JS Chart here */
+        let chart = document.getElementById('Chart').getContext('2d')
+
+        let createChart = new Chart(chart, {
+            type: 'pie',
+            data:{
+                labels: ['Active', 'Closed'],
+                datasets: [{
+                    label: 'All Post',
+                    data: [
+                        "{{ active }}",
+                        "{{ closed }}",
+                    ],
+                    backgroundColor: [
+                        'rgba(130, 237, 169, 1)',
+                        'rgba(241, 225, 126, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderColor: '#777',
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: 'black'
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'abcdef',
+                    fontSize: 25
+                },
+                legend:{
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        fontColor: '#000'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: Number('{{ posts|length }}'),
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        })
+
+
+
+        
+
+
+        
+
     </script>
 
 {% endblock %}
