@@ -104,13 +104,12 @@ class CreateView(View):
 
 class DetailView(View):
     template_name = 'detail.html'
-    context = {}
     def get(self, request, post_id):
         post = Post.objects.get(id=post_id)
 
-        self.context['post'] = post
-
-        return render(request, self.template_name, self.context)
+        return render(request, self.template_name, {
+            'post' : post
+        })
 
     #def post(self, request, post_id):
 

@@ -120,6 +120,8 @@ class ProfileView(View):
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
         posts = Post.objects.filter(user=user)
+        founds = Post.objects.filter(user=request.user, type='found')
+        losts = Post.objects.filter(user=request.user, type='lost')
         closed = 0
         for post in posts:
             if post.is_active == False:
@@ -128,7 +130,9 @@ class ProfileView(View):
             'user' : user,
             'posts' : posts,
             'closed' : closed,
-            'active' : len(posts) - closed
+            'active' : len(posts) - closed,
+            'founds' : founds,
+            'losts' : losts
         }
         return render(request, self.template_name, context)
 

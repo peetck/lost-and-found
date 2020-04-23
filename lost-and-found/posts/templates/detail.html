@@ -3,9 +3,65 @@
 {% block content %}
 
     <div class="container">
-        <h1>Detail Page</h1>
+        <h1 class='mt-2'>{{ post }} <i class="fas fa-archive"></i> </h1>
+        <div class="row">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <textarea class='form-control h-50' readonly>{{ post.desc }}</textarea>
+                    </div>
 
-        <h3>ของ {{ post.id }} : {{ post.title }}</h3>
+                    <div class="col-md-4">
+                        <div class="card w-100 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ post.postpicture_set.all.0.picture.url }}" id="picture_preview">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b id='title'> {{ post.title|truncatechars:20 }} </b>
+                                </h5>
+                                <div class="card-text">
+                                    <p id='desc'> {{ post.desc|truncatechars:15 }} </p>
+                                    <p class='m-0'>
+                                        <small>
+                                            <b>ประเภทสิ่งของ : </b> <span id='assetType'> {{ post.assetType }} </span>
+                                        </small>
+                                    </p>
+                                    <p class='m-0'>
+                                        <small>
+                                            <b>สถานที่ : </b> <span id='location'> {{ post.location }} </span>
+                                        </small>
+                                    </p>
+                                    <p class='m-0'>
+                                        <small>
+                                            <b>วันและเวลา : </b> <span id='date_time'> {{ post.date_time|date:"d/m/Y H:i" }} </span>
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    {% if post.type == 'found' %}
+                                        <span class="badge badge-pill badge-success text-light" id='type'>เจอของหาย</span>
+                                    {% else %}
+                                        <span class="badge badge-pill badge-danger text-light" id='type'>ตามหาของ</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>เบอร์ติดต่อ : </b> <span id='contact1'> {{ post.contact1 }} </span>
+                                    <br>
+                                    <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
+                                    <br>
+                                    <b>โดย : </b> {{ post.user.username }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

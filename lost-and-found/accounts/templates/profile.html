@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="container mt-5">
-                    <div class="row mb-5">
+                    <div class="row">
                         <div class="col mb-4 rotate-img">
                             <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
                                 <div class="card-body">
@@ -60,18 +60,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5">
-                        <div class='col-lg-12 jumbotron text-center border border-dark'>
-                            <canvas id='Chart'></canvas>
-                            
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <h4> ประเภทของโพสต์ที่เป็นเจ้าของ </h4>
+                            <div class='col-lg-12 jumbotron text-center border border-dark mt-4'>
+                                <canvas id='Chart'></canvas>
+                            </div>
                         </div>
-
-                        
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="card h-100 w-100 text-dark mycard">
+            <div class="col-lg-4 mt-5">
+                <div class="card w-100 text-dark mycard">
                     <div class="wrapper">
                         <img class="card-img-top" src="{{ user.userprofile.avatar.url }}" id="avatar_preview">
                     </div>
@@ -113,21 +113,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <script>
+        Chart.defaults.global.defaultFontFamily = 'Kanit', 'sans-serif';
         let chart = document.getElementById('Chart').getContext('2d')
 
         let createChart = new Chart(chart, {
             type: 'pie',
             data:{
-                labels: ['Active', 'Closed'],
+                labels: ['เจอของหาย', 'ตามหาของ'],
                 datasets: [{
-                    label: 'All Post',
                     data: [
-                        "{{ active }}",
-                        "{{ closed }}",
+                        "{{ founds|length }}",
+                        "{{ losts|length }}",
                     ],
                     backgroundColor: [
-                        'rgba(130, 237, 169, 1)',
-                        'rgba(241, 225, 126, 1)'
+                        '#47B39C',
+                        '#EC6B56'
                     ],
                     borderWidth: 1,
                     borderColor: '#777',
@@ -136,36 +136,15 @@
                 }]
             },
             options: {
-                title: {
-                    display: true,
-                    text: 'abcdef',
-                    fontSize: 25
-                },
                 legend:{
                     display: true,
                     position: 'right',
                     labels: {
                         fontColor: '#000'
-                    }
+                    },
                 },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            max: Number('{{ posts|length }}'),
-                            stepSize: 1
-                        }
-                    }]
-                }
             }
         })
-
-
-
-        
-
-
-        
 
     </script>
 
