@@ -7,14 +7,25 @@
 {% endblock %}
 
 {% block content %}
-<!-- <h1 class='my-5'>ห้องสนทนา</h1> -->
     <div class="messaging">
         <div class="inbox_msg">
             <div class="inbox_people">
                 <div class="headind_srch">
                     <div class="recent_heading">
-                        <h3 class='mt-2 text-dark'>แชท</h3>
+                        <h3 class='mt-2 text-dark' id='header_msg'>
+                            แชท
+                        </h3>
+
                     </div>
+
+
+                    <div class="toggle toggle--daynight float-right mt-0">
+                        <input type="checkbox" id="toggle--daynight" class="toggle--checkbox" {% if theme == 'light' %} checked {% endif %}>
+                        <label class="toggle--btn m-0" for="toggle--daynight">
+                            <span class="toggle--feature"></span>
+                        </label>
+                    </div>
+
                     <div class="srch_bar mt-2">
                         <div class="form-group">
                             <div class="input-group">
@@ -27,6 +38,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
                 </div>
                 <div class="inbox_chat" id='inbox_chat'>
                     <!-- Users Show here -->
@@ -37,10 +52,12 @@
                     <div class="row">
                         <div class="col">
                             <img class='rounded-circle' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
-                            <span class='h5 ml-3' id='chat_to_name'> Loading ... </span>
+                            <span class='h5 ml-3' id='chat_to_name'>
+                                <a class="text-decoration-none text-dark" id="chat_to_name_href" href="#">Loading ...</a>
+                            </span>
                         </div>
                     </div>
-                    <hr>
+                    <hr id='mesgs_hr_bottom'>
                 </div>
                 <div class="msg_history" id='msg_history'>
                     <!-- Chat Messages (History) -->

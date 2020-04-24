@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
         fields = ['title','desc', 'type', 'assetType', 'location','date_time', 'contact1', 'contact2']
 
         widgets = {
-            'desc' : forms.Textarea(attrs={'class' : 'form-control', 'placeholder' : 'รายละเอียดต่างๆ เช่น คุณลักษณะเป็นยังไง เป็นต้น'}),
+            'desc' : forms.Textarea(attrs={'class' : 'form-control', 'style' : 'resize:none;', 'placeholder' : 'รายละเอียดต่างๆ เช่น คุณลักษณะเป็นยังไง เป็นต้น'}),
             'title' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'ชื่อโพสต์'}),
             'location' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'สถานที่ เช่น ห้องนํ้า เป็นต้น'}),
             'contact1' : forms.TextInput(attrs={'class' : 'form-control', 'placeholder' : 'xxx-xxx-xxxx'}),

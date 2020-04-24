@@ -28,6 +28,8 @@ class Post(models.Model):
     key = models.CharField(max_length=255, unique=True, null=True, blank=True)
     assetType = models.ForeignKey(AssetType, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    # for closed post
+    take_information = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.title

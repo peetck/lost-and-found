@@ -62,7 +62,7 @@ function initialize(){
             }
             createCard(posts[i].id, url, posts[i].title, posts[i].desc, posts[i].type,
                 posts[i].assetType, posts[i].location, posts[i].date_time,
-                posts[i].contact1, posts[i].contact2, posts[i].user)
+                posts[i].contact1, posts[i].contact2, posts[i].user, posts[i].is_active)
         }
 
         if (posts.length == 0){ // if not have any posts
@@ -95,7 +95,7 @@ function initialize(){
     })
 }
 
-function createCard(id, url, title, desc, type, assetType, location, date_time, contact1, contact2, user){
+function createCard(id, url, title, desc, type, assetType, location, date_time, contact1, contact2, user, is_active){
     let a = document.createElement('a')
     a.setAttribute('class', 'col-lg-3 my-3 text-decoration-none')
     a.setAttribute('href', '/detail/' + id + '/')
@@ -105,7 +105,7 @@ function createCard(id, url, title, desc, type, assetType, location, date_time, 
 
     card.append(createCardWrapper(url))
     card.append(createCardBody(title, desc, assetType, location, date_time))
-    card.append(createCardText(type,))
+    card.append(createCardText(type, is_active))
     card.append(createCardFooter(contact1, contact2, user))
 
     a.append(card)
@@ -212,7 +212,7 @@ function createCardBody(title, desc, assetType, location, date_time){
     return div
 }
 
-function createCardText(type){
+function createCardText(type, is_active){
     /*
     <div class="container mb-3 ml-1">
         <p class="card-text">
@@ -227,12 +227,15 @@ function createCardText(type){
     let p = document.createElement('p')
     p.setAttribute('class', 'card-text')
     if (type == 'found'){
-        let msg = 'เจอของหาย'
-        p.innerHTML = '<span class="badge badge-pill badge-success text-light">' + msg + '</span>'
+        p.innerHTML = ' <span class="badge badge-pill badge-success text-light"> เจอของหาย </span>'
     }
     else{
-        let msg = 'ตามหาของ'
-        p.innerHTML = '<span class="badge badge-pill badge-danger text-light">' + msg + '</span>'
+        p.innerHTML = ' <span class="badge badge-pill badge-danger text-light"> ตามหาของ </span>'
+    }
+
+
+    if (!is_active){
+        p.innerHTML += ' <span class="badge badge-pill badge-dark text-light">ปิดแล้ว</span>'
     }
 
 

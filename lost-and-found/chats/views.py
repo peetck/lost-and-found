@@ -50,7 +50,17 @@ class ChatAPI(APIView):
 
         data.sort(key=lambda x : x[2], reverse=True)
         data.extend(no_message)
+        data.append(request.user.chat.theme)
         return Response(data, status=status.HTTP_200_OK)
+
+    def patch(self, request):
+        chat = request.user.chat
+
+        theme = request.data.get('change_to')
+        chat.theme = theme
+        chat.save()
+
+        return Response(status=status.HTTP_200_OK)
 
 class MessageAPI(APIView):
 
@@ -93,5 +103,7 @@ class ChatIndexView(View):
     template_name = 'chat_index.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, {
+            'theme' : request.user.chat.theme
+        })
 

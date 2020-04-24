@@ -126,7 +126,8 @@
                         <a href="{% url 'post_delete' post.id %}">
                             <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'>
                         </a>
-                        <a class="card h-100 w-100 mb-0 text-decoration-none text-dark" href="{% url 'edit_post' post.id %}">
+                        <a class="card h-100 w-100 mb-0 text-decoration-none text-dark"
+                        href="{% if post.is_active == False %} {% url 'detail' post.id %} {% else %} {% url 'edit_post' post.id %} {% endif %}">
                             <div class="wrapper">
                                 {% if post.postpicture_set.all|length == 0 %}
                                     <img class="card-img-top" src="{% static 'images/post_default.gif' %}">
@@ -163,6 +164,10 @@
                                         <span class="badge badge-pill badge-success text-light">เจอของหาย</span>
                                     {% else %}
                                         <span class="badge badge-pill badge-danger text-light">ตามหาของ</span>
+                                    {% endif %}
+
+                                    {% if post.is_active == False %}
+                                        <span class="badge badge-pill badge-dark text-light">ปิดแล้ว</span>
                                     {% endif %}
                                 </p>
                             </div>

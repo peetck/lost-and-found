@@ -47,6 +47,16 @@ class PostAPI(APIView):
 
         return Response([serializer_posts.data, serializer_assetTypes.data], status=status.HTTP_200_OK)
 
+    def patch(self, request):
+        post_id = request.data.get('post_id')
+        post = Post.objects.get(id=post_id)
+
+        post.is_active = False
+        post.take_information = request.data.get('message')
+        post.save()
+
+        return Response({'post_id' : post_id}, status=status.HTTP_200_OK)
+
 class IndexView(View):
     template_name = 'index.html'
     def get(self, request):

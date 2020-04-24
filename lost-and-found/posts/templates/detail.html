@@ -12,12 +12,19 @@
 {% block content %}
 
     <div class="container">
-        <h1 class='mt-2'>{{ post }} <i class="fas fa-archive"></i> </h1>
+        <h1 class='mt-2'>โพสต์ : {{ post }} </h1>
         <div class="row">
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-8">
-                        <textarea class='form-control h-100 bg-light' readonly>{{ post.desc }}</textarea>
+                        {% if post.is_active == False %}
+                            <p>รายละเอียดเพิ่มเติม</p>
+                            <textarea class='form-control h-50 bg-light' style='resize: none;' readonly>{{ post.desc }}</textarea>
+                            <p class='mt-3'>ข้อมูลคนที่เอาไป</p>
+                            <textarea class='form-control bg-light' style="height: 30%; resize:none;" readonly >{{ post.take_information }}</textarea>
+                        {% else %}
+                            <textarea class='form-control h-100 bg-light' readonly>{{ post.desc }}</textarea>
+                        {% endif %}
                     </div>
                     <div class="col-md-4">
                         <div class="card w-100 text-dark mycard">
@@ -57,6 +64,10 @@
                                         <span class="badge badge-pill badge-success text-light" id='type'>เจอของหาย</span>
                                     {% else %}
                                         <span class="badge badge-pill badge-danger text-light" id='type'>ตามหาของ</span>
+                                    {% endif %}
+
+                                    {% if post.is_active == False %}
+                                        <span class="badge badge-pill badge-dark text-light">ปิดแล้ว</span>
                                     {% endif %}
                                 </p>
                             </div>
@@ -100,6 +111,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- <div class="row">
+                    <div class="col">
+                        <div class="container">
+                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Comment</h1>
+                            <hr class="mt-2 mb-5">
+                            <div class="container-fluid bg-danger">
+                                dssda
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>

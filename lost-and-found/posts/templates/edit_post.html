@@ -113,6 +113,7 @@
                                         {% else %}
                                             <span class="badge badge-pill badge-danger text-light" id='type'>ตามหาของ</span>
                                         {% endif %}
+
                                     </p>
                                 </div>
                                 <div class="card-footer">
@@ -125,7 +126,10 @@
                                     </small>
                                 </div>
                             </div>
-                            <a href="#" class='btn btn-block btn-danger mt-2'>ปิดโพสต์</a>
+
+                            <textarea class='w-100 form-control mt-2' style='resize: none;' id='take_information'></textarea>
+                            <div id='close_btn' class='btn btn-block btn-danger mt-2'>ปิดโพสต์</div>
+
                         </div>
                     </div>
                 </div>
@@ -173,6 +177,9 @@
     <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
 
     <script>
+
+        axios.defaults.xsrfCookieName = 'csrftoken'
+        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
         /* truncatechars function */
         function truncatechars(text, lim) {
@@ -389,6 +396,27 @@
                 $("#type").attr('class', 'badge badge-pill badge-danger')
             }
         });
+
+
+        $('#close_btn').on('click', function(e){
+            let take_information = $('#take_information').val()
+
+            if (take_information !== ''){
+                axios.patch('/post_api/', {
+                    post_id : {{ post.id }},
+                    message : take_information
+                })
+                    .then(function (response) {
+                        // handle success
+                        data =response.data
+                        window.location = '/detail/' + data.post_id + '/'
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            }
+        })
 
     </script>
 {% endblock %}
