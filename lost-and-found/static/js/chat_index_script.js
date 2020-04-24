@@ -74,7 +74,9 @@ function displayUser(username, msg, datetime, url, id, seen) {
         p.setAttribute('class', 'font-weight-bold')
         h5.innerHTML = '<b>' + username + '</b> ' + '<i class="fas fa-exclamation-circle"></i>' + '<span class="chat_date">' + datetime + '</span>'
     }
-
+    if (datetime == 'ไม่มีข้อมูล'){
+        p.innerText = 'ไม่มีข้อมูล'
+    }
     div4.appendChild(h5)
     div4.appendChild(p)
 

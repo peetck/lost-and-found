@@ -118,32 +118,48 @@
         </h1>
 
         <div class="container">
-            <div class="form-row has-search mb-5">
-                <div class="col">
+            <div class="form-row mb-3">
+                <div class="col-4">
                     <label for="">ชื่อโพสต์</label>
                     <input type="text" class="form-control" placeholder="ชื่อโพสต์" id='title'>
                 </div>
-                <div class="col">
+                <div class="col-4">
                     <label for="">สถานที่</label>
                     <input type="text" class="form-control" placeholder="สถานที่" id='location'>
                 </div>
-                <div class="col">
+                <div class="col-4">
+                    <label>วันที่</label>
+                    <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                        <input placeholder="ไม่ระบุ" id='datetimepicker' type="text" class="form-control datetimepicker-input" data-toggle='datetimepicker' data-target="#datetimepicker"/>
+                        <div class="input-group-append" style="cursor: pointer;" onclick="clearDate()">
+                            <div class="input-group-text"><i class="fa fa-times"></i></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-5">
+                <div class="col-4">
                     <label for="">ประเภทสิ่งของ</label>
                     <select class='form-control' id='assetType'>
                         <!-- Asset Type'll be here -->
                     </select>
                 </div>
-                <div class="col">
-                    <label>วันที่</label>
-                    <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                        <input placeholder="ไม่ระบุ" id='date_time' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker"/>
-                        <div class="input-group-append" style="cursor: pointer;" onclick="clearDate()">
-                            <div class="input-group-text"><i class="fa fa-times"></i></div>
-                        </div>
-                        <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                    </div>
+                <div class='col-4'>
+                    <label>ประเภทของโพสต์</label>
+                    <select class='form-control' id="type">
+                        <option value="-1" selected>ทั้งหมด</option>
+                        <option value="found">เจอของหาย</option>
+                        <option value="lost">ตามหาของ</option>
+                    </select>
+                </div>
+                <div class='col-4'>
+                    <label>สถานะโพสต์</label>
+                    <select class='form-control' id="is_active">
+                        <option value="-1" selected>ทั้งหมด</option>
+                        <option value="1">เปิด</option>
+                        <option value="0">ปิด</option>
+                    </select>
                 </div>
             </div>
             <div class="row" id='all_post'>

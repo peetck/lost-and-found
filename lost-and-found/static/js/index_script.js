@@ -27,10 +27,18 @@ search_title = ''
 search_location = ''
 search_assetType = -1
 search_date = ''
+search_type = -1
+search_is_active = -1
 loaded = false
 function initialize(){
-    axios.get('/post_api/' + '?search_title=' + search_title + '&search_location=' + search_location + '&search_assetType=' + search_assetType + '&search_date=' + search_date)
-    .then(function (response) {
+    axios.get('/post_api/' +
+        '?search_title=' + search_title +
+        '&search_location=' + search_location +
+        '&search_assetType=' + search_assetType +
+        '&search_date=' + search_date +
+        '&search_type=' + search_type +
+        '&search_is_active=' + search_is_active
+    ).then(function (response) {
         // handle success
         data = response.data
 
@@ -287,7 +295,7 @@ function createAssetTypeChoice(choices){
     let select = document.getElementById('assetType')
 
     let option = document.createElement('option')
-    option.innerText = '---------'
+    option.innerText = 'ทุกประเภท'
     option.value = -1
     select.append(option)
 
@@ -346,5 +354,15 @@ $('#datetimepicker').on("change.datetimepicker", function(e){
     search_date = $("#datetimepicker").find("input").val()
     initialize()
 })
+
+$('#type').on('change', function(e){
+    search_type = $("#type :selected").val()
+    initialize()
+});
+
+$('#is_active').on('change', function(e){
+    search_is_active = $("#is_active :selected").val()
+    initialize()
+});
 
 initialize()

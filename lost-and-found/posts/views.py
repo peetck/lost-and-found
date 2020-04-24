@@ -19,43 +19,26 @@ class PostAPI(APIView):
     def get(self, request):
         search_title = request.GET.get('search_title')
         search_location = request.GET.get('search_location')
-        search_assetType = int(request.GET.get('search_assetType'))
-        search_date = request.GET.get('search_date')
+        posts = Post.objects.filter(title__icontains=search_title, location__icontains=search_location)
 
-        if search_date != '' and search_assetType != -1:
+        search_date = request.GET.get('search_date')
+        if search_date != '':
             date_time = datetime.strptime(search_date, "%d/%m/%Y")
-            posts = Post.objects.filter(
-                is_active=True,
-                title__icontains=search_title,
-                location__icontains=search_location,
-                assetType=AssetType.objects.get(id=search_assetType),
-                date_time__year=date_time.year,
-                date_time__month=date_time.month,
-                date_time__day=date_time.day
-            ).order_by('-create_at') # sort by create_at desc
-        elif search_date != '':
-            date_time = datetime.strptime(search_date, "%d/%m/%Y")
-            posts = Post.objects.filter(
-                is_active=True,
-                title__icontains=search_title,
-                location__icontains=search_location,
-                date_time__year=date_time.year,
-                date_time__month=date_time.month,
-                date_time__day=date_time.day
-            ).order_by('-create_at') # sort by create_at desc
-        elif search_assetType != -1:
-            posts = Post.objects.filter(
-                is_active=True,
-                title__icontains=search_title,
-                location__icontains=search_location,
-                assetType=AssetType.objects.get(id=search_assetType)
-            ).order_by('-create_at') # sort by create_at desc
-        else:
-            posts = Post.objects.filter(
-                is_active=True,
-                title__icontains=search_title,
-                location__icontains=search_location,
-            ).order_by('-create_at') # sort by create_at desc
+            posts = posts.filter(date_time__year=date_time.year, date_time__month=date_time.month, date_time__day=date_time.day)
+
+        search_assetType = request.GET.get('search_assetType')
+        if search_assetType != '-1':
+            posts = posts.filter(assetType=AssetType.objects.get(id=search_assetType))
+
+        search_type = request.GET.get('search_type')
+        if search_type != '-1':
+            posts = posts.filter(type=search_type)
+
+        search_is_active = request.GET.get('search_is_active')
+        if search_is_active != '-1':
+            posts = posts.filter(is_active=bool(int(search_is_active)))
+
+        posts = posts.order_by('-create_at') # sort by create_at desc
 
         assetTypes = AssetType.objects.all()
 
@@ -172,11 +155,6 @@ class EditPostView(View):
         if form.is_valid():
 
             post = form.save(commit=False)
-            is_active = request.POST.get('is_active')
-            if is_active:
-                post.is_active = True
-            else:
-                post.is_active = False
 
             if post.user == None and request.POST.get('key') != post.key:
                 return render(request, self.template_name, {

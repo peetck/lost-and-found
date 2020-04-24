@@ -103,20 +103,22 @@
             </div>
         </div>
 
-        <h1 class='mt-3'>รูปภาพของโพสต์ <i class="fas fa-image"></i> </h1>
-        <div class="row mt-5 mb-4 jumbotron border border-dark" id='pictures'>
-            {{ formset.management_form }}
-            <!-- Picture that upload'll be here -->
+        {{ formset.management_form }}
+        <div class="container">
+            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">รูปภาพ</h1>
+            <hr class="mt-2 mb-5">
+            <div class="jumbotron col-12 text-center bg-light" id='no-upload'>
+                <h1>
+                    ไม่มีรูปภาพที่อัพโหลด <br>
+                    <i class="fas fa-not-equal mt-3"></i>
+                </h1>
+            </div>
+            <div class="row text-center text-lg-left" id='pictures'>
 
-            <h1 class="col-12 text-center" id='no-upload'>
-                ไม่มีรูปภาพที่อัพโหลด
-                <br>
-                <i class="fas fa-not-equal mt-3"></i>
-            </h1>
-
+            </div>
         </div>
 
-        <input type="submit" value="สร้างโพสต์" class="btn btn-lg btn-block btn-primary mb-5">
+        <input type="submit" value="สร้างโพสต์" class="btn btn-lg btn-block btn-primary my-5">
     </div>
 </form>
 {% endblock %}

@@ -20,7 +20,7 @@ class PostForm(forms.ModelForm):
         }
 
         labels = {
-            'desc' : 'รายละเอียด',
+            'desc' : 'รายละเอียดเพิ่มเติม',
             'title' : 'ชื่อโพสต์',
             'location' : 'สถานที่',
             'contact1' : 'เบอร์ติดต่อ',
