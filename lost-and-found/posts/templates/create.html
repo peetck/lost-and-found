@@ -15,7 +15,12 @@
                 <div class="row">
                     <div class="col-md-8">
                         {% if key_error %}
-                            {{ key_error }}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fa fa-exclamation-circle"></i> {{ key_error }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                         {% endif %}
                         <div class="form-row">
                             {% for each_form in form %}
@@ -40,7 +45,7 @@
                                 {% if forloop.counter0 == 0 and not user.is_authenticated %}
                                     <div class="form-group col-md-6">
                                         <label for='id_key'>คีย์</label>
-                                        <input type="text" name='key' class='form-control' id='id_key' pattern="[a-zA-Z0-9]+" minlength='6' oninvalid="setCustomValidity('คีย์ประกอบได้แค่ตัวอักษร (a-z) และตัวเลข (0-9) เท่านั้น และต้องมีขนาดตั้งแต่ 6 ตัวขึ้นไป')" required>
+                                        <input type="text" name='key' class='form-control' id='id_key' required>
                                         <small class="form-text text-muted">เนื่องจากคุณไม่ได้ทําการสมัครสมาชิก กรุณากรอกคีย์ที่คิดว่าจําได้</small>
                                     </div>
                                 {% endif %}

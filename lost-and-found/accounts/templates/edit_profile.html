@@ -3,19 +3,19 @@
 {% block content %}
     <div class="container">
         <h1 class='my-5'> แก้ไขโปรไฟล์ : {{ user.username }}</h1>
-        {% if success %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fa fa-exclamation-circle"></i> {{ success }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endif %}
         <form action="{% url 'edit_profile' %}" enctype="multipart/form-data" method='POST' >
         {% csrf_token %}
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 mb-5">
+                        {% if success %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fa fa-exclamation-circle"></i> {{ success }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
                         <div class="form-row">
                             {% for each_form in form %}
                                 <div class="form-group col-md-6 mb-4">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class='btn btn-primary'>แก้ไข</button>
+                        <button type="submit" class='btn btn-primary'>แก้ไขโปรไฟล์</button>
                     </div>
                     <div class="col-lg-4">
                         <div class="card h-100 w-100 text-dark mycard">

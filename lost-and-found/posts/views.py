@@ -130,7 +130,10 @@ class EditPostView(View):
 
         form = PostForm(instance=post)
 
-        if request.user != post.user:
+        if request.user.is_authenticated:
+            if request.user != post.user: # ถ้าล็อกอินและเข้าไปหน้าแก้ไขโพสต์ที่ตัวเองไม่ได้สร้าง
+                return redirect('index')
+        elif post.key == None: # ถ้าไม่ได้ล็อกอินและเข้าแก้ไขโพสต์ที่สร้างโดยคนที่ล็อกอิน
             return redirect('index')
 
 
@@ -160,6 +163,8 @@ class EditPostView(View):
                 return render(request, self.template_name, {
                     'form' : form,
                     'post': post,
+                    'pictures' : post.postpicture_set.all(),
+                    'formset' : formset,
                     'anonymous' : True if post.user == None else False,
                     'key_error' : 'คีย์ที่กรอกมาไม่ถูกต้อง'
                 })
@@ -179,7 +184,22 @@ class EditPostView(View):
                         picture.post = post
                         picture.save()
 
-            return redirect('edit_post', post_id)
+            return render(request, self.template_name, {
+                'form' : form,
+                'post': post,
+                'pictures' : post.postpicture_set.all(),
+                'formset' : formset,
+                'anonymous' : True if post.user == None else False,
+                'success' : 'แก้ไขข้อมูลโพสต์สําเร็จแล้ว'
+            })
+        else:
+            return render(request, self.template_name, {
+                'form' : form,
+                'post': post,
+                'pictures' : post.postpicture_set.all(),
+                'formset' : formset,
+                'anonymous' : True if post.user == None else False,
+            })
 
 
 

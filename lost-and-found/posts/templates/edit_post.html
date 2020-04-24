@@ -17,19 +17,25 @@
                 <div class="container mt-4">
                     <div class="row">
                         <div class="col-md-8">
+
                                 {% if key_error %}
-                                    {{ key_error }}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-exclamation-circle"></i> {{ key_error }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                 {% endif %}
 
-                                <!-- <div class="custom-control custom-switch">
-                                    {% if post.is_active %}
-                                        <input type="checkbox" class="custom-control-input" name='is_active' id="is_active" checked >
-                                        <label class="custom-control-label" for="is_active">สถานะของโพสต์ : เปิด</label>
-                                    {% else %}
-                                        <input type="checkbox" class="custom-control-input">
-                                        <label class="custom-control-label">สถานะของโพสต์ : ปิด</label>
-                                    {% endif %}
-                                </div><br> -->
+                                {% if success %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-exclamation-circle"></i> {{ success }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+
                                 <div class="form-row">
                                     {% for each_form in form %}
                                         <div class="form-group {% if forloop.counter0 == 1 %} col-md-12 {% else %} col-md-6 {% endif %} mb-4">
