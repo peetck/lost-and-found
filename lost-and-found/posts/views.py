@@ -22,6 +22,17 @@ class CommentAPI(APIView):
         serializer_comment = CommentSerializer(comments, many=True)
         return Response(serializer_comment.data, status=status.HTTP_200_OK)
 
+    def post(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+
+        comment = Comment.objects.create(
+            msg=request.data['msg'],
+            user=request.user,
+            post=post
+        )
+        serializer_comment = CommentSerializer(comment)
+        return Response(serializer_comment.data, status=status.HTTP_200_OK)
+
 
 
 class PostAPI(APIView):

@@ -114,9 +114,9 @@
                             <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">คอมเมนต์</h1>
                             <hr class="mt-2 mb-5">
 
-                            <textarea class='form-control' cols="30" rows="10" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
+                            <textarea id='comment_inp' class='form-control' cols="30" rows="10" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
 
-                            <button class='btn btn-primary float-right mt-4'>คอมเมนต์</button>
+                            <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
                             <div class="container-fluid mt-5 pt-4">
 
 
@@ -177,8 +177,18 @@
     
 
     <script>
-        axios.get('/comment_api/'+ {{post.id}}+'/').then(function (response) {
-            console.log(response.data)
+        axios.defaults.xsrfCookieName = 'csrftoken'
+        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
+
+        //axios.get('/comment_api/'+ {{post.id}}+'/').then(function (response) {
+            //console.log(response.data)})
+        $('#comment_btn').on('click', function(e){
+            let message = $('#comment_inp').val()
+            axios.post('/comment_api/'+ {{post.id}}+'/',{
+                msg : message,
+            }).then(function (response) {
+                
+            })
         })
     </script>
 {% endblock %}

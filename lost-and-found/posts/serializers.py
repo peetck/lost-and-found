@@ -21,7 +21,8 @@ class AssetTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-    
+    user = serializers.ReadOnlyField(source='user.username')
+    avatar = serializers.ReadOnlyField(source='user.userprofile.avatar.url')
     class Meta:
         model = Comment
         fields = '__all__'
