@@ -1,14 +1,6 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 
-{% block style %}
-    <style>
-        .carousel-control-next, .carousel-control-prev {
-            filter: invert(100%);
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
 
     <div class="container">
@@ -116,19 +108,67 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="row">
+                <div class="row mb-5">
                     <div class="col">
                         <div class="container">
-                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Comment</h1>
+                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">คอมเมนต์</h1>
                             <hr class="mt-2 mb-5">
-                            <div class="container-fluid bg-danger">
-                                dssda
+
+                            <textarea class='form-control' cols="30" rows="10" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
+
+                            <button class='btn btn-primary float-right mt-4'>คอมเมนต์</button>
+                            <div class="container-fluid mt-5 pt-4">
+
+
+                                <div class="media my-4">
+                                    <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <h5 class="mt-0 text-primary">
+                                            <a href="#profile">User01</a>
+                                        </h5>
+                                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="media my-4">
+                                    <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <h5 class="mt-0 text-primary">
+                                            <a href="#profile">User02</a>
+                                        </h5>
+                                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="media my-4">
+                                    <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <h5 class="mt-0 text-primary">
+                                            <a href="#profile">User03</a>
+                                        </h5>
+                                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer only detail -->
+    <footer class='mt-4'>
+        <div style="height: 150px; overflow: hidden;" >
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #0275d8;"></path>
+            </svg>
+        </div>
+    </footer>
 
 {% endblock %}
