@@ -118,7 +118,7 @@
 
                             <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
                             <div class="container-fluid mt-5 pt-4" id='comments'>
-
+                                 
 
                             </div>
                         </div>
@@ -147,10 +147,15 @@
         axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
         function initialize(){
+            
             axios.get('/comment_api/'+ {{post.id}}+'/')
                 .then(function (response) {
                     data = response.data
-                    addComment(data[0])
+                    
+                    for (i = 0;i<data.length;i++){
+                        addComment(data[i])
+                    }
+                    
                 })
         }
 
@@ -167,6 +172,45 @@
             </div>
             <hr>
             */
+            let div1 = document.createElement('div')
+            div1.setAttribute('class', 'media my-4')
+
+            let img = document.createElement('img')
+            img.setAttribute('class', 'mr-3 img-thumbnail rounded-circle')
+            img.setAttribute('width', '64')
+            img.setAttribute('height', '64')
+            img.setAttribute('src', data.avatar)
+            
+            let div2 = document.createElement('div')
+            div2.setAttribute('class', 'media-body')
+
+            let h5 = document.createElement('h5')
+            h5.setAttribute('class', 'mt-0 text-primary')
+
+            let a = document.createElement('a')
+            a.setAttribute('href', '/accounts/' + data.user + '/')
+            a.innerText = data.username
+
+            h5.append(a)
+            div2.append(h5)
+
+            let small = document.createElement('small')
+            small.innerText = data.msg
+            
+            div2.append(small)
+            div1.append(img)
+            div1.append(div2)
+            
+            
+
+            let comments = document.getElementById('comments')
+            comments.append(div1)
+            comments.append(document.createElement('hr'))
+
+
+
+
+
 
         }
 
@@ -177,6 +221,7 @@
             }).then(function (response) {
                 data = response.data
                 addComment(data)
+                $('#comment_inp').val('')
             })
         })
 
