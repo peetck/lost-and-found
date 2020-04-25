@@ -9,11 +9,8 @@
                 <div class="row">
                     <div class="col-lg-8 mb-5">
                         {% if success %}
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <i class="fa fa-exclamation-circle"></i> {{ success }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
+                            <div class="alert alert-success" role="alert">
+                                <i class="fa fa-exclamation-circle mr-1"></i> {{ success }}
                             </div>
                         {% endif %}
                         <div class="form-row">
@@ -21,7 +18,7 @@
                                 <div class="form-group col-md-6 mb-4">
                                     <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
                                     {{ each_form }}
-                                    {{ each_form.errors }}
+                                    <small class='text-danger'> {{ each_form.errors.0 }} </small>
                                 </div>
                             {% endfor %}
                             <div class="form-group col-md-6">

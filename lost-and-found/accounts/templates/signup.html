@@ -22,13 +22,13 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        {{ each_form.errors }}
+                                        <small class='text-danger'> {{ each_form.errors.0 }} </small>
                                     </div>
                                 {% else %}
                                     <div class="form-group col-md-6 mb-4">
                                         <label for="{{ each_form.id_for_label }}"> {{ each_form.label }}</label>
                                         {{ each_form }}
-                                        {{ each_form.errors }}
+                                        <small class='text-danger'> {{ each_form.errors.0 }} </small>
                                     </div>
                                 {% endif %}
                                 {% if forloop.counter0 == 0 %}

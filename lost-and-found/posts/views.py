@@ -38,7 +38,7 @@ class PostAPI(APIView):
         if search_is_active != '-1':
             posts = posts.filter(is_active=bool(int(search_is_active)))
 
-        posts = posts.order_by('-create_at') # sort by create_at desc
+        posts = posts.order_by('-is_active', '-create_at') # sort by create_at & is_active desc
 
         assetTypes = AssetType.objects.all()
 
@@ -60,17 +60,9 @@ class PostAPI(APIView):
 class IndexView(View):
     template_name = 'index.html'
     def get(self, request):
-        posts = Post.objects.filter(is_active=True)
-        losts = []
-        founds = []
-        active = 0
-        for post in posts:
-            if post.type == 'lost':
-                losts.append(post)
-            else:
-                founds.append(post)
-                if post.is_active:
-                    active += 1
+        losts = Post.objects.filter(type='lost')
+        founds = Post.objects.filter(type='found')
+        active = len(founds.filter(is_active=True))
 
         return render(request, self.template_name, {
             'losts' : losts,
@@ -176,7 +168,7 @@ class EditPostView(View):
                     'pictures' : post.postpicture_set.all(),
                     'formset' : formset,
                     'anonymous' : True if post.user == None else False,
-                    'key_error' : 'คีย์ที่กรอกมาไม่ถูกต้อง'
+                    'key_error' : 'คีย์ไม่ถูกต้อง'
                 })
 
             post.save()

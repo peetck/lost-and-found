@@ -50,8 +50,7 @@ class ChatAPI(APIView):
 
         data.sort(key=lambda x : x[2], reverse=True)
         data.extend(no_message)
-        data.append(request.user.chat.theme)
-        return Response(data, status=status.HTTP_200_OK)
+        return Response([data, request.user.chat.theme], status=status.HTTP_200_OK)
 
     def patch(self, request):
         chat = request.user.chat

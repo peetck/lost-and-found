@@ -19,20 +19,14 @@
                         <div class="col-md-8">
 
                                 {% if key_error %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <i class="fa fa-exclamation-circle"></i> {{ key_error }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                    <div class="alert alert-danger" role="alert">
+                                        <i class="fa fa-exclamation-circle mr-1"></i> {{ key_error }}
                                     </div>
                                 {% endif %}
 
                                 {% if success %}
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <i class="fa fa-exclamation-circle"></i> {{ success }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button>
+                                    <div class="alert alert-success" role="alert">
+                                        <i class="fa fa-exclamation-circle mr-1"></i> {{ success }}
                                     </div>
                                 {% endif %}
 
@@ -122,12 +116,15 @@
                                         <br>
                                         <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
                                         <br>
-                                        <b>โดย : </b> {{ post.user.username }}
+                                        <b>โดย : </b> {% if post.user %} {{ post.user.username }} {% else %} Anonymous User {% endif %}
                                     </small>
                                 </div>
                             </div>
 
-                            <textarea class='w-100 form-control mt-2' style='resize: none;' id='take_information'></textarea>
+                            <div id='close_alert' class="alert alert-danger mt-3" role="alert" style="display: none;">
+                                <i class="fas fa-exclamation mr-1"></i> กรุณากรอกรายละเอียด
+                            </div>
+                            <textarea class='w-100 form-control mt-2' style='resize: none;' id='take_information' placeholder="รายละเอียดที่จะแสดงตอนปิดโพสต์"></textarea>
                             <div id='close_btn' class='btn btn-block btn-danger mt-2'>ปิดโพสต์</div>
 
                         </div>
@@ -399,11 +396,11 @@
 
 
         $('#close_btn').on('click', function(e){
-            let take_information = $('#take_information').val()
-
+            let take_information = $('#take_information').val().trim()
+            let post_id = {{ post.id }};
             if (take_information !== ''){
                 axios.patch('/post_api/', {
-                    post_id : {{ post.id }},
+                    post_id : post_id,
                     message : take_information
                 })
                     .then(function (response) {
@@ -415,6 +412,9 @@
                         // handle error
                         console.log(error);
                     })
+            }
+            else{
+                document.getElementById('close_alert').style.display = 'block'
             }
         })
 

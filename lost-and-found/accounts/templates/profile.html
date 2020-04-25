@@ -128,7 +128,7 @@
         let createChart = new Chart(chart, {
             type: 'pie',
             data:{
-                labels: ['เจอของหาย', 'ตามหาของ'],
+                labels: ['เจอของหาย ({{ founds|length }})', 'ตามหาของ ({{ losts|length }})'],
                 datasets: [{
                     data: [
                         "{{ founds|length }}",

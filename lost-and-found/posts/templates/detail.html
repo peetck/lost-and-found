@@ -20,10 +20,15 @@
                         {% if post.is_active == False %}
                             <p>รายละเอียดเพิ่มเติม</p>
                             <textarea class='form-control h-50 bg-light' style='resize: none;' readonly>{{ post.desc }}</textarea>
-                            <p class='mt-3'>ข้อมูลคนที่เอาไป</p>
+                            {% if post.type == 'found' %}
+                                <p class='mt-3'>รายละเอียดเกี่ยวกับคนที่มารับของไป</p>
+                            {% else %}
+                                <p class='mt-3'>รายละเอียดเกี่ยวกับคนที่เจอของ</p>
+                            {% endif %}
                             <textarea class='form-control bg-light' style="height: 30%; resize:none;" readonly >{{ post.take_information }}</textarea>
                         {% else %}
-                            <textarea class='form-control h-100 bg-light' readonly>{{ post.desc }}</textarea>
+                            <p>รายละเอียดเพิ่มเติม</p>
+                            <textarea class='form-control bg-light' style='resize: none; height: 90%;' readonly>{{ post.desc }}</textarea>
                         {% endif %}
                     </div>
                     <div class="col-md-4">
@@ -77,7 +82,7 @@
                                     <br>
                                     <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
                                     <br>
-                                    <b>โดย : </b> {{ post.user.username }}
+                                    <b>โดย : </b> {% if post.user %} {{ post.user.username }} {% else %} Anonymous User {% endif %}
                                 </small>
                             </div>
                         </div>

@@ -11,90 +11,90 @@
 <div class="container">
     <h1 class='mt-5 mb-5'> โพสต์ของฉัน </h1>
     {% if user.is_authenticated %}
-    <h5 class='mb-5'>
-        <div class="container">
-            <div class="row">
+        <h5 class='mb-5'>
+            <div class="container">
+                <div class="row">
 
-                <div class="col mb-4 rotate-img">
-                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์ทั้งหมด</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        {{ posts|length }}
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid black !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ทั้งหมด</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ posts|length }}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-auto">
-                                    <i class="fas fa-archive fa-2x"></i>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col mb-4 rotate-img">
-                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์เจอของหาย</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        {{ founds|length }}
+                                    <div class="col-auto">
+                                        <i class="fas fa-archive fa-2x"></i>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-folder-open fa-2x"></i>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col mb-4 rotate-img">
-                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์ตามหาของ</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        {{ losts|length }}
+
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #5cb85c !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์เจอของหาย</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ founds|length }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-search fa-2x"></i>
+                                    <div class="col-auto">
+                                        <i class="fas fa-folder-open fa-2x"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col mb-4 rotate-img">
-                    <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="font-weight-bold text-uppercase mb-1">โพสต์ที่ปิดแล้ว</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                {{ closed }}
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ตามหาของ</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ losts|length }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-search fa-2x"></i>
                                     </div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-times-circle fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4 rotate-img">
+                        <div class="card shadow h-100 py-2" style="border-left:.25rem solid #d9534f !important">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="font-weight-bold text-uppercase mb-1">โพสต์ที่ปิดแล้ว</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    {{ closed }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-times-circle fa-2x"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </h5>
+        </h5>
     {% endif %}
     <div class="container">
         {% if posts == 'key' %}
             <div class='col-lg-12 jumbotron text-center border border-dark'>
                 <img src="{% static 'images/post.png' %}" width='15%' class='mb-5'>
-                <h4 class='mb-3'>กรุณากรอกคีย์เพื่อจัดการโพสต์ของคุณ</h4>
+                <h4 class='mb-3'>กรุณากรอกคีย์เพื่อค้นหาโพสต์ของคุณ</h4>
                 {% if key_error %}
                     <span class="text-danger">{{ key_error }}</span>
                 {% endif %}
@@ -108,7 +108,7 @@
                         <div class="col-4"></div>
                     </div>
 
-                    <input type="submit" class='btn btn-warning' value="ยืนยัน">
+                    <input type="submit" class='btn btn-primary' value="ยืนยัน">
                 </form>
             </div>
 
@@ -177,7 +177,7 @@
                                     <br>
                                     <b>อีเมล์ : </b> <span id='contact2'> {{ post.contact2 }} </span>
                                     <br>
-                                    <b>โดย : </b> {{ post.user.username }}
+                                    <b>โดย : </b> {% if post.user %} {{ post.user.username }} {% else %} Anonymous User {% endif %}
                                 </small>
                             </div>
                         </a>

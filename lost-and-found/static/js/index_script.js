@@ -275,7 +275,12 @@ function createCardFooter(contact1, contact2, user){
 
     let span3 = document.createElement('span')
     span3.append(createBoldText('โดย : '))
-    span3.append(user)
+    if (user){
+        span3.append(user)
+    }
+    else{
+        span3.append('Anonymous User')
+    }
     span3.append(document.createElement('br'))
 
     small.append(span1)

@@ -87,7 +87,7 @@ class MyPostView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            posts = Post.objects.filter(user=request.user)
+            posts = Post.objects.filter(user=request.user).order_by('-is_active', '-create_at')
             founds = Post.objects.filter(user=request.user, type='found')
             losts = Post.objects.filter(user=request.user, type='lost')
         else:

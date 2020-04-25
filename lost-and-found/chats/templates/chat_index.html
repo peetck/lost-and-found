@@ -19,7 +19,7 @@
                     </div>
 
 
-                    <div class="toggle toggle--daynight float-right mt-0">
+                    <div class="toggle toggle--daynight float-right mt-3">
                         <input type="checkbox" id="toggle--daynight" class="toggle--checkbox" {% if theme == 'light' %} checked {% endif %}>
                         <label class="toggle--btn m-0" for="toggle--daynight">
                             <span class="toggle--feature"></span>
@@ -51,7 +51,7 @@
                 <div class="container-fluid p-0 m-0" style="position: fixed;">
                     <div class="row">
                         <div class="col">
-                            <img class='rounded-circle' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
+                            <img class='rounded-circle img-thumbnail' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
                             <span class='h5 ml-3' id='chat_to_name'>
                                 <a class="text-decoration-none text-dark" id="chat_to_name_href" href="#">Loading ...</a>
                             </span>
@@ -61,11 +61,17 @@
                 </div>
                 <div class="msg_history" id='msg_history'>
                     <!-- Chat Messages (History) -->
+                    <!-- <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p class='bg-dark'> {{ message }} </p>
+                            <span class="time_date"> 11:01 AM | June 9</span>
+                        </div>
+                    </div> -->
 
                 </div>
                 <div class="form-group mt-5" id='input_message_box'>
                     <div class="input-group">
-                        <input type="text" class='form-control' id='send_message_input'>
+                        <input type="text" class='form-control' id='send_message_input' placeholder="พิมพ์ข้อความ...">
                         <div class="input-group-append" style='cursor: pointer;'>
                             <span class="input-group-text" id='send_message_btn'>
                                 <i class="fas fa-paper-plane"></i>

@@ -10,9 +10,10 @@ async function initialize(){
     await axios.get('/chats/chat_api/' + '?search=' + search)
         .then(function (response) {
             // handle success
-            data = response.data;
-            theme = data[8];
-            for (var i = 0; i < data.length - 1; i++) {
+            data = response.data[0];
+            theme = response.data[1]; // update theme
+
+            for (var i = 0; i < data.length; i++) {
                 username = data[i][0]
                 msg = data[i][1]
                 if (data[i][2] === '') {
@@ -38,7 +39,9 @@ async function initialize(){
                 document.getElementById('mesgs_hr_bottom').style = ''
                 document.getElementsByClassName('inbox_people')[0].style.backgroundColor = '#f8f8f8'
                 document.getElementById('header_msg').setAttribute('class', 'mt-2 text-dark')
-                document.getElementsByClassName('active_chat')[0].style.backgroundColor = '#ebebeb'
+                if (document.getElementsByClassName('active_chat')[0] != null){
+                    document.getElementsByClassName('active_chat')[0].style.backgroundColor = '#ebebeb'
+                }
                 document.getElementsByClassName('inbox_msg')[0].style.border = '1px solid #c4c4c4'
                 document.getElementsByClassName('headind_srch')[0].style = 'padding: 10px 29px 10px 20px; overflow: hidden; border-bottom: 1px solid #c4c4c4;'
 
@@ -49,7 +52,9 @@ async function initialize(){
                 document.getElementById('mesgs_hr_bottom').style.backgroundColor = '#6C757D'
                 document.getElementsByClassName('inbox_people')[0].style.backgroundColor = '#18191A'
                 document.getElementById('header_msg').setAttribute('class', 'mt-2 text-light')
-                document.getElementsByClassName('active_chat')[0].style.backgroundColor = '#242526'
+                if (document.getElementsByClassName('active_chat')[0] != null){
+                    document.getElementsByClassName('active_chat')[0].style.backgroundColor = '#242526'
+                }
                 document.getElementsByClassName('inbox_msg')[0].style.border = '1px solid #18191A'
                 document.getElementsByClassName('headind_srch')[0].style = 'padding: 10px 29px 10px 20px; overflow: hidden; border-bottom: 1px solid #6C757D;'
 
@@ -84,7 +89,7 @@ function displayUser(username, msg, datetime, url, id, seen) {
 
     img = document.createElement('img')
     img.src = url
-    img.setAttribute('class', 'rounded-circle')
+    img.setAttribute('class', 'rounded-circle border img-thumbnail')
     img.setAttribute('style', 'height: 75px; width: 75px;')
 
     div3.appendChild(img)
@@ -315,7 +320,7 @@ function createInComingMessage(message, url){
     let img = document.createElement('img')
     img.setAttribute('src', url)
     img.setAttribute('style', 'height: 60px; width: 60px;')
-    img.setAttribute('class', 'rounded-circle')
+    img.setAttribute('class', 'rounded-circle img-thumbnail')
 
     let div3 = document.createElement('div')
     div3.setAttribute('class', 'received_msg')
