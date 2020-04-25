@@ -117,42 +117,8 @@
                             <textarea id='comment_inp' class='form-control' cols="30" rows="10" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
 
                             <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
-                            <div class="container-fluid mt-5 pt-4">
+                            <div class="container-fluid mt-5 pt-4" id='comments'>
 
-
-                                <div class="media my-4">
-                                    <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="mt-0 text-primary">
-                                            <a href="#profile">User01</a>
-                                        </h5>
-                                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
-                                    </div>
-                                </div>
-
-                                <hr>
-
-                                <div class="media my-4">
-                                    <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="mt-0 text-primary">
-                                            <a href="#profile">User02</a>
-                                        </h5>
-                                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
-                                    </div>
-                                </div>
-
-                                <hr>
-
-                                <div class="media my-4">
-                                    <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="mt-0 text-primary">
-                                            <a href="#profile">User03</a>
-                                        </h5>
-                                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
@@ -174,21 +140,47 @@
 {% endblock %}
 
 {% block script %}
-    
+
 
     <script>
         axios.defaults.xsrfCookieName = 'csrftoken'
         axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
-        //axios.get('/comment_api/'+ {{post.id}}+'/').then(function (response) {
-            //console.log(response.data)})
+        function initialize(){
+            axios.get('/comment_api/'+ {{post.id}}+'/')
+                .then(function (response) {
+                    data = response.data
+                    addComment(data[0])
+                })
+        }
+
+        function addComment(data){
+            /*
+            <div class="media my-4">
+                <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
+                <div class="media-body">
+                    <h5 class="mt-0 text-primary">
+                        <a href="#profile">User01</a>
+                    </h5>
+                    <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
+                </div>
+            </div>
+            <hr>
+            */
+
+        }
+
         $('#comment_btn').on('click', function(e){
             let message = $('#comment_inp').val()
             axios.post('/comment_api/'+ {{post.id}}+'/',{
                 msg : message,
             }).then(function (response) {
-                
+                data = response.data
+                addComment(data)
             })
         })
+
+        initialize()
+
     </script>
 {% endblock %}
