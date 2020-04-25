@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post, PostPicture, AssetType
+from .models import Post, PostPicture, AssetType, Comment
 
 class PostPictureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +19,10 @@ class AssetTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetType
         fields = '__all__'
+
+class CommentSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Comment
+        fields = '__all__'
+

@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import PostForm, PostPictureForm
 from django.http import JsonResponse
-from .models import Post, PostPicture, AssetType
+from .models import Post, PostPicture, AssetType, Comment
 from django.views import View
 from django.forms import formset_factory
 
-from .serializers import PostSerializer, AssetTypeSerializer
+from .serializers import PostSerializer, AssetTypeSerializer, CommentSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,6 +13,16 @@ from rest_framework import status
 
 from datetime import datetime
 # Create your views here.
+
+class CommentAPI(APIView):
+
+    def get(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+        comments = Comment.objects.filter(post=post)
+        serializer_comment = CommentSerializer(comments, many=True)
+        return Response(serializer_comment.data, status=status.HTTP_200_OK)
+
+
 
 class PostAPI(APIView):
 

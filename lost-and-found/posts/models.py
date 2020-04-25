@@ -38,3 +38,10 @@ class PostPicture(models.Model):
     picture = models.ImageField(default='posts/post_default.gif', upload_to='posts/')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
+class Comment(models.Model):
+    msg = models.CharField(max_length=255)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.msg

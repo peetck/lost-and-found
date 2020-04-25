@@ -172,3 +172,13 @@
     </footer>
 
 {% endblock %}
+
+{% block script %}
+    
+
+    <script>
+        axios.get('/comment_api/'+ {{post.id}}+'/').then(function (response) {
+            console.log(response.data)
+        })
+    </script>
+{% endblock %}
