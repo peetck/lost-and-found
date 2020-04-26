@@ -14,7 +14,7 @@
                         ยินดีต้อนรับ
                         <br>
                         <span class='text-primary'>
-                            {% if user.is_authenticated %}
+                            {% if request.user.is_authenticated %}
                                 {{ user }}
                             {% else %}
                                 ผู้ใช้งาน

@@ -10,7 +10,7 @@
 {% block content %}
 <div class="container">
     <h1 class='mt-5 mb-5'> โพสต์ของฉัน </h1>
-    {% if user.is_authenticated %}
+    {% if request.user.is_authenticated %}
         <h5 class='mb-5'>
             <div class="container">
                 <div class="row">

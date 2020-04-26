@@ -4,7 +4,10 @@
 {% block content %}
 
     <div class="container">
-        <h1 class='mt-2'>โพสต์ : {{ post }} </h1>
+        <h1 class='mt-2'>
+            โพสต์ : {{ post }}
+        </h1>
+        <span class='ml-1'>โดย : {% if post.user %} <a class='text-decoration-none' href="{% url 'profile' post.user.id %}"> {{ post.user.username }} </a> {% else %} Anonymous User {% endif %} </span>
         <div class="row">
             <div class="container mt-4">
                 <div class="row">
@@ -20,7 +23,7 @@
                             <textarea class='form-control bg-light' style="height: 30%; resize:none;" readonly >{{ post.take_information }}</textarea>
                         {% else %}
                             <p>รายละเอียดเพิ่มเติม</p>
-                            <textarea class='form-control bg-light' style='resize: none; height: 90%;' readonly>{{ post.desc }}</textarea>
+                            <textarea class='form-control bg-light' style='resize: none; height: 50%;' readonly>{{ post.desc }}</textarea>
                         {% endif %}
                     </div>
                     <div class="col-md-4">
@@ -114,11 +117,45 @@
                             <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">คอมเมนต์</h1>
                             <hr class="mt-2 mb-5">
 
-                            <textarea id='comment_inp' class='form-control' cols="30" rows="10" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
 
-                            <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
-                            <div class="container-fluid mt-5 pt-4" id='comments'>
-                                 
+                            <div class="media">
+                                <div class="my-circle mr-3">
+                                    {% if request.user.is_authenticated %}
+                                        <img class="img-thumbnail rounded-circle" src="{{ request.user.userprofile.avatar.url }}">
+                                    {% else %}
+                                        <img class="img-thumbnail rounded-circle" src="{% static 'images/user_default.gif' %}">
+                                    {% endif %}
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-3 text-primary">
+                                        <span class='font-weight-bold text-dark'> {{ request.user }}</span>
+                                    </h5>
+                                    <textarea id='comment_inp' class='form-control' cols="30" rows="5" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
+                                </div>
+                            </div>
+
+                            {% if request.user.is_authenticated %}
+                                <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
+                            {% else %}
+                                <p class="float-right mt-4">กรุณา <a href="{% url 'login' %}">ล็อกอิน</a> เพื่อคอมเมนต์</p>
+                            {% endif %}
+
+                            <div class="container-fluid mt-5 pt-5" id='comments'>
+                                <!-- Comment'll be here -->
+
+                                <div class="media my-4">
+                                    <div class="my-circle mr-3">
+                                        <img class="img-thumbnail rounded-circle" src="{% static 'images/user_default.gif' %}">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="mt-0 text-primary">
+                                            <a href="#">Loading ...</a>
+                                            <small class='float-right text-muted'>Loading ...</small>
+                                        </h5>
+                                        <small>Loading ...</small>
+                                    </div>
+                                </div>
+                                <hr>
 
                             </div>
                         </div>
@@ -147,27 +184,32 @@
         axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
         function initialize(){
-            
+
             axios.get('/comment_api/'+ {{post.id}}+'/')
                 .then(function (response) {
                     data = response.data
-                    
+
+                    document.getElementById('comments').innerHTML = ''
+
                     for (i = 0;i<data.length;i++){
                         addComment(data[i])
                     }
-                    
+
                 })
         }
 
         function addComment(data){
             /*
             <div class="media my-4">
-                <img class="mr-3 img-thumbnail rounded-circle" width='64' height='64' src="{% static 'images/user_default.gif' %}" alt="Generic placeholder image">
+                <div class="my-circle mr-3">
+                    <img class="img-thumbnail rounded-circle" src="{% static 'images/user_default.gif' %}">
+                </div>
                 <div class="media-body">
                     <h5 class="mt-0 text-primary">
-                        <a href="#profile">User01</a>
+                        <a href="#">Loading ...</a>
+                        <small class='float-right text-muted'>Loading ...</small>
                     </h5>
-                    <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aspernatur odio voluptatum quae maxime, omnis, asperiores animi corrupti recusandae consequuntur praesentium eaque odit nulla cumque illo unde cupiditate sint quas.</small>
+                    <small>Loading ...</small>
                 </div>
             </div>
             <hr>
@@ -175,42 +217,51 @@
             let div1 = document.createElement('div')
             div1.setAttribute('class', 'media my-4')
 
-            let img = document.createElement('img')
-            img.setAttribute('class', 'mr-3 img-thumbnail rounded-circle')
-            img.setAttribute('width', '64')
-            img.setAttribute('height', '64')
-            img.setAttribute('src', data.avatar)
-            
             let div2 = document.createElement('div')
-            div2.setAttribute('class', 'media-body')
+            div2.setAttribute('class', 'my-circle mr-3')
+
+            let img = document.createElement('img')
+            img.setAttribute('class', 'img-thumbnail rounded-circle')
+            img.setAttribute('src', data.avatar)
+
+            let div3 = document.createElement('div')
+            div3.setAttribute('class', 'media-body')
 
             let h5 = document.createElement('h5')
-            h5.setAttribute('class', 'mt-0 text-primary')
+            h5.setAttribute('class', 'mt-0 text-light')
 
             let a = document.createElement('a')
             a.setAttribute('href', '/accounts/' + data.user + '/')
+            a.setAttribute('class', 'text-decoration-none font-weight-bold')
             a.innerText = data.username
 
-            h5.append(a)
-            div2.append(h5)
+            let small1 = document.createElement('small')
+            small1.setAttribute('class', 'float-right text-muted')
+            let datetime = new Date(data.create_at)
+            datetime = ((datetime.getDate() < 10 ? '0' : '') + datetime.getDate()) + '/' + ((datetime.getMonth() + 1 < 10 ? '0' : '') + (datetime.getMonth() + 1)) + '/' +
+                datetime.getFullYear() + ' ' + ((datetime.getHours() < 10 ? '0' : '') + datetime.getHours()) + ':' + ((datetime.getMinutes() < 10 ? '0' : '') + datetime.getMinutes())
+            small1.innerText = datetime
 
-            let small = document.createElement('small')
-            small.innerText = data.msg
-            
-            div2.append(small)
-            div1.append(img)
+            h5.append(a)
+            h5.append(small1)
+
+            div3.append(h5)
+
+            let small2 = document.createElement('small')
+            small2.innerText = data.msg
+
+            div3.append(small2)
+
+            div2.append(img)
+
             div1.append(div2)
-            
-            
+            div1.append(div3)
+
+
 
             let comments = document.getElementById('comments')
             comments.append(div1)
             comments.append(document.createElement('hr'))
-
-
-
-
-
 
         }
 

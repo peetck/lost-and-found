@@ -51,8 +51,10 @@
                 <div class="container-fluid p-0 m-0" style="position: fixed;">
                     <div class="row">
                         <div class="col">
-                            <img class='rounded-circle img-thumbnail' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
-                            <span class='h5 ml-3' id='chat_to_name'>
+                            <div class='my-circle m-0 p-0' style="display: inline-block;">
+                                <img class='rounded-circle img-thumbnail' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
+                            </div>
+                            <span class='h5 p-0 ml-2' id='chat_to_name' style="position: relative; bottom: 40%;">
                                 <a class="text-decoration-none text-dark" id="chat_to_name_href" href="#">Loading ...</a>
                             </span>
                         </div>

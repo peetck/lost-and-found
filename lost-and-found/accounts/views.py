@@ -120,8 +120,8 @@ class ProfileView(View):
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
         posts = Post.objects.filter(user=user)
-        founds = Post.objects.filter(user=request.user, type='found')
-        losts = Post.objects.filter(user=request.user, type='lost')
+        founds = Post.objects.filter(user=user, type='found')
+        losts = Post.objects.filter(user=user, type='lost')
         closed = 0
         for post in posts:
             if post.is_active == False:
@@ -141,6 +141,7 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+@method_decorator(login_required, name='dispatch')
 class ChangePasswordView(View):
     template_name = 'change_password.html'
 

@@ -113,3 +113,18 @@ body{
 .rotate-img:hover{
     transform: rotate(5deg);
 }
+
+/* make img rounded-circle with responsive */
+.my-circle {
+    position: relative;
+    width: 75px;
+    height: 75px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.my-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

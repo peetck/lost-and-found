@@ -85,7 +85,7 @@ function displayUser(username, msg, datetime, url, id, seen) {
     div2.setAttribute('class', 'chat_people')
 
     div3 = document.createElement('div')
-    div3.setAttribute('class', 'chat_img')
+    div3.setAttribute('class', 'chat_img my-circle')
 
     img = document.createElement('img')
     img.src = url
@@ -219,7 +219,7 @@ async function getMessage(id, scroll) {
             let position = document.getElementById('msg_history').scrollTop // save last position
             let bottom = document.getElementById('msg_history').scrollHeight - document.getElementById('msg_history').clientHeight
 
-            displayMessage(data.url, seens)
+            displayMessage(data.url, seens, id)
 
             document.getElementById('msg_history').scrollTop = position;
 
@@ -234,7 +234,7 @@ async function getMessage(id, scroll) {
         })
 }
 
-function displayMessage(url, seens){
+function displayMessage(url, seens, id){
     let msg_history = document.getElementById('msg_history')
     msg_history.innerHTML = ''
 
@@ -251,7 +251,7 @@ function displayMessage(url, seens){
             }
         }
         else if (message.type == 'get'){
-            let div = createInComingMessage(message, url)
+            let div = createInComingMessage(message, url, id)
             msg_history.append(div)
         }
     }
@@ -297,10 +297,10 @@ function createOutGoingMessage(message){
     return div
 }
 
-function createInComingMessage(message, url){
+function createInComingMessage(message, url, id){
 /*
     <div class="incoming_msg">
-        <div class="incoming_msg_img">
+        <div class="incoming_msg_img my-circle">
             <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
         </div>
         <div class="received_msg">
@@ -315,7 +315,10 @@ function createInComingMessage(message, url){
     div.setAttribute('class', 'incoming_msg')
 
     let div2 = document.createElement('div')
-    div2.setAttribute('class', 'incoming_msg_img')
+    div2.setAttribute('class', 'incoming_msg_img my-circle')
+
+    let a = document.createElement('a')
+    a.setAttribute('href', '/accounts/' + id + '/')
 
     let img = document.createElement('img')
     img.setAttribute('src', url)
@@ -350,7 +353,8 @@ function createInComingMessage(message, url){
 
     div3.append(div4)
 
-    div2.append(img)
+    a.append(img)
+    div2.append(a)
 
     div.append(div2)
     div.append(div3)

@@ -42,7 +42,7 @@
                                     {% endif %}
                                 </div>
 
-                                {% if forloop.counter0 == 0 and not user.is_authenticated %}
+                                {% if forloop.counter0 == 0 and not request.user.is_authenticated %}
                                     <div class="form-group col-md-6">
                                         <label for='id_key'>คีย์</label>
                                         <input type="text" name='key' class='form-control' id='id_key' required>
