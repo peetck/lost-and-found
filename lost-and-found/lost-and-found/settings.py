@@ -25,7 +25,7 @@ SECRET_KEY = 'h3mygx(^*!g=pb8m)hmg)4v0a3plzwzats154&0pfgev7%kpx('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://lost-found.azurewebsites.net']
 
 
 # Application definition
