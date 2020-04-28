@@ -300,13 +300,16 @@
 
         $('#comment_btn').on('click', function(e){
             let message = $('#comment_inp').val()
-            axios.post('/comment_api/'+ {{post.id}}+'/',{
-                msg : message,
+            if (message.trim() != ""){
+                axios.post('/comment_api/'+ {{post.id}}+'/',{
+                    msg : message,
             }).then(function (response) {
-                data = response.data
-                addComment(data)
-                $('#comment_inp').val('')
+                    data = response.data
+                    addComment(data)
+                    $('#comment_inp').val('')
             })
+            }
+
         })
 
         initialize()

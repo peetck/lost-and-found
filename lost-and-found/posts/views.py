@@ -18,7 +18,7 @@ class CommentAPI(APIView):
 
     def get(self, request, post_id):
         post = Post.objects.get(id=post_id)
-        comments = Comment.objects.filter(post=post)
+        comments = Comment.objects.filter(post=post).order_by("-create_at")
         serializer_comment = CommentSerializer(comments, many=True)
         return Response(serializer_comment.data, status=status.HTTP_200_OK)
 
