@@ -158,6 +158,9 @@
                                         <small>Loading ...</small>
                                     </div>
                                 </div>
+
+                                
+
                                 <hr>
 
                             </div>
@@ -165,6 +168,9 @@
                     </div>
                 </div>
             </div>
+                                <div class="container">
+                                    <center><button class='btn btn-primary' id="loadmore">โหลดเพิ่ม</button></center>
+                                </div>
         </div>
     </div>
 
@@ -191,14 +197,33 @@
             axios.get('/comment_api/'+ {{post.id}}+'/')
                 .then(function (response) {
                     data = response.data
-
+                    var countcomment;
+                    countcomment = Object.keys(data).length;
+                    if (countcomment>5){
+                        countcomment = 5;
+                    }
+                    console.log(countcomment)
                     document.getElementById('comments').innerHTML = ''
 
-                    for (i = 0;i<data.length;i++){
+                    for (i = 0;i<countcomment;i++){
                         addComment(data[i])
                     }
+                    countcomment++;
+
+                    $('#loadmore').on('click', function(e){
+                    for(i=countcomment;i<countcomment+5;i++){
+                        addComment(data[i])
+                    }
+                    
+                })
 
                 })
+
+                
+
+                    
+                    
+
         }
 
         function addComment(data){
