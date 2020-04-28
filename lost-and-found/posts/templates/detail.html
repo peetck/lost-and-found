@@ -158,19 +158,21 @@
                                         <small>Loading ...</small>
                                     </div>
                                 </div>
-
-                                
-
                                 <hr>
 
+
+
                             </div>
+
+                            <div class='container'>
+                                <span class='h6' style="cursor: pointer;" id='more_comment_btn' onclick="loadmore()">ดูคอมเมนต์เพิ่มเติม</span>
+                                <span class="float-right" id='comments_length'> </span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-                                <div class="container">
-                                    <center><button class='btn btn-primary' id="loadmore" onclick="loadmore()">โหลดเพิ่ม</button></center>
-                                </div>
         </div>
     </div>
 
@@ -192,34 +194,36 @@
         axios.defaults.xsrfCookieName = 'csrftoken'
         axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
-        var data
-        var countcomment=0;
+        var data = []
+        var countcomment = 0;
         function loadmore(){
+            if (countcomment < data.length){
+                for (i=0; i<5; i++){
                     if (countcomment >= data.length){
-                        }
-                    else{
-                        for (i=0;i<5;i++){
-                        addComment(data[countcomment]);
-                        countcomment++;
-                        if (countcomment >= data.length){
-                            console.log(data.length)
-                            break;
-                        }
-
-                      }
+                        break;
                     }
+                    addComment(data[countcomment], false);
+                    countcomment++;
+                }
+            }
+            document.getElementById('comments_length').innerText = (countcomment) + ' จาก ' + data.length
+
+            if (countcomment == 0){
+                document.getElementById('comments_length').innerText = ''
+                document.getElementById('more_comment_btn').innerText = ''
+            }
         }
 
         function initialize(){
-            axios.get('/comment_api/'+ {{post.id}}+'/')
+            axios.get('/comment_api/' + {{post.id}} + '/')
                 .then(function (response) {
+                    countcomment = 0
                     document.getElementById('comments').innerHTML = ''
                     data = response.data
-                    
                     loadmore()
                 })
         }
-        function addComment(data){
+        function addComment(comment, first=false){
             /*
             <div class="media my-4">
                 <div class="my-circle mr-3">
@@ -243,8 +247,8 @@
 
             let img = document.createElement('img')
             img.setAttribute('class', 'img-thumbnail rounded-circle')
-            if (data.avatar){
-                img.setAttribute('src', data.avatar)
+            if (comment.avatar){
+                img.setAttribute('src', comment.avatar)
             }
             else{
                 img.setAttribute('src', '{% static "images/user_default.gif" %}')
@@ -257,10 +261,10 @@
             h5.setAttribute('class', 'mt-0 text-light')
 
             let a = document.createElement('a')
-            if (data.user){
-                a.setAttribute('href', '/accounts/' + data.user + '/')
+            if (comment.user){
+                a.setAttribute('href', '/accounts/' + comment.user + '/')
                 a.setAttribute('class', 'text-decoration-none font-weight-bold')
-                a.innerText = data.username
+                a.innerText = comment.username
             }
             else{
                 a.setAttribute('class', 'text-dark font-weight-bold')
@@ -270,7 +274,7 @@
 
             let small1 = document.createElement('small')
             small1.setAttribute('class', 'float-right text-muted')
-            let datetime = new Date(data.create_at)
+            let datetime = new Date(comment.create_at)
             datetime = ((datetime.getDate() < 10 ? '0' : '') + datetime.getDate()) + '/' + ((datetime.getMonth() + 1 < 10 ? '0' : '') + (datetime.getMonth() + 1)) + '/' +
                 datetime.getFullYear() + ' ' + ((datetime.getHours() < 10 ? '0' : '') + datetime.getHours()) + ':' + ((datetime.getMinutes() < 10 ? '0' : '') + datetime.getMinutes())
             small1.innerText = datetime
@@ -281,7 +285,7 @@
             div3.append(h5)
 
             let small2 = document.createElement('small')
-            small2.innerText = data.msg
+            small2.innerText = comment.msg
 
             div3.append(small2)
 
@@ -293,23 +297,34 @@
 
 
             let comments = document.getElementById('comments')
-            comments.append(div1)
-            comments.append(document.createElement('hr'))
+
+            if (first){
+                comments.prepend(document.createElement('hr'))
+                comments.prepend(div1)
+            }
+            else{
+                comments.append(div1)
+                comments.append(document.createElement('hr'))
+            }
+
+            document.getElementById('comments_length').innerText = (countcomment) + ' จาก ' + data.length
+            document.getElementById('more_comment_btn').innerText = 'ดูคอมเมนต์เพิ่มเติม'
 
         }
 
         $('#comment_btn').on('click', function(e){
             let message = $('#comment_inp').val()
             if (message.trim() != ""){
-                axios.post('/comment_api/'+ {{post.id}}+'/',{
+                axios.post('/comment_api/'+ {{post.id}} + '/',{
                     msg : message,
-            }).then(function (response) {
-                    data = response.data
-                    addComment(data)
+                }).then(function (response) {
+                    comment = response.data
                     $('#comment_inp').val('')
-            })
+                    countcomment++
+                    data.unshift(comment)
+                    addComment(comment, true)
+                })
             }
-
         })
 
         initialize()
