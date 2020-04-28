@@ -203,10 +203,15 @@ class EditProfileView(View):
 
         if form.is_valid():
             form.save()
-
-        return render(request, self.template_name, {
-            'user' : user,
-            'form' : form,
-            'facultys' : Faculty.objects.all(),
-            'success' : 'แก้ไขโปรไฟล์เรียบร้อยแล้ว'
-        })
+            return render(request, self.template_name, {
+                'user' : user,
+                'form' : form,
+                'facultys' : Faculty.objects.all(),
+                'success' : 'แก้ไขโปรไฟล์เรียบร้อยแล้ว'
+            })
+        else:
+            return render(request, self.template_name, {
+                'user' : user,
+                'form' : form,
+                'facultys' : Faculty.objects.all()
+            })
