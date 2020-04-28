@@ -1,5 +1,10 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+
+{% block title %}
+    Lost & Found : เข้าสู่ระบบ
+{% endblock %}
+
 {% block content %}
     <div class="container mt-5">
         <div class="row">
@@ -7,7 +12,7 @@
                 <img src="{% static 'images/lost&found.png'%}" alt="" width='100%' class='rotate-img'>
             </div>
             <div class="col-md ml-5">
-                <h1 class='mb-5'>เข้าสู่ระบบ <i class="fas fa-sign-in-alt"></i> </h1>
+                <h1 class='mb-5'><b>เข้าสู่ระบบ <i class="fas fa-sign-in-alt"></i></b> </h1>
                 {% if error %}
                     <div class="alert alert-danger" role="alert">
                         <i class="fa fa-exclamation mr-1"></i> {{ error }}

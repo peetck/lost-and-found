@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block title %}
+    Lost & Found : ห้องสนทนา
+{% endblock %}
+
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/chat_index_style.css' %}">
 {% endblock %}
@@ -13,7 +17,7 @@
                 <div class="headind_srch">
                     <div class="recent_heading">
                         <h3 class='mt-2 text-dark' id='header_msg'>
-                            แชท
+                           <b> แชท <i class="fas fa-comments"></i></b>
                         </h3>
 
                     </div>
@@ -52,7 +56,7 @@
                     <div class="row">
                         <div class="col">
                             <div class='my-circle m-0 p-0' style="display: inline-block;">
-                                <img class='rounded-circle img-thumbnail' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
+                                <img class='rounded-circle' id='chat_to_img' src="{% static 'images/user_default.gif' %}" height="60px" width="60px">
                             </div>
                             <span class='h5 p-0 ml-2' id='chat_to_name' style="position: relative; bottom: 40%;">
                                 <a class="text-decoration-none text-dark" id="chat_to_name_href" href="#">Loading ...</a>

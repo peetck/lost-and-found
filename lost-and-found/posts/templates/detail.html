@@ -1,11 +1,15 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 
+{% block title %}
+    Lost & Found : {{ post }}
+{% endblock %}
+
 {% block content %}
 
     <div class="container">
         <h1 class='mt-2'>
-            โพสต์ : {{ post }}
+            <b>โพสต์ : {{ post }} <i class="fas fa-archive"></i></b>
         </h1>
         <span class='ml-1'>โดย : {% if post.user %} <a class='text-decoration-none' href="{% url 'profile' post.user.id %}"> {{ post.user.username }} </a> {% else %} ผู้ใช้งานทั่วไป {% endif %} </span>
         <div class="row">
@@ -13,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         {% if post.is_active == False %}
-                            <p>รายละเอียดเพิ่มเติม</p>
+                            <p class='h6 ml-2'>รายละเอียดเพิ่มเติม</p>
                             <textarea class='form-control h-50 bg-light' style='resize: none;' readonly>{{ post.desc }}</textarea>
                             {% if post.type == 'found' %}
                                 <p class='mt-3'>รายละเอียดเกี่ยวกับคนที่มารับของไป</p>
@@ -22,7 +26,7 @@
                             {% endif %}
                             <textarea class='form-control bg-light' style="height: 30%; resize:none;" readonly >{{ post.take_information }}</textarea>
                         {% else %}
-                            <p>รายละเอียดเพิ่มเติม</p>
+                            <p class='h6 ml-2'>รายละเอียดเพิ่มเติม</p>
                             <textarea class='form-control bg-light' style='resize: none; height: 50%;' readonly>{{ post.desc }}</textarea>
                         {% endif %}
                     </div>
@@ -86,7 +90,7 @@
                 <div class="row mt-3">
                     <div class="col">
                         <div class="container">
-                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">รูปภาพ</h1>
+                            <h1 class="font-weight-bold text-center text-lg-left mt-4 mb-0">รูปภาพ <i class="fas fa-images"></i> </h1>
                             <hr class="mt-2 mb-5">
                             {% if post.postpicture_set.all|length == 0 %}
                                 <div class="jumbotron col-12 text-center bg-light" id='no-upload'>
@@ -114,16 +118,16 @@
                 <div class="row mb-5">
                     <div class="col">
                         <div class="container">
-                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">คอมเมนต์</h1>
+                            <h1 class="font-weight-bold text-center text-lg-left mt-4 mb-0">คอมเมนต์ <i class="fas fa-comment-dots"></i> </h1>
                             <hr class="mt-2 mb-5">
 
 
                             <div class="media">
                                 <div class="my-circle mr-3">
                                     {% if request.user.is_authenticated %}
-                                        <img class="img-thumbnail rounded-circle" src="{{ request.user.userprofile.avatar.url }}">
+                                        <img class="rounded-circle" src="{{ request.user.userprofile.avatar.url }}">
                                     {% else %}
-                                        <img class="img-thumbnail rounded-circle" src="{% static 'images/user_default.gif' %}">
+                                        <img class="rounded-circle" src="{% static 'images/user_default.gif' %}">
                                     {% endif %}
                                 </div>
                                 <div class="media-body">
@@ -148,7 +152,7 @@
 
                                 <div class="media my-4">
                                     <div class="my-circle mr-3">
-                                        <img class="img-thumbnail rounded-circle" src="{% static 'images/user_default.gif' %}">
+                                        <img class="rounded-circle" src="{% static 'images/user_default.gif' %}">
                                     </div>
                                     <div class="media-body">
                                         <h5 class="mt-0 text-primary">
@@ -227,7 +231,7 @@
             /*
             <div class="media my-4">
                 <div class="my-circle mr-3">
-                    <img class="img-thumbnail rounded-circle" src="{% static 'images/user_default.gif' %}">
+                    <img class="rounded-circle" src="{% static 'images/user_default.gif' %}">
                 </div>
                 <div class="media-body">
                     <h5 class="mt-0 text-primary">
@@ -246,7 +250,7 @@
             div2.setAttribute('class', 'my-circle mr-3')
 
             let img = document.createElement('img')
-            img.setAttribute('class', 'img-thumbnail rounded-circle')
+            img.setAttribute('class', 'rounded-circle')
             if (comment.avatar){
                 img.setAttribute('src', comment.avatar)
             }

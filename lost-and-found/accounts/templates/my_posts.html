@@ -1,6 +1,11 @@
 {% extends 'base_layout.html' %}
 
 {% load static %}
+
+{% block title %}
+    Lost & Found : โพสต์ของฉัน
+{% endblock %}
+
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
 
@@ -9,7 +14,7 @@
 
 {% block content %}
 <div class="container">
-    <h1 class='mt-5 mb-5'> โพสต์ของฉัน </h1>
+    <h1 class='mt-5 mb-5'> <b>โพสต์ของฉัน <i class="fas fa-archive"></i></b> </h1>
     {% if request.user.is_authenticated %}
         <h5 class='mb-5'>
             <div class="container">

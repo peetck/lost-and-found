@@ -13,8 +13,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # Create your views here.
+@method_decorator(login_required, name='dispatch')
 class ChatAPI(APIView):
-
     def get(self, request):
         search = request.GET.get('search')
         users = User.objects.filter(username__icontains=search)
@@ -61,6 +61,7 @@ class ChatAPI(APIView):
 
         return Response(status=status.HTTP_200_OK)
 
+@method_decorator(login_required, name='dispatch')
 class MessageAPI(APIView):
 
     def get(self, request, user_id):

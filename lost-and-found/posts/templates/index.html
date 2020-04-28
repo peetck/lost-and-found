@@ -1,6 +1,10 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 
+{% block title %}
+    Lost & Found : หน้าแรก
+{% endblock %}
+
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
 {% endblock %}
@@ -10,7 +14,7 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-7 mb-5">
-                    <h1 class='display-3'>
+                    <h1 class='display-3 font-weight-bold'>
                         ยินดีต้อนรับ
                         <br>
                         <span class='text-primary'>
@@ -113,7 +117,7 @@
         </div>
 
         <h1 class='text-center my-5'>
-            โพสต์ทั้งหมด
+            <b> โพสต์ทั้งหมด </b>
             <span class="badge badge-pill badge-dark text-light"> {{ all }} </span>
         </h1>
 

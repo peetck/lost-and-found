@@ -1,8 +1,12 @@
 {% extends 'base_layout.html ' %}
 
+{% block title %}
+    Lost & Found : แก้ไขโปรไฟล์
+{% endblock %}
+
 {% block content %}
     <div class="container">
-        <h1 class='my-5'> แก้ไขโปรไฟล์ : {{ user.username }}</h1>
+        <h1 class='my-5'> <b>แก้ไขโปรไฟล์ : {{ user.username }} <i class="fas fa-id-card-alt"></i></b> </h1>
         <form action="{% url 'edit_profile' %}" enctype="multipart/form-data" method='POST' >
         {% csrf_token %}
             <div class="container">

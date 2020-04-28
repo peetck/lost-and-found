@@ -1,11 +1,25 @@
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
+
+// initial variable
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 var current = null
 var search = ''
 var messages = []
 var theme = 'light'
+
+// notification sound
+var notification_sound = new Audio('/static/sounds/message_notification.mp3')
+notification_sound.loop = false
+//notification_sound.muted = true
+
+var send_message = new Audio('/static/sounds/send_message.mp3')
+send_message.loop = false
+//sendMessage.muted = true
+
+var firstTime = true;
+
 async function initialize(){
     await axios.get('/chats/chat_api/' + '?search=' + search)
         .then(function (response) {
@@ -26,12 +40,20 @@ async function initialize(){
                 url = data[i][3]
                 id = data[i][4]
                 seen = data[i][5]
-                displayUser(username, msg, datetime, url, id, seen);
+
+                if (firstTime){
+                    displayUser(username, msg, datetime, url, id, seen, play_sound=false);
+                }
+                else{
+                    displayUser(username, msg, datetime, url, id, seen);
+                }
 
                 if (current === null){
                     select(id, url, username)
                 }
             }
+
+            firstTime = false;
 
             // set css
             if (theme == 'light'){
@@ -72,9 +94,14 @@ function makeChatHistoryBottom() {
     msg_history.scrollTop = msg_history.scrollHeight - msg_history.clientHeight;
 }
 
-function displayUser(username, msg, datetime, url, id, seen) {
+function displayUser(username, msg, datetime, url, id, seen, play_sound=true) {
 
     if (document.getElementById(id)){
+        last = document.getElementById(id).firstElementChild.firstElementChild.lastElementChild.firstElementChild.firstElementChild
+                .nextElementSibling.getAttribute('class')
+        if (last == 'fas fa-exclamation-circle' || last == 'fas fa-exclamation-circle text-light'){
+            play_sound = false
+        }
         document.getElementById(id).remove()
     }
 
@@ -89,7 +116,7 @@ function displayUser(username, msg, datetime, url, id, seen) {
 
     img = document.createElement('img')
     img.src = url
-    img.setAttribute('class', 'rounded-circle border img-thumbnail')
+    img.setAttribute('class', 'rounded-circle')
     img.setAttribute('style', 'height: 75px; width: 75px;')
 
     div3.appendChild(img)
@@ -110,6 +137,12 @@ function displayUser(username, msg, datetime, url, id, seen) {
     p.innerText = truncatechars(msg, 100)
     if (!seen && datetime !== 'ไม่มีข้อมูล'){
         p.setAttribute('class', 'font-weight-bold')
+
+        // sound play
+        if (play_sound){
+            notification_sound.play()
+        }
+
         if (theme == 'light'){
             h5.innerHTML = '<b>' + username + '</b> ' + '<i class="fas fa-exclamation-circle"></i>' + '<span class="chat_date">' + datetime + '</span>'
         }
@@ -142,6 +175,8 @@ function displayUser(username, msg, datetime, url, id, seen) {
         div1.style = 'border-bottom: 1px solid #c4c4c4; margin: 0; padding: 18px 16px 10px;'
     }
     else{
+
+        div1.style = 'border-bottom: 1px solid #18191A; margin: 0; padding: 18px 16px 10px;'
         div1.style.backgroundColor = '#18191A'
     }
 
@@ -274,13 +309,7 @@ function createOutGoingMessage(message){
     div2.setAttribute('class', 'sent_msg')
 
     let p = document.createElement('p')
-    if (theme == 'light'){
-        p.setAttribute('class', 'bg-dark text-light')
-    }
-    else{
-        p.setAttribute('class', 'text-light')
-        p.style.backgroundColor = '#292b2c'
-    }
+    p.setAttribute('class', 'bg-dark text-light')
     p.innerText = message.message
 
     let span = document.createElement('span')
@@ -323,7 +352,7 @@ function createInComingMessage(message, url, id){
     let img = document.createElement('img')
     img.setAttribute('src', url)
     img.setAttribute('style', 'height: 60px; width: 60px;')
-    img.setAttribute('class', 'rounded-circle img-thumbnail')
+    img.setAttribute('class', 'rounded-circle')
 
     let div3 = document.createElement('div')
     div3.setAttribute('class', 'received_msg')
@@ -332,13 +361,7 @@ function createInComingMessage(message, url, id){
     div4.setAttribute('class', 'received_withd_msg')
 
     let p = document.createElement('p')
-    if (theme == 'light'){
-        p.setAttribute('class', 'bg-dark text-light')
-    }
-    else{
-        p.setAttribute('class', 'text-light')
-        p.style.backgroundColor = '#292b2c'
-    }
+    p.setAttribute('class', 'bg-dark text-light')
     p.innerText = message.message
 
     let span = document.createElement('span')
@@ -369,6 +392,7 @@ async function sendMessage(msg){
         .then(function (response) {
             // send message success
             getMessage(current, true)
+            send_message.play()
         })
         .catch(function (error) {
             // handle error
