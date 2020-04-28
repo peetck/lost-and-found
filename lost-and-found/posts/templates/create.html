@@ -346,5 +346,14 @@
             }
         });
 
+        {% if not request.user.is_authenticated %}
+            $('#id_key').on('keypress', function(event) {
+                var press = event.keyCode;
+                if (press === 32) {
+                    event.preventDefault();
+                }
+            });
+        {% endif %}
+
     </script>
 {% endblock %}

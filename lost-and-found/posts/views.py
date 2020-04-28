@@ -120,6 +120,14 @@ class CreateView(View):
                 post.user = request.user
             else:
                 post.key = request.POST.get('key')
+                # validate key
+                if (len(post.key) < 6):
+                    return render(request, self.template_name, {
+                        'form' : form,
+                        'formset' : formset,
+                        'key_error' : 'กรุณากรอกคีย์ให้มีขนาดตั้งแต่ 6 ตัวอักษรขึ้นไป'
+                    })
+                # check if key is used
                 for i in Post.objects.all():
                     if i.key == post.key:
                         return render(request, self.template_name, {
