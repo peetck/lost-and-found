@@ -193,29 +193,28 @@
         axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
         function initialize(){
-
-            axios.get('/comment_api/'+ {{post.id}}+'/')
-                .then(function (response) {
-                    data = response.data
-                    var countcomment;
-                    countcomment = Object.keys(data).length;
-                    if (countcomment>5){
-                        countcomment = 5;
-                    }
-                    console.log(countcomment)
-                    document.getElementById('comments').innerHTML = ''
-
-                    for (i = 0;i<countcomment;i++){
-                        addComment(data[i])
-                    }
-                    countcomment++;
-
-                    $('#loadmore').on('click', function(e){
+            var countcomment,time=0;
+            $('#loadmore').on('click', function(e){
                     for(i=countcomment;i<countcomment+5;i++){
                         addComment(data[i])
                     }
+                    countcomment = countcomment+5;
                     
                 })
+            axios.get('/comment_api/'+ {{post.id}}+'/')
+                .then(function (response) {
+                    data = response.data
+                    countcomment = data.length;
+                    if (countcomment>5 && time==0){
+                        countcomment = 5;
+                        time++;
+                    }
+                    document.getElementById('comments').innerHTML = ''
+                    for (i = 0;i<countcomment;i++){
+                        addComment(data[i])
+                    }
+                    
+
 
                 })
 
