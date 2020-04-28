@@ -169,7 +169,7 @@
                 </div>
             </div>
                                 <div class="container">
-                                    <center><button class='btn btn-primary' id="loadmore">โหลดเพิ่ม</button></center>
+                                    <center><button class='btn btn-primary' id="loadmore" onclick="loadmore()">โหลดเพิ่ม</button></center>
                                 </div>
         </div>
     </div>
@@ -192,39 +192,33 @@
         axios.defaults.xsrfCookieName = 'csrftoken'
         axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
-        function initialize(){
-            var countcomment,time=0;
-            $('#loadmore').on('click', function(e){
-                    for(i=countcomment;i<countcomment+5;i++){
-                        addComment(data[i])
+        var data
+        var countcomment=0;
+        function loadmore(){
+                    if (countcomment >= data.length){
+                        }
+                    else{
+                        for (i=0;i<5;i++){
+                        addComment(data[countcomment]);
+                        countcomment++;
+                        if (countcomment >= data.length){
+                            console.log(data.length)
+                            break;
+                        }
+
+                      }
                     }
-                    countcomment = countcomment+5;
-                    
-                })
-            axios.get('/comment_api/'+ {{post.id}}+'/')
-                .then(function (response) {
-                    data = response.data
-                    countcomment = data.length;
-                    if (countcomment>5 && time==0){
-                        countcomment = 5;
-                        time++;
-                    }
-                    document.getElementById('comments').innerHTML = ''
-                    for (i = 0;i<countcomment;i++){
-                        addComment(data[i])
-                    }
-                    
-
-
-                })
-
-                
-
-                    
-                    
-
         }
 
+        function initialize(){
+            axios.get('/comment_api/'+ {{post.id}}+'/')
+                .then(function (response) {
+                    document.getElementById('comments').innerHTML = ''
+                    data = response.data
+                    
+                    loadmore()
+                })
+        }
         function addComment(data){
             /*
             <div class="media my-4">
