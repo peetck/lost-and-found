@@ -99,7 +99,7 @@
                                     <br>
                                     <b>อีเมล์ : </b> <span id='contact2'>example@example.com</span>
                                     <br>
-                                    <b>โดย : </b> {{ request.user }}
+                                    <b>โดย : </b> {% if request.user.is_authenticated %} {{ request.user }} {% else %} ผู้ใช้งานทั่วไป {% endif %}
                                 </small>
                             </div>
                         </div>

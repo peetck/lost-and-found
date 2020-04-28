@@ -7,7 +7,7 @@
         <h1 class='mt-2'>
             โพสต์ : {{ post }}
         </h1>
-        <span class='ml-1'>โดย : {% if post.user %} <a class='text-decoration-none' href="{% url 'profile' post.user.id %}"> {{ post.user.username }} </a> {% else %} Anonymous User {% endif %} </span>
+        <span class='ml-1'>โดย : {% if post.user %} <a class='text-decoration-none' href="{% url 'profile' post.user.id %}"> {{ post.user.username }} </a> {% else %} ผู้ใช้งานทั่วไป {% endif %} </span>
         <div class="row">
             <div class="container mt-4">
                 <div class="row">
@@ -128,17 +128,20 @@
                                 </div>
                                 <div class="media-body">
                                     <h5 class="mt-0 mb-3 text-primary">
-                                        <span class='font-weight-bold text-dark'> {{ request.user }}</span>
+                                        <span class='font-weight-bold text-dark'>
+                                            {% if request.user.is_authenticated %}
+                                                {{ request.user }}
+                                            {% else %}
+                                                ผู้ใช้งานทั่วไป
+                                            {% endif %}
+                                        </span>
                                     </h5>
                                     <textarea id='comment_inp' class='form-control' cols="30" rows="5" style="resize: none;" placeholder="พิมพ์ข้อความ..."></textarea>
                                 </div>
                             </div>
 
-                            {% if request.user.is_authenticated %}
-                                <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
-                            {% else %}
-                                <p class="float-right mt-4">กรุณา <a href="{% url 'login' %}">ล็อกอิน</a> เพื่อคอมเมนต์</p>
-                            {% endif %}
+
+                            <button class='btn btn-primary float-right mt-4' id='comment_btn'>คอมเมนต์</button>
 
                             <div class="container-fluid mt-5 pt-5" id='comments'>
                                 <!-- Comment'll be here -->
@@ -222,7 +225,12 @@
 
             let img = document.createElement('img')
             img.setAttribute('class', 'img-thumbnail rounded-circle')
-            img.setAttribute('src', data.avatar)
+            if (data.avatar){
+                img.setAttribute('src', data.avatar)
+            }
+            else{
+                img.setAttribute('src', '{% static "images/user_default.gif" %}')
+            }
 
             let div3 = document.createElement('div')
             div3.setAttribute('class', 'media-body')
@@ -231,9 +239,16 @@
             h5.setAttribute('class', 'mt-0 text-light')
 
             let a = document.createElement('a')
-            a.setAttribute('href', '/accounts/' + data.user + '/')
-            a.setAttribute('class', 'text-decoration-none font-weight-bold')
-            a.innerText = data.username
+            if (data.user){
+                a.setAttribute('href', '/accounts/' + data.user + '/')
+                a.setAttribute('class', 'text-decoration-none font-weight-bold')
+                a.innerText = data.username
+            }
+            else{
+                a.setAttribute('class', 'text-dark font-weight-bold')
+                a.innerText = 'ผู้ใช้งานทั่วไป'
+            }
+
 
             let small1 = document.createElement('small')
             small1.setAttribute('class', 'float-right text-muted')

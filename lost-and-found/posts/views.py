@@ -25,11 +25,17 @@ class CommentAPI(APIView):
     def post(self, request, post_id):
         post = Post.objects.get(id=post_id)
 
-        comment = Comment.objects.create(
-            msg=request.data['msg'],
-            user=request.user,
-            post=post
-        )
+        if request.user.is_authenticated:
+            comment = Comment.objects.create(
+                msg=request.data['msg'],
+                user=request.user,
+                post=post
+            )
+        else:
+            comment = Comment.objects.create(
+                msg=request.data['msg'],
+                post=post
+            )
         serializer_comment = CommentSerializer(comment)
         return Response(serializer_comment.data, status=status.HTTP_200_OK)
 
@@ -118,6 +124,7 @@ class CreateView(View):
                     if i.key == post.key:
                         return render(request, self.template_name, {
                             'form' : form,
+                            'formset' : formset,
                             'key_error' : 'มีคีย์นี้อยู่ในระบบแล้ว'
                         })
             post.save()
@@ -130,7 +137,8 @@ class CreateView(View):
             return redirect('detail', post_id=post.id)
         else:
             return render(request, self.template_name, {
-                'form' : form
+                'form' : form,
+                'formset' : formset
             })
 
 class DetailView(View):

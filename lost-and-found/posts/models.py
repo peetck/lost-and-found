@@ -41,7 +41,7 @@ class PostPicture(models.Model):
 class Comment(models.Model):
     msg = models.CharField(max_length=255)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

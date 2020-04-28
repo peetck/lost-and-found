@@ -57,7 +57,7 @@ body{
 
 .mycard:hover{
     box-shadow: 0 4px 8px 0 gray;
-    margin-top: 2%;
+    margin-top: -2%;
 }
 
 /* make card (img) to have same height */

@@ -279,7 +279,7 @@ function createCardFooter(contact1, contact2, user){
         span3.append(user)
     }
     else{
-        span3.append('Anonymous User')
+        span3.append('ผู้ใช้งานทั่วไป')
     }
     span3.append(document.createElement('br'))
 
