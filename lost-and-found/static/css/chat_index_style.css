@@ -185,7 +185,7 @@ img {
 
 .msg_history {
     position: relative;
-    top: 15%;
+    top: 7em;
     height: 80%;
     overflow-y: auto;
 }
