@@ -124,7 +124,7 @@ class CreateView(View):
                 if (len(post.key) < 6):
                     return render(request, self.template_name, {
                         'form' : form,
-                        'formset' : formset,
+                        'formset' : self.PictureFormSet(),
                         'key_error' : 'กรุณากรอกคีย์ให้มีขนาดตั้งแต่ 6 ตัวอักษรขึ้นไป'
                     })
                 # check if key is used
@@ -132,7 +132,7 @@ class CreateView(View):
                     if i.key == post.key:
                         return render(request, self.template_name, {
                             'form' : form,
-                            'formset' : formset,
+                            'formset' : self.PictureFormSet(),
                             'key_error' : 'มีคีย์นี้อยู่ในระบบแล้ว'
                         })
             post.save()
@@ -146,7 +146,7 @@ class CreateView(View):
         else:
             return render(request, self.template_name, {
                 'form' : form,
-                'formset' : formset
+                'formset' : self.PictureFormSet()
             })
 
 class DetailView(View):
