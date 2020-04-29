@@ -4,5 +4,22 @@ from .models import Chat, Message
 
 # Register your models here.
 
-admin.site.register(Chat)
-admin.site.register(Message)
+class ChatAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'user',
+        'theme',
+    ]
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'message',
+        'chat',
+        'to',
+        'timestamp',
+        'seen'
+    ]
+
+admin.site.register(Chat, ChatAdmin)
+admin.site.register(Message, MessageAdmin)
