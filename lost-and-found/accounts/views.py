@@ -106,7 +106,8 @@ class MyPostView(View):
         try:
             post = Post.objects.get(key=key)
             return render(request, self.template_name, {
-                'posts' : [post]
+                'posts' : [post],
+                'key' : key
             })
         except:
             return render(request, self.template_name, {

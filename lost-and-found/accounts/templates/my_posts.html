@@ -135,7 +135,7 @@
             {% for post in posts %}
                 <div class='col-lg-3 my-3'>
                     <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
-                        <a href="{% url 'post_delete' post.id %}">
+                        <a href="{% url 'post_delete' post.id %}?key={{key}}">
                             <img src="{% static 'images/close.png' %}" alt="" class='top-right-btn' width='35px'>
                         </a>
                         <a class="card h-100 w-100 mb-0 text-decoration-none text-dark"

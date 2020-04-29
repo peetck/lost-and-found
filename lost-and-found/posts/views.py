@@ -244,5 +244,13 @@ class EditPostView(View):
 
 def delete_view(request, post_id):
     post = Post.objects.get(id=post_id)
+
+    if post.key == None and post.user != request.user: # ถ้า post ไม่มี key และ request ไม่ใช่คนที่สร้าง
+        return redirect('index')
+    else:
+        key = request.GET.get('key')
+        if post.key != key: # ถ้า key ที่ส่งมาจาก get ไม่ถูกต้อง
+            return redirect('index')
+
     post.delete()
     return redirect('my_posts')
