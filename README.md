@@ -13,7 +13,7 @@
 2) Install project dependencies:
     
     ```
-    $ pip install -r requirement.txt
+    $ pip install -r requirements.txt
     ```
      
 3) Then simply apply the migrations:
