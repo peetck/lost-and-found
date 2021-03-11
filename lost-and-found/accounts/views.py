@@ -11,13 +11,16 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 # Create your views here.
+
+
 class SignupView(View):
     template_name = 'signup.html'
+
     def get(self, request):
         form = SignupForm()
         return render(request, self.template_name, {
-            'form' : form,
-            'facultys' : Faculty.objects.all()
+            'form': form,
+            'facultys': Faculty.objects.all()
         })
 
     def post(self, request):
@@ -50,18 +53,21 @@ class SignupView(View):
             return redirect('index')
         else:
             return render(request, self.template_name, {
-                'form' : form,
-                'facultys' : Faculty.objects.all()
+                'form': form,
+                'facultys': Faculty.objects.all()
             })
+
 
 class LoginView(View):
     template_name = 'login.html'
+
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('index')
-        next_url = request.GET.get('next') # if have next send it to save in input:hidden
+        # if have next send it to save in input:hidden
+        next_url = request.GET.get('next')
         return render(request, 'login.html', {
-            'next_url' : next_url
+            'next_url': next_url
         })
 
     def post(self, request):
@@ -77,8 +83,8 @@ class LoginView(View):
                 return redirect('index')
 
         return render(request, 'login.html', {
-            'next_url' : next_url,
-            'error' : 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
+            'next_url': next_url,
+            'error': 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
         })
 
 
@@ -87,7 +93,8 @@ class MyPostView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            posts = Post.objects.filter(user=request.user).order_by('-is_active', '-create_at')
+            posts = Post.objects.filter(user=request.user).order_by(
+                '-is_active', '-create_at')
             founds = Post.objects.filter(user=request.user, type='found')
             losts = Post.objects.filter(user=request.user, type='lost')
         else:
@@ -95,10 +102,10 @@ class MyPostView(View):
             founds = []
             losts = []
         return render(request, self.template_name, {
-            'posts' : posts,
-            'founds' : founds,
-            'losts' : losts,
-            'closed' : len(Post.objects.filter(is_active=False))
+            'posts': posts,
+            'founds': founds,
+            'losts': losts,
+            'closed': len(Post.objects.filter(user=request.user, is_active=False)) if request.user.is_authenticated else len(Post.objects.filter(is_active=False))
         })
 
     def post(self, request):
@@ -106,14 +113,15 @@ class MyPostView(View):
         try:
             post = Post.objects.get(key=key)
             return render(request, self.template_name, {
-                'posts' : [post],
-                'key' : key
+                'posts': [post],
+                'key': key
             })
         except:
             return render(request, self.template_name, {
-                'posts' : 'key',
-                'key_error' : 'ไม่มีโพสต์นี้ในระบบ'
+                'posts': 'key',
+                'key_error': 'ไม่มีโพสต์นี้ในระบบ'
             })
+
 
 class ProfileView(View):
     template_name = 'profile.html'
@@ -128,19 +136,21 @@ class ProfileView(View):
             if post.is_active == False:
                 closed += 1
         context = {
-            'user' : user,
-            'posts' : posts,
-            'closed' : closed,
-            'active' : len(posts) - closed,
-            'founds' : founds,
-            'losts' : losts
+            'user': user,
+            'posts': posts,
+            'closed': closed,
+            'active': len(posts) - closed,
+            'founds': founds,
+            'losts': losts
         }
         return render(request, self.template_name, context)
+
 
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('index')
+
 
 @method_decorator(login_required, name='dispatch')
 class ChangePasswordView(View):
@@ -151,8 +161,8 @@ class ChangePasswordView(View):
         form = MyPasswordChangeForm(user=user)
 
         return render(request, self.template_name, {
-            'user' : user,
-            'form' : form
+            'user': user,
+            'form': form
         })
 
     def post(self, request):
@@ -164,9 +174,10 @@ class ChangePasswordView(View):
             return redirect('login')
         else:
             return render(request, self.template_name, {
-                'user' : user,
-                'form' : form
+                'user': user,
+                'form': form
             })
+
 
 @method_decorator(login_required, name='dispatch')
 class EditProfileView(View):
@@ -177,19 +188,19 @@ class EditProfileView(View):
         form = EditProfileForm(instance=user)
         faculty = Faculty.objects.all()
 
-
         return render(request, self.template_name, {
-            'user' : user,
-            'form' : form,
-            'facultys' : faculty
+            'user': user,
+            'form': form,
+            'facultys': faculty
         })
 
     def post(self, request):
         user = request.user
         userprofile = UserProfile.objects.get(user=user)
-        form = EditProfileForm(request.POST,instance=user)
+        form = EditProfileForm(request.POST, instance=user)
 
-        userprofile.faculty = Faculty.objects.get(id=int(request.POST.get('faculty')))
+        userprofile.faculty = Faculty.objects.get(
+            id=int(request.POST.get('faculty')))
 
         userprofile.save()
 
@@ -205,14 +216,14 @@ class EditProfileView(View):
         if form.is_valid():
             form.save()
             return render(request, self.template_name, {
-                'user' : user,
-                'form' : form,
-                'facultys' : Faculty.objects.all(),
-                'success' : 'แก้ไขโปรไฟล์เรียบร้อยแล้ว'
+                'user': user,
+                'form': form,
+                'facultys': Faculty.objects.all(),
+                'success': 'แก้ไขโปรไฟล์เรียบร้อยแล้ว'
             })
         else:
             return render(request, self.template_name, {
-                'user' : user,
-                'form' : form,
-                'facultys' : Faculty.objects.all()
+                'user': user,
+                'form': form,
+                'facultys': Faculty.objects.all()
             })
