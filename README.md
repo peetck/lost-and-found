@@ -37,6 +37,7 @@
      
     ```
     $ git clone https://github.com/peetck/lost-and-found.git
+    $ cd lost-and-found
     $ docker build -t lost-and-found .
     ```
     
