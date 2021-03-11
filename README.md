@@ -28,6 +28,25 @@
     ```
     $ python manage.py runserver
     ```
+
+5) Visit http://localhost:8000 in your web browser
+    
+#### With Docker
+
+1) First clone the repository from Github & Build the image:
+     
+    ```
+    $ git clone https://github.com/peetck/lost-and-found.git
+    $ docker build -t lost-and-found .
+    ```
+    
+2) Run image as a container:
+
+    ```
+    $ docker run -d --rm -p 8000:8000 lost-and-found
+    ```
+
+3) Once the container is running, visit http://localhost:8000 in your web browser
     
 ## Screenshot 📷
 
